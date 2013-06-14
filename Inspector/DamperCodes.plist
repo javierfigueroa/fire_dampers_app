@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>1</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>APW</string>
+		<key>Description</key>
+		<string>Access Panel Wall</string>
+	</dict>
+	<key>2</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>ATF</string>
+		<key>Description</key>
+		<string>Access thru Flex</string>
+	</dict>
+	<key>3</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>ATR</string>
+		<key>Description</key>
+		<string>Access thru Floor</string>
+	</dict>
+	<key>4</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>DID</string>
+		<key>Description</key>
+		<string>Damper in Diffuser</string>
+	</dict>
+	<key>5</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>DTF</string>
+		<key>Description</key>
+		<string>Down thru Floor</string>
+	</dict>
+	<key>6</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>ECD</string>
+		<key>Description</key>
+		<string>Electric Combination Damper</string>
+	</dict>
+	<key>7</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>ESD</string>
+		<key>Description</key>
+		<string>Electric Smoke Damper</string>
+	</dict>
+	<key>8</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>FD</string>
+		<key>Description</key>
+		<string>Fire Damper</string>
+	</dict>
+	<key>9</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>VINE</string>
+		<key>Description</key>
+		<string>Visually Identified Not Exercised</string>
+	</dict>
+	<key>10</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>FD / ETL</string>
+		<key>Description</key>
+		<string>Fire Damper Electric Thermo Link</string>
+	</dict>
+	<key>11</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>FRFD</string>
+		<key>Description</key>
+		<string>Fire Rated Flanged Door</string>
+	</dict>
+	<key>12</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>PCD</string>
+		<key>Description</key>
+		<string>Pneumatic Combination Damper</string>
+	</dict>
+	<key>13</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>R/D</string>
+		<key>Description</key>
+		<string>Rolling Door</string>
+	</dict>
+	<key>14</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>SLR</string>
+		<key>Description</key>
+		<string>See Repair List</string>
+	</dict>
+	<key>15</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>O/D</string>
+		<key>Description</key>
+		<string>Over Door Lower Level</string>
+	</dict>
+	<key>16</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>EFD</string>
+		<key>Description</key>
+		<string>Electric Fire Damper</string>
+	</dict>
+	<key>17</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>DNR</string>
+		<key>Description</key>
+		<string>Disabled - Not Required</string>
+	</dict>
+	<key>18</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>FNR</string>
+		<key>Description</key>
+		<string>Filed Needs Repair</string>
+	</dict>
+	<key>19</key>
+	<dict>
+		<key>Abbrev</key>
+		<string>PSD</string>
+		<key>Description</key>
+		<string>Pneumatic Smoke Damper</string>
+	</dict>
+</dict>
+</plist>
