@@ -62,7 +62,7 @@
 
 -(void)didSelectDoneButton:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didSelectPickerButton:(id)sender
@@ -108,9 +108,12 @@
     cameraUI.allowsEditing = NO;
     
     cameraUI.delegate = self;
-    [self presentModalViewController:cameraUI animated:YES];
+    [self presentViewController:cameraUI animated:YES completion:^{
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }];
     
-    _cameraOn = YES;
+//    _cameraOn = YES;
     
     [_picker dismissPopoverAnimated:YES];
 }
@@ -123,9 +126,9 @@
     
     [_picker dismissPopoverAnimated:YES];
     
-    if (_cameraOn) {
-        [self dismissModalViewControllerAnimated:YES];
-    }
+//    if (_cameraOn) {
+//        [self dismissModalViewControllerAnimated:YES];
+//    }
     
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *photo = [info

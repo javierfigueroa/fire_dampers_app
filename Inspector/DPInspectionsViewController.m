@@ -82,7 +82,7 @@
     inspection.location = location.text;
     inspection.notes = notes.text;
     inspection.building = building.text;
-    inspection.damperAirstream = [NSNumber numberWithInt:[damperAirstreamValue integerValue]];
+    inspection.damperAirstream = [NSNumber numberWithInt:[damperAirstreamValue intValue]];
     inspection.unit = [formatter numberFromString:[unit text]];
     inspection.inspectorNotes = inspectorNotes.text;
     inspection.length = length.text;
@@ -106,17 +106,17 @@
     if (inspection.inspectionId && inspection.inspectionId > 0) {
         [DPInspection updateInspection:inspection withDamperPhotoOpen:self.photo.image  withDamperPhotoClosed:self.photo2.image withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD dismissWithError:[(NSError *)response localizedDescription] afterDelay:2];
+                [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
             }else{
-                [SVProgressHUD dismissWithSuccess:@"Inspection Updated"];
+                [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
             }        
         }];
     }else{
         
         DPInspection *DPinspection = [[DPInspection alloc]init];
-        DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId integerValue]];
-        DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus integerValue]];
-        DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream integerValue]];
+        DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
+        DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
+        DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
         
         DPinspection.floor =  inspection.floor;
         DPinspection.notes = inspection.notes;
@@ -130,14 +130,14 @@
         DPinspection.inspectorNotes = inspection.inspectorNotes;
         DPinspection.length = inspection.length;
         DPinspection.height = inspection.height;
-        DPinspection.damper = [NSNumber numberWithInt:[inspection.damper integerValue]];
+        DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
         
         [DPInspection addInspection:DPinspection withDamperPhotoOpen:self.photo.image withDamperPhotoClosed:self.photo2.image withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD dismissWithError:[(NSError*)response localizedDescription] afterDelay:2];
+                [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
             }else{                
                 inspection.sync = [NSNumber numberWithBool:YES];
-                [SVProgressHUD dismissWithSuccess:@"Inspection Added"];
+                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
             }        
         }];
     }
@@ -145,12 +145,12 @@
 
 - (void)updateInspection:(Inspection *)inspection {
     
-    [SVProgressHUD showWithStatus:@"Updating Inspection..."];
+    [SVProgressHUD showWithStatus:@"Updating Inspection..." maskType:SVProgressHUDMaskTypeGradient];
     if ([[DPReachability sharedClient] online]) {       
         [self updateDataTo:inspection];        
         [self syncInspection:inspection];
     }else{
-        [SVProgressHUD dismissWithError:@"You're working offline, this inspection will be synced next time you get online" afterDelay:3];
+        [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
     }
 }
 
@@ -188,7 +188,7 @@
         }
         
         if (!needsUpdate) {
-            [SVProgressHUD dismissWithSuccess:@"Nothing to update" afterDelay:2];
+            [SVProgressHUD showSuccessWithStatus:@"Nothing to update"];
         }
     }
 }
@@ -212,12 +212,12 @@
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sync Needed" message:@"Please sync all inspection before continuing" delegate:self cancelButtonTitle:@"Later" otherButtonTitles:@"Sync All", nil];
                 [alert show];                
             }else{
-                [SVProgressHUD showWithStatus:@"Getting inspections..."];
+                [SVProgressHUD showWithStatus:@"Getting inspections..." maskType:SVProgressHUDMaskTypeGradient];
                 [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
                     if ([response isKindOfClass:[NSError class]]) {
-                        [SVProgressHUD dismissWithError:[(NSError *)response localizedDescription] afterDelay:2];
+                        [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
                     }else{
-                        [SVProgressHUD dismissWithSuccess:@"Inspections Retrieved"];
+                        [SVProgressHUD showSuccessWithStatus:@"Inspections Retrieved"];
                         
                         NSError *error = nil;
                         NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
@@ -233,8 +233,7 @@
             }
         }else {
             [self.dampersTableView reloadData];
-            [SVProgressHUD showWithStatus:@"You're working offline"];
-            [SVProgressHUD dismissWithError:@"You're work needs to be synced when you get back online" afterDelay:2];
+            [SVProgressHUD showWithStatus:@"You're work needs to be synced when you get back online" maskType:SVProgressHUDMaskTypeGradient];
         }
 }
 
@@ -317,9 +316,7 @@
     if ([[DPReachability sharedClient] online]) {             
         [self updateInspections];
     }else {
-        
-        [SVProgressHUD showWithStatus:@"You're working offline"];
-        [SVProgressHUD dismissWithError:@"You're work needs to be synced when you get back online" afterDelay:2];
+        [SVProgressHUD showWithStatus:@"You're work needs to be synced when you get back online" maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 
@@ -338,13 +335,13 @@
         DPDamperStatusesViewController *damperStatusesController = (DPDamperStatusesViewController *) controller.visibleViewController;
         damperStatusesController.checkedStatus = selectedInspection.damperStatus;
         damperStatusesController.delegate = self;
-        self.selectedInspection.sync = NO;
+        self.selectedInspection.sync = [NSNumber numberWithBool:NO];
         
     }else if ([controller.visibleViewController isKindOfClass:[DPDamperTypesViewController class]]) {
         DPDamperTypesViewController *damperTypesController = (DPDamperTypesViewController *) controller.visibleViewController;
         damperTypesController.checkedType = selectedInspection.damperTypeId;
         damperTypesController.delegate = self;
-        self.selectedInspection.sync = NO;
+        self.selectedInspection.sync = [NSNumber numberWithBool:NO];
         
     }else if ([controller.visibleViewController isKindOfClass:[DPNewInspectionTableViewController class]]) {
         DPNewInspectionTableViewController *newController = (DPNewInspectionTableViewController *)controller.visibleViewController;
@@ -355,7 +352,7 @@
     }else if ([controller.visibleViewController isKindOfClass:[DPPhotoCaptureViewController class]]) {
         _photoController = (DPPhotoCaptureViewController *)controller.visibleViewController;
         _photoController.delegate = self;
-        self.selectedInspection.sync = NO;
+        self.selectedInspection.sync = [NSNumber numberWithBool:NO];
         
     }else if([controller.visibleViewController isKindOfClass:[DPDamperAirstreamViewController class]]) {
         DPDamperAirstreamViewController *airstreamController = (DPDamperAirstreamViewController *)controller.visibleViewController;
@@ -464,7 +461,7 @@
     damperAirstreamValue = inspection.damperAirstream;
     
     if ([inspection.sync boolValue] && inspection.localPhoto.length == 0) {
-        [photo setImageWithURL:[NSURL URLWithString:inspection.photo] placeholderImage:nil];
+        [photo sd_setImageWithURL:[NSURL URLWithString:inspection.photo]];
     }else if(inspection.localPhoto.length > 0) {
         DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
         fetcher.imageView = photo;
@@ -472,7 +469,7 @@
     }
     
     if ([inspection.sync boolValue] && inspection.localPhoto2.length == 0) {
-        [photo2 setImageWithURL:[NSURL URLWithString:inspection.photo2] placeholderImage:nil];
+        [photo2 sd_setImageWithURL:[NSURL URLWithString:inspection.photo2]];
     }else if(inspection.localPhoto2.length > 0) {
         DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
         fetcher.imageView = photo2;
@@ -625,6 +622,11 @@
             
         case NSFetchedResultsChangeDelete:
             [self.dampersTableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+        case NSFetchedResultsChangeUpdate:
+            default:
             break;
     }
 }

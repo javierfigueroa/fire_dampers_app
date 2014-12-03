@@ -59,8 +59,8 @@
 {
     [super viewWillAppear:animated];
     
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"] &&
-        [[NSUserDefaults standardUserDefaults] valueForKey:@"user_id"] ) {
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"] &&
+        [[NSUserDefaults standardUserDefaults] valueForKey:@"password"] ) {
         [self didSelectGetNewJobsButton:nil];
     }else{
         [self didSelectLogoutButton:nil];
@@ -190,18 +190,17 @@
 //See https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CoreData/Articles/cdImporting.html for guidelines related to importing data into core data efficiently
 - (IBAction)didSelectGetNewJobsButton:(id)sender {
     if ([[DPReachability sharedClient] online]) {
-        [SVProgressHUD showWithStatus:@"Downloading Jobs..."];
+        [SVProgressHUD showWithStatus:@"Downloading Jobs..." maskType:SVProgressHUDMaskTypeGradient];
         [DPJob getJobsWithBlock:^(NSObject *response) {
             NSLog(@"%@", response);
             if([response isKindOfClass:[NSError class]]) {
                 [self didSelectLogoutButton:nil];
             }
             
-            [SVProgressHUD dismissWithSuccess:@"Jobs updated"];
+            [SVProgressHUD showSuccessWithStatus:@"Jobs updated"];
         }];
     }else{
-        [SVProgressHUD showWithStatus:@"You're working offline" maskType:SVProgressHUDMaskTypeNone];        
-        [SVProgressHUD dismissWithError:@"You're work will be sync when you get back online" afterDelay:2];
+        [SVProgressHUD showWithStatus:@"You're work will be sync when you get back online" maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 

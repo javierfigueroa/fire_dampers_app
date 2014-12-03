@@ -26,7 +26,7 @@
 @dynamic photo;
 @dynamic sync;
 @dynamic technicianId;
-@dynamic updated;
+@dynamic updated_at;
 @dynamic userId;
 @dynamic photo2;
 @dynamic localPhoto2;

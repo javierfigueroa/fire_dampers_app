@@ -37,7 +37,7 @@
 
 - (void)viewDidUnload
 {
-    [self setUsernameTextField:nil];
+    [self setUsernameTextField:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]];
     [self setPasswordTextField:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -58,15 +58,15 @@
 //TODO: Verify username and password is correct
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password{
     
-    [SVProgressHUD showWithStatus:@"Logging in..."];
+    [SVProgressHUD showWithStatus:@"Logging in..." maskType:SVProgressHUDMaskTypeGradient];
     [DPUser loginWithUsername:username andPassword:password block:^(NSObject *response) {
         if ([response isKindOfClass:[DPUser class]]) {
             [DPTechnician getTechnicianWithBlock:^(NSObject *response) {
-                [SVProgressHUD dismissWithSuccess:@"Logged in Successfully"];
+                [SVProgressHUD showSuccessWithStatus:@"Logged in Successfully"];
                [[NSNotificationCenter defaultCenter] postNotificationName:kUserDidLoginNotification object:self];
             }];
         }else{
-            [SVProgressHUD dismissWithError:@"Failed to login, check your credentials or contact Support" afterDelay:3];
+            [SVProgressHUD showErrorWithStatus:@"Failed to login, check your credentials or contact Support"];
         }
     }];
 }

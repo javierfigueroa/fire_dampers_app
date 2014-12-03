@@ -131,7 +131,7 @@
 
 - (void)didSelectDoneButton:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Table view delegate

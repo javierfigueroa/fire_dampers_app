@@ -88,7 +88,7 @@
 
 + (void)getJobsWithBlock:(void (^)(NSObject *))block
 {
-    [[DPApiClient sharedClient] getPath:@"jobs.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject){
+    [[DPApiClient sharedClient] GET:@"jobs.json" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject)  {
         
         NSMutableArray *records = [[NSMutableArray alloc]init];
         NSLog(@"response %@", responseObject);
@@ -105,8 +105,7 @@
                 block([NSArray arrayWithArray:records]);
             }
         }
-    } 
-    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Error: %@", error);
         if (block) {
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);

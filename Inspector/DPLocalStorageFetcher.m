@@ -14,21 +14,14 @@
 
 - (void) fetchStoredImageForKey:(NSString *)key
 {
-    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:self, @"delegate", key, @"key", [NSNumber numberWithInt:0], @"options", nil];    
-    [[SDImageCache sharedImageCache] queryDiskCacheForKey:key delegate:self userInfo:info];
-}
-
-#pragma mark - SDImageCacheDelegate
-
-- (void)imageCache:(SDImageCache *)imageCache didFindImage:(UIImage *)image forKey:(NSString *)key userInfo:(NSDictionary *)info
-{
-    self.imageView.image = image;
-}
-
-- (void)imageCache:(SDImageCache *)imageCache didNotFindImageForKey:(NSString *)key userInfo:(NSDictionary *)info
-{    
-    //no image found
-    NSLog(@"No image found for key %@", key);
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:key done:^(UIImage *image, SDImageCacheType cacheType) {
+        
+        if (!image) {
+            NSLog(@"No image found for key %@", key);
+        }
+        self.imageView.image = image;
+        
+    }];
 }
 
 @end

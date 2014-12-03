@@ -11,18 +11,22 @@
 
 @implementation DPApiClient
 
-#define DPApiBaseURLString @"http://api.firehound.co"
-//@"http://0.0.0.0:3000"
+#define DPApiBaseURLString @"http://10.0.0.11:3000"
+//@"http://api.firehound.co"
 //@"http://fire-dampers-4.heroku.com"
 //
 
 +(id)sharedClient{
-    static DPApiClient *__sharedClient;
+    static AFHTTPSessionManager *__sharedClient;
   
     static dispatch_once_t dispatchOncePredicate;
     dispatch_once(&dispatchOncePredicate, ^{
         __sharedClient = [[DPApiClient alloc] initWithBaseURL:[NSURL URLWithString:DPApiBaseURLString]];
     });
+    
+    NSString *username = [[NSUserDefaults standardUserDefaults] valueForKey:@"username"];
+    NSString *password = [[NSUserDefaults standardUserDefaults] valueForKey:@"password"];
+    [__sharedClient.requestSerializer setAuthorizationHeaderFieldWithUsername:username password:password];
     
     return __sharedClient;
 
@@ -33,15 +37,10 @@
     
     self = [super initWithBaseURL:url];
     if (self) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         
-        // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-        [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setDefaultHeader:@"Content-Type" value:@"application/x-www-form-urlencoded"];
-        
-        NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:@"auth_token"];
-//        self setDefaultHeader:@"X-CSRF-Token" value:token]
-        [self setAuthorizationHeaderWithUsername:token password:@"X"];
+        [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+        [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [self.responseSerializer.acceptableContentTypes setByAddingObject:@"application/json"];
     }
     return self; 
 }

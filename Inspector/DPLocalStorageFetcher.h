@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #import "SDImageCache.h"
-//#import "SDImageCacheDelegate.h"
 
-@interface DPLocalStorageFetcher : NSObject<SDImageCacheDelegate>
+@interface DPLocalStorageFetcher : NSObject
 
 @property (nonatomic, strong) UIImageView *imageView;
 

@@ -38,26 +38,25 @@
     [parameters setValue:username forKey:@"user[email]"];
     [parameters setValue:password forKey:@"user[password]"];
     
-    [[DPApiClient sharedClient] postPath:@"login" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+    [[DPApiClient sharedClient] POST:@"login" parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             DPUser *user = [[DPUser alloc]initWithAttributes:responseObject];
             
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setObject:[responseObject valueForKey:@"token"] forKey:@"auth_token"];
+//            [defaults setObject:[responseObject valueForKey:@"token"] forKey:@"auth_token"];
             [defaults setObject:user.identifier forKey:@"user_id"];
             [defaults setObject:user.lastName forKey:@"last_name"];
             [defaults setObject:user.firstName forKey:@"first_name"];
             [defaults setObject:user.email forKey:@"email"];
+            [defaults setObject:username forKey:@"username"];
+            [defaults setObject:password forKey:@"password"];
             [defaults synchronize];
             
             if (block) {
                 block(user);
             }
         }
-        
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Error: %@", error);
         if (block) {
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
@@ -67,10 +66,10 @@
 
 + (void)logout:(void (^)(NSObject *))block
 {
-    [[DPApiClient sharedClient] postPath:@"logout" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[DPApiClient sharedClient] POST:@"logout" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject)  {
         NSLog(@"%@", responseObject);
         
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"Error: %@", error);
         if (block) {
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);

@@ -32,7 +32,7 @@
 
 +(void)getTechnicianWithBlock:(void (^)(NSObject *))block
 {
-    [[DPApiClient sharedClient] getPath:@"technicians/current" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[DPApiClient sharedClient] GET:@"technicians/current" parameters:nil success:^(NSURLSessionTask *operation, id responseObject) {
         
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *response = (NSDictionary *)responseObject;
@@ -48,7 +48,7 @@
         }
         
         
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSURLSessionTask *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         if (block) {
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);

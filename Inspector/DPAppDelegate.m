@@ -21,40 +21,6 @@
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 @synthesize loginViewController = _loginViewController;
 
-/*
- My Apps Custom uncaught exception catcher, we do special stuff here, and TestFlight takes care of the rest
- */
-void HandleExceptions(NSException *exception) {
-    NSLog(@"This is where we save the application data during a exception");
-    // Save application data on crash
-}
-/*
- My Apps Custom signal catcher, we do special stuff here, and TestFlight takes care of the rest
- */
-void SignalHandler(int sig) {
-    NSLog(@"This is where we save the application data during a signal");
-    // Save application data on crash
-}
-
-- (void)setupTestFlightSDK {
-    // installs HandleExceptions as the Uncaught Exception Handler
-    NSSetUncaughtExceptionHandler(&HandleExceptions);
-    // create the signal action structure 
-    struct sigaction newSignalAction;
-    // initialize the signal action structure
-    memset(&newSignalAction, 0, sizeof(newSignalAction));
-    // set SignalHandler as the handler in the signal action structure
-    newSignalAction.sa_handler = &SignalHandler;
-    // set SignalHandler as the handlers for SIGABRT, SIGILL and SIGBUS
-    sigaction(SIGABRT, &newSignalAction, NULL);
-    sigaction(SIGILL, &newSignalAction, NULL);
-    sigaction(SIGBUS, &newSignalAction, NULL);
-    // Call takeOff after install your own unhandled exception and signal handlers
-    //TestFlightApp.com SDK
-    [TestFlight takeOff:@"8e23ea6081baafea0e6d9cb9093e8750_NjQxMjYyMDEyLTAyLTIwIDE2OjAwOjE5LjA0NDMxOQ"];
-}
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DPReachability sharedClient];
@@ -66,23 +32,19 @@ void SignalHandler(int sig) {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissLoginScreen) name:kUserDidLoginNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoginScreen) name:kUserDidLogoutNotification object:nil];
-
-    [self setupTestFlightSDK];
-
     
     return YES;
 }
 
 -(void)dismissLoginScreen{
-    [self.loginViewController dismissModalViewControllerAnimated:YES];
+    [self.loginViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)showLoginScreen{
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth_token"];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"password"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.window.rootViewController presentModalViewController:self.loginViewController animated:YES];
+    [self.window.rootViewController presentViewController:self.loginViewController animated:YES completion:nil];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

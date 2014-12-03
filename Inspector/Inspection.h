@@ -27,7 +27,7 @@
 @property (nonatomic, retain) NSString * photo;
 @property (nonatomic, retain) NSNumber * sync;
 @property (nonatomic, retain) NSNumber * technicianId;
-@property (nonatomic, retain) NSDate * updated;
+@property (nonatomic, retain) NSDate * updated_at;
 @property (nonatomic, retain) NSNumber * userId;
 @property (nonatomic, retain) NSString * photo2;
 @property (nonatomic, retain) NSString * localPhoto2;

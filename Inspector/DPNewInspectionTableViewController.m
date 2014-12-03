@@ -146,8 +146,7 @@
         || self.height.text.length == 0
         || self.damperAirstreamTextField.text.length == 0) {
         
-        [SVProgressHUD show];
-        [SVProgressHUD dismissWithError:@"Please complete the entire form" afterDelay:2];
+        [SVProgressHUD showErrorWithStatus:@"Please complete the entire form"];
         return;
     }
     
@@ -174,27 +173,27 @@
     self.inspection.height = self.height.text;
     self.inspection.inspectorNotes = self.inspectorNotes.text;
     
-    [SVProgressHUD showWithStatus:@"Adding Inspection"];
+    [SVProgressHUD showWithStatus:@"Adding Inspection" maskType:SVProgressHUDMaskTypeGradient];
     
     if ([[DPReachability sharedClient] online]) {
         [DPInspection addInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD dismissWithError:[(NSError*)response domain] afterDelay:2];
+                [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
             }else{
-                [SVProgressHUD dismissWithSuccess:@"Inspection Added"];
+                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
                 if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
                     [delegate didAddInspection];
                 }
-                [self dismissModalViewControllerAnimated:YES];
+                [self dismissViewControllerAnimated:YES completion:nil];
             }        
         }];
     }else{
         [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
-        [SVProgressHUD dismissWithError:@"You're working offline, this inspection will be synced next time you get online" afterDelay:3];
+        [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
         if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
             [delegate didAddInspection];
         }
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }    
 }
 
@@ -204,13 +203,13 @@
         [delegate didCancelInspection];
     }
     
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)didSelectStatusButton:(id)sender
 {
-    UISegmentedControl *control = (UISegmentedControl *)sender;    
-    self.damperStatusId = [NSNumber numberWithInt:(control.selectedSegmentIndex + 1)];
+    UISegmentedControl *control = (UISegmentedControl *)sender;
+    self.damperStatusId = [NSNumber numberWithInt:((int)control.selectedSegmentIndex + 1)];
 }
 
 #pragma mark - DPDamperStatusesDelegate Methods

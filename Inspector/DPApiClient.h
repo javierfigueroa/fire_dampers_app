@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPClient.h"
 
 static NSString *kUserDidLoginNotification = @"kUserLogin";
 static NSString *kUserDidLogoutNotification = @"kUserLogout";
 
 
-@interface DPApiClient : AFHTTPClient
+@interface DPApiClient : AFHTTPSessionManager
 
 //Returns the singleton API Client
-+(id)sharedClient;
++(AFHTTPSessionManager*)sharedClient;
 
 @end

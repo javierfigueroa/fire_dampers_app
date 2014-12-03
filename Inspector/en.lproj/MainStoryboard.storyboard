@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.1" toolsVersion="2182" systemVersion="11E53" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="05q-lH-fcY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" variant="6xAndEarlier" propertyAccessControl="none" promptedForUpgradeToXcode5="NO" initialViewController="05q-lH-fcY">
     <dependencies>
-        <development defaultVersion="4200" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1181"/>
+        <deployment identifier="iOS"/>
+        <development version="4600" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="x99-ug-Wy2">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NEz-Nn-D76" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="HNO-Ca-gUw" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="sCE-hc-6Jj"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="RCn-X9-8rz">
@@ -18,13 +18,13 @@
                         <segue destination="KUD-NQ-bBz" kind="relationship" relationship="rootViewController" id="4ox-7p-3gQ"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NEz-Nn-D76" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="622" y="-1410"/>
         </scene>
-        <!--Inspections View Controller - Job Title-->
+        <!--Job Title-->
         <scene sceneID="AhJ-Lf-6tN">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gFa-GG-mh6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="g7H-v4-YtS" customClass="DPInspectionsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5bi-H0-a6l">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -411,8 +411,8 @@
                                         <rect key="frame" x="1" y="0.0" width="448" height="1100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Please Select an Inspection or Add a New Inspection" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" id="yki-38-xrF">
-                                                <rect key="frame" x="101" y="421" width="246" height="98"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select an inspection or add a new one" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" id="yki-38-xrF">
+                                                <rect key="frame" x="77" y="421" width="294" height="98"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -456,13 +456,13 @@
                         <outlet property="unit" destination="5F6-Vg-bW5" id="tvY-D9-Sja"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gFa-GG-mh6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="14" y="119"/>
         </scene>
-        <!--Jobs Table View Controller - Jobs-->
+        <!--Jobs-->
         <scene sceneID="yli-BA-JiD">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ud-IC-3XO" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="gRN-pj-qUx" customClass="DPJobsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Qx1-6u-zLB">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -510,13 +510,13 @@
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ud-IC-3XO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-984" y="-249"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WMV-lX-sUT">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zbR-as-orU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="05q-lH-fcY" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yWo-Kk-gKL"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TlG-ia-3cI">
@@ -526,13 +526,13 @@
                         <segue destination="gRN-pj-qUx" kind="relationship" relationship="rootViewController" id="Udz-TC-I9C"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zbR-as-orU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1900" y="-249"/>
         </scene>
-        <!--New Inspection Table View Controller - New Damper Inspection-->
+        <!--New Damper Inspection-->
         <scene sceneID="zKr-8A-7vn">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="CIn-fN-unN" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="STO-aC-Pwn" customClass="DPNewInspectionTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="wKr-tX-OHb">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -545,7 +545,7 @@
                                         <rect key="frame" x="0.0" y="54" width="768" height="57"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="1" width="658" height="55"/>
+                                            <rect key="frame" x="45" y="1" width="656" height="54"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Photograph" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="kgz-CU-Gb4">
@@ -556,7 +556,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Add a photograph of this fire damper open" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1ny-1l-4Os">
-                                                    <rect key="frame" x="160" y="17" width="478" height="21"/>
+                                                    <rect key="frame" x="160" y="17" width="476" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -573,7 +573,7 @@
                                         <rect key="frame" x="0.0" y="111" width="768" height="56"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="658" height="55"/>
+                                            <rect key="frame" x="45" y="0.0" width="656" height="55"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Photograph" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="3LY-vy-rlS">
@@ -584,7 +584,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Add a photograph of this fire damper closed" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="WNf-vm-pOI">
-                                                    <rect key="frame" x="160" y="17" width="478" height="21"/>
+                                                    <rect key="frame" x="160" y="17" width="476" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -601,11 +601,11 @@
                                         <rect key="frame" x="0.0" y="167" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter the fire damper's ID" textAlignment="right" minimumFontSize="17" id="K9l-Pk-W9u">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -628,11 +628,11 @@
                                         <rect key="frame" x="0.0" y="227" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter fire damper length in inches" textAlignment="right" minimumFontSize="17" id="fjF-If-cYW">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -655,11 +655,11 @@
                                         <rect key="frame" x="0.0" y="287" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter fire damper height in inches" textAlignment="right" minimumFontSize="17" id="3nL-oF-93v">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -682,7 +682,7 @@
                                         <rect key="frame" x="0.0" y="347" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="658" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="656" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Damper Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="0iV-GW-JHh">
@@ -693,7 +693,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select the fire damper's type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="Kjl-pM-06h">
-                                                    <rect key="frame" x="160" y="19" width="478" height="21"/>
+                                                    <rect key="frame" x="160" y="19" width="476" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -710,11 +710,11 @@
                                         <rect key="frame" x="0.0" y="407" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter fire damper unit number" textAlignment="right" minimumFontSize="17" id="s4K-9l-ifV">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -737,7 +737,7 @@
                                         <rect key="frame" x="0.0" y="467" width="768" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="658" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="656" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Airstream" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="KHr-vu-LiY">
@@ -748,7 +748,7 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select the fire damper's airstream" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="9WF-DY-QZ4">
-                                                    <rect key="frame" x="160" y="19" width="478" height="21"/>
+                                                    <rect key="frame" x="160" y="19" width="476" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -769,11 +769,11 @@
                                         <rect key="frame" x="0.0" y="572" width="768" height="61"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="1" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="1" width="676" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What floor is this fire damper on?" textAlignment="right" minimumFontSize="17" id="Ekh-nO-Ir7">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -796,11 +796,11 @@
                                         <rect key="frame" x="0.0" y="633" width="768" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="45" y="0.0" width="678" height="59"/>
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where is the fire damper found?" textAlignment="right" minimumFontSize="17" id="Li2-g5-n6U">
-                                                    <rect key="frame" x="158" y="14" width="478" height="31"/>
+                                                    <rect key="frame" x="158" y="14" width="476" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -1014,13 +1014,13 @@
                         <outlet property="unit" destination="s4K-9l-ifV" id="vnn-Cq-CXQ"/>
                     </connections>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CIn-fN-unN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2233" y="-108"/>
         </scene>
-        <!--Photo Capture View Controller - Damper Image-->
+        <!--Damper Image-->
         <scene sceneID="KF8-AD-Tl7">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Uiw-GL-Vsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="KUD-NQ-bBz" customClass="DPPhotoCaptureViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="G8H-8H-2uT">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -1065,13 +1065,13 @@
                         <outlet property="imageView" destination="sqR-Ua-mX0" id="1b1-CJ-fzk"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uiw-GL-Vsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3600" y="-380"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ge6-HE-9Ej">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3PA-Hw-ea9" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" modalPresentationStyle="formSheet" id="SAB-R6-O03" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TPR-sh-mBx">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1080,13 +1080,13 @@
                         <segue destination="57M-3v-MsQ" kind="relationship" relationship="rootViewController" id="MbN-3B-XkP"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3PA-Hw-ea9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1304" y="1328"/>
         </scene>
-        <!--Damper Types View Controller - Damper Types-->
+        <!--Damper Types-->
         <scene sceneID="jef-Gz-kiR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hAk-U5-ZPQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="57M-3v-MsQ" customClass="DPDamperTypesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="jQj-qb-VKf">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -1100,13 +1100,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Damper Types" id="4f0-lq-0cJ"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hAk-U5-ZPQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3121" y="1296"/>
         </scene>
-        <!--Damper Statuses View Controller - Damper Status-->
+        <!--Damper Status-->
         <scene sceneID="XPA-XH-5Qj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="WnT-Uq-7N5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="LxB-Bc-Hoo" customClass="DPDamperStatusesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="CKA-XM-uJ5">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -1120,13 +1120,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Damper Status" id="T9a-Hd-rqz"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WnT-Uq-7N5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2841" y="2448"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4Ee-5z-1Nh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="j0T-9k-YaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" id="8FF-Jm-d5Z" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2PH-sf-666">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1135,13 +1135,13 @@
                         <segue destination="STO-aC-Pwn" kind="relationship" relationship="rootViewController" id="GC8-hp-fyk"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j0T-9k-YaT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1207" y="-96"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wiG-pW-jve">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="52w-ir-txU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" modalPresentationStyle="formSheet" id="IhV-VQ-HDU" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="D3b-jI-85l">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1150,13 +1150,13 @@
                         <segue destination="LxB-Bc-Hoo" kind="relationship" relationship="rootViewController" id="xuX-Y9-GL4"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="52w-ir-txU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1324" y="2470"/>
         </scene>
-        <!--Damper Airstream View Controller - Damper Airstream-->
+        <!--Damper Airstream-->
         <scene sceneID="NMl-3G-8hk">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IGd-gP-6rc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="zLt-i6-QPk" customClass="DPDamperAirstreamViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="bh0-14-wDR">
                         <rect key="frame" x="0.0" y="64" width="768" height="960"/>
@@ -1169,13 +1169,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Damper Airstream" id="O6I-LI-7T6"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IGd-gP-6rc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2348" y="3599"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4X0-ot-inh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="eEo-u6-kxr" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController definesPresentationContext="YES" modalPresentationStyle="formSheet" id="VnY-n8-SV3" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="65f-vh-a6X">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1184,113 +1184,11 @@
                         <segue destination="zLt-i6-QPk" kind="relationship" relationship="rootViewController" id="CcV-2z-dQW"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eEo-u6-kxr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1366" y="3599"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="DPDamperAirstreamViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPDamperAirstreamViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectDoneButton:"/>
-            </relationships>
-        </class>
-        <class className="DPDamperStatusesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPDamperStatusesViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectDoneButton:"/>
-            </relationships>
-        </class>
-        <class className="DPDamperTypesViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPDamperTypesViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectDoneButton:"/>
-            </relationships>
-        </class>
-        <class className="DPInspectionCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPInspectionCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="comments" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="damperId" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="damperType" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="status" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="syncState" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="DPInspectionsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPInspectionsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="addDamperButtonSelected:"/>
-                <relationship kind="action" name="didSelectClosedDamper:"/>
-                <relationship kind="action" name="didSelectFetchAll:"/>
-                <relationship kind="action" name="didSelectOpenDamper:"/>
-                <relationship kind="action" name="didSelectUpdateAll:"/>
-                <relationship kind="action" name="pushDamperChangesButtonSelected:"/>
-                <relationship kind="outlet" name="addDamperButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="building" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="damper" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="damperAirstreamButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="damperStatusButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="damperTypeIdButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="dampersTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="floor" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="form" candidateClass="UIView"/>
-                <relationship kind="outlet" name="height" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="imageButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="inspectorNotes" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="length" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="message" candidateClass="UIView"/>
-                <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="photo" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="photo2" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="tagLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="unit" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="DPJobsTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPJobsTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectGetNewJobsButton:"/>
-                <relationship kind="action" name="didSelectLogoutButton:"/>
-            </relationships>
-        </class>
-        <class className="DPNewInspectionTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPNewInspectionTableViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectCancelButton:"/>
-                <relationship kind="action" name="didSelectDoneButton:"/>
-                <relationship kind="action" name="didSelectStatusButton:"/>
-                <relationship kind="outlet" name="building" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="damper" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="damperAirstreamTextField" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="damperTypeIdTextField" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="failButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="floor" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="height" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="inspectionDate" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="inspector" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="inspectorNotes" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="length" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="location" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="notes" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="passButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="passFailControl" candidateClass="UISegmentedControl"/>
-                <relationship kind="outlet" name="photo2Label" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="photoLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="unit" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="DPPhotoCaptureViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/DPPhotoCaptureViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="didSelectCaptureButton:"/>
-                <relationship kind="action" name="didSelectDoneButton:"/>
-                <relationship kind="action" name="didSelectPickerButton:"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

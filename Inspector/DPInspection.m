@@ -95,7 +95,7 @@
     managedInspection.damperStatus = inspection.damperStatus;
     managedInspection.damperTypeId = inspection.damperTypeId;
     managedInspection.created = inspection.created;
-    managedInspection.updated = inspection.updated;
+    managedInspection.updated_at = inspection.updated;
     managedInspection.inspected = inspection.inspected;
     managedInspection.jobId = inspection.jobId;
     managedInspection.inspectionId = inspection.inspectionId;
@@ -124,12 +124,10 @@
 }
 
 + (void)cacheImageFor:(Inspection *)inspection image:(UIImage *)picture andName:(NSString *)name {
-    if (picture) {
-        NSData *imageData = UIImageJPEGRepresentation(picture, 0.5);
-        
+    if (picture) {        
         dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    
         dispatch_async(backgroundQueue, ^{     
-            [[SDImageCache sharedImageCache] storeImage:picture imageData:imageData forKey:name toDisk:YES];
+            [[SDImageCache sharedImageCache] storeImage:picture forKey:name toDisk:YES];
         });
     }
 }
@@ -167,7 +165,7 @@
         managedInspection.damperStatus = inspection.damperStatus;
         managedInspection.damperTypeId = inspection.damperTypeId;
         managedInspection.created = inspection.created;
-        managedInspection.updated = inspection.updated;
+        managedInspection.updated_at = inspection.updated;
         managedInspection.inspected = inspection.inspected;
         managedInspection.jobId = inspection.jobId;
         managedInspection.inspectionId = inspection.inspectionId;
@@ -186,7 +184,7 @@
 
 + (void)getInspectionsForJobId:(NSNumber *)jobId withBlock:(void (^)(NSObject *))block
 {
-    [[DPApiClient sharedClient] getPath:[NSString stringWithFormat:@"inspections/job/%@.json", jobId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject){
+    [[DPApiClient sharedClient] GET:[NSString stringWithFormat:@"inspections/job/%@.json", jobId] parameters:nil success:^(NSURLSessionTask *operation, id responseObject){
         
         NSMutableArray *records = [[NSMutableArray alloc]init];
         NSLog(@"response %@", responseObject);
@@ -204,7 +202,7 @@
             }
         }
     } 
-    failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    failure:^(NSURLSessionTask *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         if (block) {
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
@@ -263,49 +261,60 @@
             photoNameClosed = inspection.localPhoto2;        
         }
 //        [DPInspection cacheImageFor:inspection image:photo andName:photoName];       
-        
-        NSMutableURLRequest *request = [[DPApiClient sharedClient] multipartFormRequestWithMethod:@"PUT" path:[NSString stringWithFormat:@"inspections/%@.json", inspection.inspectionId] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSError *serializationError = nil;
+        NSMutableURLRequest *request = [[DPApiClient sharedClient].requestSerializer multipartFormRequestWithMethod:@"PUT" URLString:[[NSURL URLWithString:[NSString stringWithFormat:@"inspections/%@.json", inspection.inspectionId] relativeToURL:[DPApiClient sharedClient].baseURL] absoluteString] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             if (imageDataOpen) {
-            [formData appendPartWithFileData:imageDataOpen 
-                                        name:@"inspection[damper_image]" 
-                                    fileName:[NSString stringWithFormat:@"%@.jpg", photoNameOpen] 
-                                    mimeType:@"image/jpeg"];
-            }
-            
-            if (imageDataClosed) {
-                [formData appendPartWithFileData:imageDataClosed 
-                                            name:@"inspection[damper_image_second]" 
-                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameClosed] 
+                [formData appendPartWithFileData:imageDataOpen
+                                            name:@"inspection[damper_image]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameOpen]
                                         mimeType:@"image/jpeg"];
             }
             
-        }];
+            if (imageDataClosed) {
+                [formData appendPartWithFileData:imageDataClosed
+                                            name:@"inspection[damper_image_second]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameClosed]
+                                        mimeType:@"image/jpeg"];
+            }
+            
+        } error:&serializationError];
         
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        [operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-            NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
-        }];
-        
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if(block) {
-                inspection.sync = [NSNumber numberWithBool:YES];
-//                inspection.localPhoto = @"";
-                block(nil);
-            }                
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
-            if (block) {
-                block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
-            }        
-        }];
-        
-        [operation start];
+        if (serializationError) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wgnu"
+                dispatch_async([DPApiClient sharedClient].completionQueue ?: dispatch_get_main_queue(), ^{
+                    NSLog(@"Error: %@", serializationError);
+                    if (block) {
+                        block([NSError errorWithDomain:[serializationError localizedDescription] code:serializationError.code userInfo:nil]);
+                    }
+                });
+#pragma clang diagnostic pop
+        }else{
+            
+            __block NSURLSessionDataTask *task = [[DPApiClient sharedClient] uploadTaskWithStreamedRequest:request progress:nil completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
+                if (error) {
+                    NSLog(@"Error: %@", error);
+                    if (block) {
+                        block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
+                    }
+                } else {
+                    if(block) {
+                        inspection.sync = [NSNumber numberWithBool:YES];
+                        //                inspection.localPhoto = @"";
+                        block(nil);
+                    }
+                }
+            }];
+            
+            [task resume];
+            
+        }
     }else{
         
-        [[DPApiClient sharedClient] putPath:[NSString stringWithFormat:@"inspections/%@.json", inspection.inspectionId] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[DPApiClient sharedClient] PUT:[NSString stringWithFormat:@"inspections/%@.json", inspection.inspectionId] parameters:parameters success:^(NSURLSessionTask *operation, id responseObject) {
             inspection.sync = [NSNumber numberWithBool:YES];
             block(nil);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"%@", error);
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
         }];
@@ -346,8 +355,6 @@
     [parameters setValue:inspection.location forKey:@"inspection[location]"];
     [parameters setValue:inspection.technicianId forKey:@"inspection[technician_id]"];
     
-    [[DPApiClient sharedClient] setDefaultHeader:@"Content-Type" value:@"application/json"];
-    
     if (photoOpen || photoClosed) {
         NSData *imageDataOpen = nil;
         NSData *imageDataClosed = nil;
@@ -361,7 +368,7 @@
             
             dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    
             dispatch_async(backgroundQueue, ^{     
-                [[SDImageCache sharedImageCache] storeImage:photoOpen imageData:imageDataOpen forKey:photoNameOpen toDisk:YES];
+                [[SDImageCache sharedImageCache] storeImage:photoOpen forKey:photoNameOpen toDisk:YES];
             });
         }
         
@@ -371,59 +378,51 @@
             
             dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    
             dispatch_async(backgroundQueue, ^{     
-                [[SDImageCache sharedImageCache] storeImage:photoClosed imageData:imageDataClosed forKey:photoNameClosed toDisk:YES];
+                [[SDImageCache sharedImageCache] storeImage:photoClosed forKey:photoNameClosed toDisk:YES];
             });
         }
 
         
         
-        NSMutableURLRequest *request = [[DPApiClient sharedClient] multipartFormRequestWithMethod:@"POST" path:@"inspections.json" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [[DPApiClient sharedClient] POST:@"inspections.json" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             if (imageDataOpen){
                 [formData appendPartWithFileData:imageDataOpen
-                                            name:@"inspection[damper_image]" 
-                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameOpen] 
+                                            name:@"inspection[damper_image]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameOpen]
                                         mimeType:@"image/jpeg"];
             }
             
             if (imageDataClosed) {
                 [formData appendPartWithFileData:imageDataClosed
-                                            name:@"inspection[damper_image_second]" 
-                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameClosed] 
+                                            name:@"inspection[damper_image_second]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg", photoNameClosed]
                                         mimeType:@"image/jpeg"];
                 
             }
             
-        }];
-        
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        [operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-            NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
-        }];
-        
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        } success:^(NSURLSessionDataTask *task, id responseObject) {
             if(block) {
                 block(nil);
-            }                
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(@"Error: %@", error);
-            if (block) {     
+            if (block) {
                 
-                block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:[operation.response statusCode] userInfo:nil]); 
-//                [inspection copyToManagedInspectionWithPhoto:photoOpen andPhoto:photoClosed];
+                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
+                //                [inspection copyToManagedInspectionWithPhoto:photoOpen andPhoto:photoClosed];
                 
                 
-            }        
+            }
         }];
-        
-        [operation start];
     }else{
             
-        [[DPApiClient sharedClient] postPath:@"inspections.json" parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[DPApiClient sharedClient] POST:@"inspections.json" parameters:parameters success:^(NSURLSessionTask *operation, id responseObject) {
             block(nil);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"%@", error);                
-//            [inspection copyToManagedInspectionWithPhoto:nil andPhoto:nil];
-            block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:[operation.response statusCode] userInfo:nil]);     
+        } failure:^(NSURLSessionTask *operation, NSError *error) {
+            NSLog(@"%@", error);
+            NSHTTPURLResponse *response = (NSHTTPURLResponse *)operation.response;
+            block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
         }];
     }    
 }

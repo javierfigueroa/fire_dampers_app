@@ -16,11 +16,6 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 
-
-//This method initializes all properties of job with their associated key valus in jobDictionary. 
-- (void)initializeJob:(Job *)job withDictionary:(NSDictionary *)jobDictionary;
-
-
 - (IBAction)didSelectGetNewJobsButton:(id)sender;
 - (IBAction)didSelectLogoutButton:(id)sender;
 
