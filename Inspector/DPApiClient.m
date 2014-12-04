@@ -2,8 +2,6 @@
 //  DPApiClient.m
 //  Inspector
 //
-//  Created by Eddy Borja on 4/11/12.
-//  Copyright (c) 2012 Mainloop, LLC. All rights reserved.
 //
 
 #import "DPApiClient.h"
@@ -11,10 +9,7 @@
 
 @implementation DPApiClient
 
-#define DPApiBaseURLString @"http://10.0.0.11:3000"
-//@"http://api.firehound.co"
-//@"http://fire-dampers-4.heroku.com"
-//
+#define DPApiBaseURLString @"http://dampers.cloudapp.net"
 
 +(id)sharedClient{
     static AFHTTPSessionManager *__sharedClient;

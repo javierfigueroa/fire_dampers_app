@@ -108,12 +108,10 @@
     cameraUI.allowsEditing = NO;
     
     cameraUI.delegate = self;
-    [self presentViewController:cameraUI animated:YES completion:^{
-        [self dismissViewControllerAnimated:YES completion:nil];
-        
-    }];
     
-//    _cameraOn = YES;
+    [self presentViewController:cameraUI animated:YES completion:nil];
+    
+    _cameraOn = YES;
     
     [_picker dismissPopoverAnimated:YES];
 }
@@ -126,9 +124,9 @@
     
     [_picker dismissPopoverAnimated:YES];
     
-//    if (_cameraOn) {
-//        [self dismissModalViewControllerAnimated:YES];
-//    }
+    if (_cameraOn) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *photo = [info

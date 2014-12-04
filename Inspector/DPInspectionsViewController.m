@@ -233,7 +233,6 @@
             }
         }else {
             [self.dampersTableView reloadData];
-            [SVProgressHUD showWithStatus:@"You're work needs to be synced when you get back online" maskType:SVProgressHUDMaskTypeGradient];
         }
 }
 
@@ -315,8 +314,6 @@
 {
     if ([[DPReachability sharedClient] online]) {             
         [self updateInspections];
-    }else {
-        [SVProgressHUD showWithStatus:@"You're work needs to be synced when you get back online" maskType:SVProgressHUDMaskTypeGradient];
     }
 }
 

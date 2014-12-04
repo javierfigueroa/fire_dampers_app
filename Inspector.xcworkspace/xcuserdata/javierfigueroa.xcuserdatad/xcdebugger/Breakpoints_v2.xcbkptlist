@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Inspector/DPApiClient.m"
-            timestampString = "439270593.730615"
+            timestampString = "439329278.645428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "-initWithBaseURL:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Inspector/DPApiClient.m"
-            timestampString = "439270197.141543"
+            timestampString = "439329278.645428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
             landmarkName = "+sharedClient"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,27 +90,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Inspector/DPApiClient.m"
-            timestampString = "439270203.514715"
+            timestampString = "439329278.645428"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "+sharedClient"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Inspector/DPApiClient.m"
+            timestampString = "439329278.645428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "+sharedClient"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Inspector/DPApiClient.m"
-            timestampString = "439270590.32744"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
             landmarkName = "+sharedClient"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Inspector/DPInspectionsViewController.m"
-            timestampString = "439272418.568655"
+            timestampString = "439351228.602688"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
             landmarkName = "-keyboardWasShown:"
             landmarkType = "5">
          </BreakpointContent>

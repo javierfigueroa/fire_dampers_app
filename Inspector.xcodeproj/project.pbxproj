@@ -525,7 +525,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Inspector/Inspector-Prefix.pch";
 				INFOPLIST_FILE = "Inspector/Inspector-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "$(inherited)";
@@ -545,7 +545,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Inspector/Inspector-Prefix.pch";
 				INFOPLIST_FILE = "Inspector/Inspector-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_LIBTOOLFLAGS = "$(inherited)";

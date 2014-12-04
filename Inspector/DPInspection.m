@@ -363,7 +363,7 @@
         NSString *photoNameClosed = nil;
         
         if (photoOpen) {
-            imageDataOpen = UIImageJPEGRepresentation(photoOpen, 0.5);
+            imageDataOpen = UIImageJPEGRepresentation(photoOpen, 0.032);
             photoNameOpen = [NSString stringWithFormat:@"%@-%@-%i", inspection.jobId, inspection.damper, (rand() + 1000)]; 
             
             dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    
@@ -373,7 +373,7 @@
         }
         
         if (photoClosed) {
-            imageDataClosed = UIImageJPEGRepresentation(photoClosed, 0.5);
+            imageDataClosed = UIImageJPEGRepresentation(photoClosed, 0.032);
             photoNameClosed = [NSString stringWithFormat:@"%@-%@-%i", inspection.jobId, inspection.damper, (rand() + 1000)]; 
             
             dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    

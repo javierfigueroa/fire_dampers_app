@@ -19,7 +19,7 @@
 @interface DPPhotoCaptureViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 {
     UIPopoverController *_picker;
-//    BOOL _cameraOn;
+    BOOL _cameraOn;
 }
 
 @property (nonatomic, strong) UIImage *image;

@@ -200,7 +200,7 @@
             [SVProgressHUD showSuccessWithStatus:@"Jobs updated"];
         }];
     }else{
-        [SVProgressHUD showWithStatus:@"You're work will be sync when you get back online" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
     }
 }
 
