@@ -224,15 +224,16 @@
                         if (managedObjectContext != nil) {
                             if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
                                 // Replace this implementation with code to handle the error appropriately.
-                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
+                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                            } 
+                            }
                         }
                     }       
                 }];
             }
         }else {
             [self.dampersTableView reloadData];
+            [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
         }
 }
 
@@ -255,6 +256,7 @@
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -391,9 +393,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *DamperInspectionCellIdentifier = @"DamperInspectionCell";
-    NSString *identifier = DamperInspectionCellIdentifier;
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:DamperInspectionCellIdentifier forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     
     return cell;
@@ -414,8 +414,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.message removeFromSuperview];    
-    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:YES];
+    [self.message removeFromSuperview];
     
     if (self.selectedInspection) {
         _takingClosedPhoto = NO;
@@ -472,6 +471,8 @@
         fetcher.imageView = photo2;
         [fetcher fetchStoredImageForKey:inspection.localPhoto2];        
     }
+    
+//    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:NO];
 }
 
 
@@ -520,7 +521,6 @@
 
 #pragma mark - Core Data Stack
 
-
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (__fetchedResultsController != nil) {
@@ -546,6 +546,7 @@
     // nil for section name key path means "no sections".
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"jobId == %@", self.job.jobId];
     [fetchRequest setPredicate:predicate];
+    
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"floor" cacheName:@"Master"];
     aFetchedResultsController.delegate = self;
     
@@ -643,6 +644,8 @@
     [damperStatusButton setTitle:[status valueForKey:@"Abbrev"] forState:UIControlStateNormal];
     selectedInspection.damperStatus = [NSNumber numberWithInt:[_damperStatusId intValue]];
     damperStatusId = _damperStatusId;
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - DPDamperStatusesDelegate Methods
@@ -653,6 +656,8 @@
     [damperTypeIdButton setTitle:[type valueForKey:@"Abbrev"] forState:UIControlStateNormal];
     selectedInspection.damperTypeId = [NSNumber numberWithInt:[_damperTypeId intValue]];
     damperTypeId = _damperTypeId;
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - DPNewDamperController Delegate
@@ -676,6 +681,8 @@
     [damperAirstreamButton setTitle:[type valueForKey:@"Abbrev"] forState:UIControlStateNormal];
     selectedInspection.damperAirstream = [NSNumber numberWithInt:[_damperAirstreamId intValue]];
     damperAirstreamValue = _damperAirstreamId;
+    
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - DPPhotoController Delegate Method

@@ -219,6 +219,8 @@
     NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", _damperTypeId]];
     damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
     damperTypeId = _damperTypeId;
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - DPDamperAirstream Delegate Methods
@@ -228,6 +230,8 @@
     NSDictionary *type = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", _damperAirstreamId]];
     damperAirstreamTextField.text = [type valueForKey:@"Abbrev"];
     damperAirstreamId = _damperAirstreamId;
+    
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - Photo Delegate
@@ -240,7 +244,7 @@
     }else if(_takingClosedPhoto) {
         photo2 = image;
         self.photo2Label.text = @"Photo has been selected";        
-    }   
+    }
 }
 
 @end

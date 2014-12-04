@@ -144,7 +144,7 @@
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];          
         
-        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"inspectionId"] rightExpression:[NSExpression expressionForConstantValue:inspection.inspectionId]  modifier:NSDirectPredicateModifier type:NSEqualToPredicateOperatorType options:0];
+        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"damper"] rightExpression:[NSExpression expressionForConstantValue:inspection.damper]  modifier:NSDirectPredicateModifier type:NSEqualToPredicateOperatorType options:0];
         [request setPredicate:predicate];
         NSError *error = nil;
         NSArray *array = [context executeFetchRequest:request error:&error];
@@ -252,12 +252,12 @@
         NSString *photoNameClosed = nil;
         
         if (photoOpen) {
-            imageDataOpen = UIImageJPEGRepresentation(photoOpen, 0.5);
+            imageDataOpen = UIImageJPEGRepresentation(photoOpen, 0.032);
             photoNameOpen = inspection.localPhoto;        
         }
         
         if (photoClosed) {
-            imageDataClosed = UIImageJPEGRepresentation(photoClosed, 0.5);
+            imageDataClosed = UIImageJPEGRepresentation(photoClosed, 0.032);
             photoNameClosed = inspection.localPhoto2;        
         }
 //        [DPInspection cacheImageFor:inspection image:photo andName:photoName];       
