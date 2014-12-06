@@ -10,6 +10,9 @@
 #import "DPInspectionsViewController.h"
 #import "UIImage+FixOrientation.h"
 #import "SVProgressHUD.h"
+#import "DPLocalStorageFetcher.h"
+#import "UIImageView+WebCache.h"
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @interface DPPhotoCaptureViewController ()
 
@@ -46,6 +49,17 @@
     if (delegate && [delegate isKindOfClass:[DPInspectionsViewController class]]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(didSelectDoneButton:)];
     }
+    
+    if (self.imageUrl != nil) {
+        [self.imageView sd_setImageWithURL:self.imageUrl];
+    }else if(self.imageKey != nil) {
+        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+        fetcher.imageView = self.imageView;
+        [fetcher fetchStoredImageForKey:self.imageKey];
+    }else if (self.image != nil) {
+        self.imageView.image = self.image;
+    }
+    
 }
 
 
@@ -62,7 +76,7 @@
 
 -(void)didSelectDoneButton:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didSelectPickerButton:(id)sender
@@ -76,8 +90,8 @@
     
     // Displays a control that allows the user to choose picture or
     // movie capture, if both are available:
-    cameraUI.mediaTypes =
-    [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
+//    [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
@@ -106,6 +120,7 @@
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
     cameraUI.allowsEditing = NO;
+
     
     cameraUI.delegate = self;
     

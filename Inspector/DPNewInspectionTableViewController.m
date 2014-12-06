@@ -8,9 +8,12 @@
 
 #import "DPNewInspectionTableViewController.h"
 #import "DPInspection.h"
+#import "Inspection.h"
 #import "DPAppDelegate.h"
-#import "SVProgressHUD.h"
 #import "DPReachability.h"
+#import "DPLocalStorageFetcher.h"
+#import "UIImageView+WebCache.h"
+#import <APNumberPad/APNumberPad.h>
 
 @interface DPNewInspectionTableViewController ()
 
@@ -73,8 +76,32 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateString = [dateFormatter stringFromDate:[NSDate new]];
     self.inspectionDate.text = dateString;
-    
     self.damperStatusId = [NSNumber numberWithInt:2];
+    
+    self.damper.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.length.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.height.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.unit.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.floor.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -96,6 +123,48 @@
     return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
+- (void)setInspectionFields
+{
+//    self.building.text = self.savedInspection.building;
+//    self.floor.text =[NSString stringWithFormat:@"%@", self.savedInspection.floor];
+//    self.damper.text = [NSString stringWithFormat:@"%@", self.savedInspection.damper];
+//    self.location.text = inspection.location;
+//    NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", self.savedInspection.damperTypeId]];
+//    self.damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
+//    self.damperTypeId = inspection.damperTypeId;
+//    
+////    NSDictionary *status = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", savedInspection.damperStatus]];
+////    [damperStatusButton setTitle:[status valueForKey:@"Abbrev"] forState:UIControlStateNormal];
+//    self.damperStatusId = self.savedInspection.damperStatus;
+////    tagLabel.text = savedInspection.tag;
+//    self.notes.text = self.savedInspection.notes;
+//    self.inspectorNotes.text = self.savedInspection.inspectorNotes;
+//    self.length.text = self.savedInspection.length;
+//    self.height.text = self.savedInspection.height;
+//    
+//    self.unit.text = [NSString stringWithFormat:@"%@", self.savedInspection.unit];
+//    
+//    NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", savedInspection.damperAirstream]];
+////    [damperAirstreamButton setTitle:[stream valueForKey:@"Abbrev"] forState:UIControlStateNormal];
+////    damperAirstreamValue = savedInspection.damperAirstream;
+//    self.damperTypeIdTextField.text = [stream valueForKey:@"Abbrev"];
+//    
+//    if ([savedInspection.sync boolValue] && savedInspection.localPhoto.length == 0) {
+//        [photoView sd_setImageWithURL:[NSURL URLWithString:savedInspection.photo]];
+//    }else if(savedInspection.localPhoto.length > 0) {
+//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+//        fetcher.imageView = photoView;
+//        [fetcher fetchStoredImageForKey:savedInspection.localPhoto];
+//    }
+//    
+//    if ([savedInspection.sync boolValue] && savedInspection.localPhoto2.length == 0) {
+//        [photoView2 sd_setImageWithURL:[NSURL URLWithString:savedInspection.photo2]];
+//    }else if(savedInspection.localPhoto2.length > 0) {
+//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+//        fetcher.imageView = photoView;
+//        [fetcher fetchStoredImageForKey:savedInspection.localPhoto2];
+//    }
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

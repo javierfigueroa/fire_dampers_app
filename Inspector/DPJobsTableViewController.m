@@ -197,7 +197,8 @@
                 [self didSelectLogoutButton:nil];
             }
             
-            [SVProgressHUD showSuccessWithStatus:@"Jobs updated"];
+            [SVProgressHUD dismiss];
+             // showSuccessWithStatus:@"Jobs updated"];
         }];
     }else{
         [SVProgressHUD showSuccessWithStatus:@"You're working offline"];

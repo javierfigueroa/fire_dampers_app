@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Job.h"
 #import "DPInspection.h"
+#import "Inspection.h"
 #import "DPDamperTypesViewController.h"
 #import "DPPhotoCaptureViewController.h"
 #import "DPDamperAirstreamViewController.h"
@@ -27,10 +28,13 @@
     DPPhotoCaptureViewController *_photoController;
     UIImage *photo;
     UIImage *photo2;
+    UIImageView *photoView;
+    UIImageView *photoView2;
 }
 
 @property (assign, nonatomic) Job *job;
 @property (strong, nonatomic) DPInspection *inspection;
+@property (strong, nonatomic) Inspection *savedInspection;
 
 @property (strong, nonatomic) NSMutableDictionary *damperCodes;
 @property (strong, nonatomic) NSMutableDictionary *damperStatus;
@@ -67,5 +71,6 @@
 - (IBAction)didSelectDoneButton:(id)sender;
 - (IBAction)didSelectCancelButton:(id)sender;
 - (IBAction)didSelectStatusButton:(id)sender;
+
 
 @end

@@ -48,6 +48,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// APNumberPad
+#define COCOAPODS_POD_AVAILABLE_APNumberPad
+#define COCOAPODS_VERSION_MAJOR_APNumberPad 1
+#define COCOAPODS_VERSION_MINOR_APNumberPad 1
+#define COCOAPODS_VERSION_PATCH_APNumberPad 2
+
 // Reachability
 #define COCOAPODS_POD_AVAILABLE_Reachability
 #define COCOAPODS_VERSION_MAJOR_Reachability 3

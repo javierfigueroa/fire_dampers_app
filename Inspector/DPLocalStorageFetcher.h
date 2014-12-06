@@ -12,6 +12,7 @@
 
 @interface DPLocalStorageFetcher : NSObject
 
+@property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UIImageView *imageView;
 
 - (void) fetchStoredImageForKey:(NSString *)key;
