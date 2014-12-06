@@ -19,7 +19,8 @@
         if (!image) {
             NSLog(@"No image found for key %@", key);
         }
-        self.imageView.image = image;
+        self.image = image;
+        self.imageView.image = self.image;
         
     }];
 }

@@ -1,25 +1,26 @@
-    //
-//  DPNewInspectionTableViewController.m
+//
+//  DPInspectionTableViewController.m
 //  Inspector
 //
-//  Created by Eddy Borja on 4/10/12.
-//  Copyright (c) 2012 Mainloop, LLC. All rights reserved.
+//  Created by Javier Figueroa on 12/5/14.
+//  Copyright (c) 2014 Mainloop, LLC. All rights reserved.
 //
 
-#import "DPNewInspectionTableViewController.h"
-#import "DPInspection.h"
-#import "Inspection.h"
+#import <Foundation/Foundation.h>
+#import "DPInspectionTableViewController.h"
 #import "DPAppDelegate.h"
 #import "SVProgressHUD.h"
 #import "DPReachability.h"
 #import "DPLocalStorageFetcher.h"
 #import "UIImageView+WebCache.h"
+#import "DPInspection.h"
+#import "SDWebImageManager.h"
 
-@interface DPNewInspectionTableViewController ()
+@interface DPInspectionTableViewController ()
 
 @end
 
-@implementation DPNewInspectionTableViewController
+@implementation DPInspectionTableViewController
 @synthesize inspection;
 @synthesize damperStatus;
 @synthesize damperCodes;
@@ -37,10 +38,7 @@
 @synthesize photoLabel;
 @synthesize passButton;
 @synthesize failButton;
-@synthesize delegate;
 @synthesize passFailControl;
-
-
 @synthesize damperAirstreamTextField;
 @synthesize damperAirstreamId;
 @synthesize unit;
@@ -78,13 +76,14 @@
     self.inspectionDate.text = dateString;
     
     self.damperStatusId = [NSNumber numberWithInt:2];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    _takingClosedPhoto = NO;
+    [self setInspectionFields];
+    
     _takingOpenPhoto = NO;
+    _takingClosedPhoto = NO;
+    
+    
+    _fetcherOpenPhoto = [[DPLocalStorageFetcher alloc]init];
+    _fetcherClosedPhoto = [[DPLocalStorageFetcher alloc]init];
 }
 
 - (void)viewDidUnload
@@ -95,51 +94,49 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{	
+{
     return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
 - (void)setInspectionFields
 {
-//    self.building.text = self.savedInspection.building;
-//    self.floor.text =[NSString stringWithFormat:@"%@", self.savedInspection.floor];
-//    self.damper.text = [NSString stringWithFormat:@"%@", self.savedInspection.damper];
-//    self.location.text = inspection.location;
-//    NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", self.savedInspection.damperTypeId]];
-//    self.damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
-//    self.damperTypeId = inspection.damperTypeId;
-//    
-////    NSDictionary *status = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", savedInspection.damperStatus]];
-////    [damperStatusButton setTitle:[status valueForKey:@"Abbrev"] forState:UIControlStateNormal];
-//    self.damperStatusId = self.savedInspection.damperStatus;
-////    tagLabel.text = savedInspection.tag;
-//    self.notes.text = self.savedInspection.notes;
-//    self.inspectorNotes.text = self.savedInspection.inspectorNotes;
-//    self.length.text = self.savedInspection.length;
-//    self.height.text = self.savedInspection.height;
-//    
-//    self.unit.text = [NSString stringWithFormat:@"%@", self.savedInspection.unit];
-//    
-//    NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", savedInspection.damperAirstream]];
-////    [damperAirstreamButton setTitle:[stream valueForKey:@"Abbrev"] forState:UIControlStateNormal];
-////    damperAirstreamValue = savedInspection.damperAirstream;
-//    self.damperTypeIdTextField.text = [stream valueForKey:@"Abbrev"];
-//    
-//    if ([savedInspection.sync boolValue] && savedInspection.localPhoto.length == 0) {
-//        [photoView sd_setImageWithURL:[NSURL URLWithString:savedInspection.photo]];
-//    }else if(savedInspection.localPhoto.length > 0) {
-//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
-//        fetcher.imageView = photoView;
-//        [fetcher fetchStoredImageForKey:savedInspection.localPhoto];
-//    }
-//    
-//    if ([savedInspection.sync boolValue] && savedInspection.localPhoto2.length == 0) {
-//        [photoView2 sd_setImageWithURL:[NSURL URLWithString:savedInspection.photo2]];
-//    }else if(savedInspection.localPhoto2.length > 0) {
-//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
-//        fetcher.imageView = photoView;
-//        [fetcher fetchStoredImageForKey:savedInspection.localPhoto2];
-//    }
+    self.title = self.inspection.tag;
+    self.building.text = self.inspection.building;
+    self.floor.text =[NSString stringWithFormat:@"%@", self.inspection.floor];
+    self.damper.text = [NSString stringWithFormat:@"%@", self.inspection.damper];
+    self.location.text = inspection.location;
+    NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", self.inspection.damperTypeId]];
+    self.damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
+    self.damperTypeId = inspection.damperTypeId;
+
+    self.damperStatusId = self.inspection.damperStatus;
+    self.notes.text = self.inspection.notes;
+    self.inspectorNotes.text = self.inspection.inspectorNotes;
+    self.length.text = self.inspection.length;
+    self.height.text = self.inspection.height;
+
+    self.unit.text = [NSString stringWithFormat:@"%@", self.inspection.unit];
+
+    NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", inspection.damperAirstream]];
+    self.damperAirstreamTextField.text = [stream valueForKey:@"Abbrev"];
+    self.damperAirstreamId = self.inspection.damperAirstream;
+    
+    self.damperStatusId = [NSNumber numberWithInt:[self.inspection.damperStatus intValue]];
+    self.passFailControl.selectedSegmentIndex = [self.damperStatusId integerValue] - 1;
+
+    if(self.inspection.localPhoto.length > 0) {
+        [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
+        self.photoLabel.text = @"Photo has been selected";
+    }else if (self.inspection.photo.length > 0) {
+        self.photoLabel.text = @"Photo has been selected";
+    }
+    
+    if(self.inspection.localPhoto2.length > 0) {
+        [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
+        self.photo2Label.text = @"Photo has been selected";
+    }else if (self.inspection.photo2.length > 0) {
+        self.photo2Label.text = @"Photo has been selected";
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -149,8 +146,27 @@
         damperTypesController.checkedType = damperTypeId;
         damperTypesController.delegate = self;
     }else if([segue.destinationViewController isKindOfClass:[DPPhotoCaptureViewController class]]) {
-        _photoController = (DPPhotoCaptureViewController *)segue.destinationViewController;
-        _photoController.delegate = self;
+        DPPhotoCaptureViewController *photoController = (DPPhotoCaptureViewController *)segue.destinationViewController;
+        photoController.delegate = self;
+        
+        if (_takingOpenPhoto) {
+            if(inspection.localPhoto.length > 0) {
+                photoController.imageKey = inspection.localPhoto;
+            }else if (inspection.photo.length > 0) {
+                photoController.imageUrl = [NSURL URLWithString:inspection.photo];
+            }else{
+                photoController.image = _fetcherOpenPhoto.image;
+            }
+        }else{
+            if(inspection.localPhoto2.length > 0) {
+                photoController.imageKey = inspection.localPhoto2;
+            }else if (inspection.photo2.length > 0) {
+                photoController.imageUrl = [NSURL URLWithString:inspection.photo2];
+            }else{
+                photoController.image = _fetcherClosedPhoto.image;
+            }
+        }
+
     }else if([segue.destinationViewController isKindOfClass:[DPDamperAirstreamViewController class]]) {
         DPDamperAirstreamViewController *airstreamController = (DPDamperAirstreamViewController *)segue.destinationViewController;
         airstreamController.delegate = self;
@@ -160,43 +176,28 @@
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath*)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    _takingOpenPhoto = NO;
+    _takingClosedPhoto = NO;
+    
     if ([indexPath section] == 0) {
         switch ([indexPath row]) {
             case 0:
                 _takingOpenPhoto = YES;
-                _photoController.image = photo;
                 break;
             case 1:
                 _takingClosedPhoto = YES;
-                _photoController.image = photo2;
                 break;
             default:
                 break;
         }
     }
+    
+    return indexPath;
 }
-
-- (IBAction)didSelectDoneButton:(id)sender {
-    
-    if (   self.damperStatusId == 0
-        || self.damperTypeId == 0
-        || self.floor.text.length == 0
-        || self.location.text.length == 0
-        || self.building.text.length == 0
-        || self.damper.text.length == 0 
-        || self.unit.text.length == 0
-        || self.length.text.length == 0 
-        || self.height.text.length == 0
-        || self.damperAirstreamTextField.text.length == 0) {
-        
-        [SVProgressHUD showErrorWithStatus:@"Please complete the entire form"];
-        return;
-    }
-    
-    
-    self.inspection = [[DPInspection alloc]init];
+- (void) updateDataToInspection
+{
     self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
     self.inspection.damperStatus = [NSNumber numberWithInt:[self.damperStatusId intValue]];
     self.inspection.damperAirstream = [NSNumber numberWithInt:[self.damperAirstreamId intValue]];
@@ -218,37 +219,52 @@
     self.inspection.height = self.height.text;
     self.inspection.inspectorNotes = self.inspectorNotes.text;
     
-    [SVProgressHUD showWithStatus:@"Adding Inspection" maskType:SVProgressHUDMaskTypeGradient];
+    if(self.inspection.localPhoto.length > 0 && _fetcherOpenPhoto.image == nil) {
+        [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
+    }
+    
+    if(self.inspection.localPhoto2.length > 0 && _fetcherClosedPhoto.image == nil) {
+        [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
+    }
+}
+
+- (IBAction)didSelectDoneButton:(id)sender {
+    
+    if (   self.damperStatusId == 0
+        || self.damperTypeId == 0
+        || self.floor.text.length == 0
+        || self.location.text.length == 0
+        || self.building.text.length == 0
+        || self.damper.text.length == 0
+        || self.unit.text.length == 0
+        || self.length.text.length == 0
+        || self.height.text.length == 0
+        || self.damperAirstreamTextField.text.length == 0) {
+        
+        [SVProgressHUD showErrorWithStatus:@"Please complete the entire form"];
+        return;
+    }
+    
+    [SVProgressHUD showWithStatus:@"Syncing Inspection" maskType:SVProgressHUDMaskTypeGradient];
+    [self updateDataToInspection];
+    
+    UIImage *photo = _fetcherOpenPhoto.image;
+    UIImage *photo2 = _fetcherClosedPhoto.image;
     
     if ([[DPReachability sharedClient] online]) {
-        [DPInspection addInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+        [DPInspection updateInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+            
             if ([response isKindOfClass:[NSError class]]) {
                 [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
             }else{
-                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
-                if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
-                    [delegate didAddInspection];
-                }
+                [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
                 [self dismissViewControllerAnimated:YES completion:nil];
-            }        
+            }
         }];
     }else{
-        [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
         [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
-        if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
-            [delegate didAddInspection];
-        }
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }    
-}
-
-- (IBAction)didSelectCancelButton:(id)sender {
-    
-    if (delegate && [delegate respondsToSelector:@selector(didCancelInspection)]) {
-        [delegate didCancelInspection];
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)didSelectStatusButton:(id)sender
@@ -260,35 +276,42 @@
 #pragma mark - DPDamperStatusesDelegate Methods
 
 - (void)didSelectDamperType:(NSNumber *)_damperTypeId
-{    
+{
     NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", _damperTypeId]];
     damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
     damperTypeId = _damperTypeId;
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - DPDamperAirstream Delegate Methods
 
 - (void)didSelectDamperAirstream:(NSNumber *)_damperAirstreamId
-{    
+{
     NSDictionary *type = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", _damperAirstreamId]];
     damperAirstreamTextField.text = [type valueForKey:@"Abbrev"];
     damperAirstreamId = _damperAirstreamId;
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Photo Delegate
 
 - (void)didCaptureImage:(UIImage *)image
 {
+    self.inspection.sync = [NSNumber numberWithBool:NO];
     if (_takingOpenPhoto) {
-        photo = image;
+        NSString *photoName = [NSString stringWithFormat:@"%@-%@-1-%i", self.inspection.jobId, self.inspection.damper, (rand() + 1000)];
+        self.inspection.localPhoto = photoName;
+        [DPInspection cacheImageFor:self.inspection image:image andName:photoName];
+        _takingOpenPhoto = NO;
         self.photoLabel.text = @"Photo has been selected";
     }else if(_takingClosedPhoto) {
-        photo2 = image;
-        self.photo2Label.text = @"Photo has been selected";        
+        NSString *photoName = [NSString stringWithFormat:@"%@-%@-2-%i", self.inspection.jobId, self.inspection.damper, (rand() + 1000)];
+        self.inspection.localPhoto2 = photoName;
+        [DPInspection cacheImageFor:self.inspection image:image andName:photoName];
+        _takingClosedPhoto = NO;
+        self.photo2Label.text = @"Photo has been selected";
     }
 }
 

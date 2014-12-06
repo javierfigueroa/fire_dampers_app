@@ -1,40 +1,34 @@
 //
-//  DPNewInspectionTableViewController.h
+//  DPInspectionTableViewController.h
 //  Inspector
 //
-//  Created by Eddy Borja on 4/10/12.
-//  Copyright (c) 2012 Mainloop, LLC. All rights reserved.
+//  Created by Javier Figueroa on 12/5/14.
+//  Copyright (c) 2014 Mainloop, LLC. All rights reserved.
 //
+
 
 #import <UIKit/UIKit.h>
 #import "Job.h"
-#import "DPInspection.h"
 #import "Inspection.h"
 #import "DPDamperTypesViewController.h"
 #import "DPPhotoCaptureViewController.h"
 #import "DPDamperAirstreamViewController.h"
 
-@protocol DPNewInspectionTableViewControllerDelegate <NSObject>
-
-- (void)didAddInspection;
-- (void)didCancelInspection;
-
-@end
-
-@interface DPNewInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPPhotoCaptureViewControllerDelegate, DPDamperAirstreamViewControllerDelegate>
+@class DPLocalStorageFetcher;
+@interface DPInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPDamperAirstreamViewControllerDelegate, DPPhotoCaptureViewControllerDelegate>
 {
     BOOL _takingOpenPhoto;
     BOOL _takingClosedPhoto;
-    DPPhotoCaptureViewController *_photoController;
-    UIImage *photo;
-    UIImage *photo2;
-    UIImageView *photoView;
-    UIImageView *photoView2;
+    
+    DPLocalStorageFetcher *_fetcherOpenPhoto;
+    DPLocalStorageFetcher *_fetcherClosedPhoto;
+    
+//    UIImage *photo;
+//    UIImage *photo2;
 }
 
 @property (assign, nonatomic) Job *job;
-@property (strong, nonatomic) DPInspection *inspection;
-@property (strong, nonatomic) Inspection *savedInspection;
+@property (strong, nonatomic) Inspection *inspection;
 
 @property (strong, nonatomic) NSMutableDictionary *damperCodes;
 @property (strong, nonatomic) NSMutableDictionary *damperStatus;
@@ -65,13 +59,7 @@
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *passFailControl;
 
-@property (assign, nonatomic) id<DPNewInspectionTableViewControllerDelegate> delegate;
-
-
+-(IBAction)didSelectStatusButton:(id)sender;
 - (IBAction)didSelectDoneButton:(id)sender;
-- (IBAction)didSelectCancelButton:(id)sender;
-- (IBAction)didSelectStatusButton:(id)sender;
-
-- (void)setInspectionFields:(Inspection*)savedInspection;
 
 @end

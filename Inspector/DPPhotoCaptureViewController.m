@@ -10,6 +10,8 @@
 #import "DPInspectionsViewController.h"
 #import "UIImage+FixOrientation.h"
 #import "SVProgressHUD.h"
+#import "DPLocalStorageFetcher.h"
+#import "UIImageView+WebCache.h"
 
 @interface DPPhotoCaptureViewController ()
 
@@ -46,6 +48,17 @@
     if (delegate && [delegate isKindOfClass:[DPInspectionsViewController class]]) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(didSelectDoneButton:)];
     }
+    
+    if (self.imageUrl != nil) {
+        [self.imageView sd_setImageWithURL:self.imageUrl];
+    }else if(self.imageKey != nil) {
+        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+        fetcher.imageView = self.imageView;
+        [fetcher fetchStoredImageForKey:self.imageKey];
+    }else if (self.image != nil) {
+        self.imageView.image = self.image;
+    }
+    
 }
 
 

@@ -22,6 +22,8 @@
     BOOL _cameraOn;
 }
 
+@property (nonatomic, strong) NSURL *imageUrl;
+@property (nonatomic, strong) NSString *imageKey;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 @property (nonatomic, assign) id<DPPhotoCaptureViewControllerDelegate> delegate;

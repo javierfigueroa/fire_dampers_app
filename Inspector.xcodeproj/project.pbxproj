@@ -45,6 +45,7 @@
 		85B9865A152746400061660C /* DPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 85B98659152746400061660C /* DPAppDelegate.m */; };
 		85B9865D152746400061660C /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85B9865B152746400061660C /* MainStoryboard.storyboard */; };
 		85B98660152746400061660C /* Inspector.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 85B9865E152746400061660C /* Inspector.xcdatamodeld */; };
+		C633CA1F1A32059500F05766 /* DPInspectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C633CA1E1A32059500F05766 /* DPInspectionTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,8 @@
 		85B9865C152746400061660C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		85B9865F152746400061660C /* Inspector.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Inspector.xcdatamodel; sourceTree = "<group>"; };
 		ACCD9E78B49492EBE2DE5D69 /* libPods-Inspector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Inspector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C633CA1E1A32059500F05766 /* DPInspectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPInspectionTableViewController.m; sourceTree = "<group>"; };
+		C633CA201A3205B800F05766 /* DPInspectionTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPInspectionTableViewController.h; sourceTree = "<group>"; };
 		C7B54C92AE2A7BACED18B93E /* Pods-Inspector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inspector.release.xcconfig"; path = "Pods/Target Support Files/Pods-Inspector/Pods-Inspector.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,6 +193,8 @@
 				3B720702155C573300F57295 /* DPPhotoCaptureViewController.m */,
 				3BAB69DD156BF8D90013E4D0 /* DPDamperAirstreamViewController.h */,
 				3BAB69DE156BF8D90013E4D0 /* DPDamperAirstreamViewController.m */,
+				C633CA201A3205B800F05766 /* DPInspectionTableViewController.h */,
+				C633CA1E1A32059500F05766 /* DPInspectionTableViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -417,6 +422,7 @@
 				3B7206FA155C190000F57295 /* DPDamperStatusesViewController.m in Sources */,
 				3B7206FD155C26C800F57295 /* DPDamperTypesViewController.m in Sources */,
 				3B720700155C474700F57295 /* DPTechnician.m in Sources */,
+				C633CA1F1A32059500F05766 /* DPInspectionTableViewController.m in Sources */,
 				3B720703155C573300F57295 /* DPPhotoCaptureViewController.m in Sources */,
 				3B720717155CB29600F57295 /* DPReachability.m in Sources */,
 				3B72077A155D504C00F57295 /* UIImage+FixOrientation.m in Sources */,

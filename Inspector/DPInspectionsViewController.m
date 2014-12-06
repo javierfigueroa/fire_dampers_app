@@ -16,6 +16,7 @@
 #import "DPReachability.h"
 #import "SVProgressHUD.h"
 #import "DPLocalStorageFetcher.h"
+#import "DPInspectionTableViewController.h"
 
 @interface DPInspectionsViewController ()
 
@@ -286,8 +287,6 @@
     }
 }
 
-
-
 #pragma mark - IB Actions
 
 - (void)didSelectOpenDamper:(id)sender
@@ -330,7 +329,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
-    if ([controller.visibleViewController isKindOfClass:[DPDamperStatusesViewController class]]) {
+    if ([controller isKindOfClass:[DPInspectionTableViewController class]]) {
+        DPInspectionTableViewController *newController = (DPInspectionTableViewController *)controller;
+        newController.job = self.job;
+        newController.inspection = self.selectedInspection;
+    }else if ([controller.visibleViewController isKindOfClass:[DPDamperStatusesViewController class]]) {
         DPDamperStatusesViewController *damperStatusesController = (DPDamperStatusesViewController *) controller.visibleViewController;
         damperStatusesController.checkedStatus = selectedInspection.damperStatus;
         damperStatusesController.delegate = self;
@@ -347,7 +350,6 @@
         newController.job = self.job;
         newController.delegate = self;
         _addingInspection = YES;
-        
     }else if ([controller.visibleViewController isKindOfClass:[DPPhotoCaptureViewController class]]) {
         _photoController = (DPPhotoCaptureViewController *)controller.visibleViewController;
         _photoController.delegate = self;
@@ -412,66 +414,67 @@
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.message removeFromSuperview];
+//    [self.message removeFromSuperview];
     
-    if (self.selectedInspection) {
-        _takingClosedPhoto = NO;
-        _takingOpenPhoto = NO;
-        
-        
-        [self updateDataTo:self.selectedInspection];
-        
-        for (UIView *view in self.form.subviews) {
-            if ([view isKindOfClass:[UITextView class]] || [view isKindOfClass:[UITextField class]]) {
-                [view resignFirstResponder];
-            }
-        };    
-    }
+//    if (self.selectedInspection) {
+//        _takingClosedPhoto = NO;
+//        _takingOpenPhoto = NO;
+//        
+//        
+//        [self updateDataTo:self.selectedInspection];
+//        
+//        for (UIView *view in self.form.subviews) {
+//            if ([view isKindOfClass:[UITextView class]] || [view isKindOfClass:[UITextField class]]) {
+//                [view resignFirstResponder];
+//            }
+//        };    
+//    }
     
     Inspection *inspection = (Inspection *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedInspection = inspection;
     
-    building.text = inspection.building;
-    floor.text =[NSString stringWithFormat:@"%@", inspection.floor];
-    damper.text = [NSString stringWithFormat:@"%@", inspection.damper];
-    location.text = inspection.location;
-    NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", inspection.damperTypeId]];
-    [damperTypeIdButton setTitle:[type valueForKey:@"Abbrev"] forState:UIControlStateNormal];
-    damperTypeId = inspection.damperTypeId;
+//    building.text = inspection.building;
+//    floor.text =[NSString stringWithFormat:@"%@", inspection.floor];
+//    damper.text = [NSString stringWithFormat:@"%@", inspection.damper];
+//    location.text = inspection.location;
+//    NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", inspection.damperTypeId]];
+//    [damperTypeIdButton setTitle:[type valueForKey:@"Abbrev"] forState:UIControlStateNormal];
+//    damperTypeId = inspection.damperTypeId;
+//    
+//    NSDictionary *status = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", inspection.damperStatus]];
+//    [damperStatusButton setTitle:[status valueForKey:@"Abbrev"] forState:UIControlStateNormal];
+//    damperStatusId = inspection.damperStatus;
+//    tagLabel.text = inspection.tag;
+//    notes.text = inspection.notes;
+//    inspectorNotes.text = inspection.inspectorNotes;
+//    length.text = inspection.length;
+//    height.text = inspection.height;
+//    
+//    unit.text = [NSString stringWithFormat:@"%@", inspection.unit];
+//    
+//    NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", inspection.damperAirstream]];
+//    [damperAirstreamButton setTitle:[stream valueForKey:@"Abbrev"] forState:UIControlStateNormal];
+//    damperAirstreamValue = inspection.damperAirstream;
+//    
+//    if ([inspection.sync boolValue] && inspection.localPhoto.length == 0) {
+//        [photo sd_setImageWithURL:[NSURL URLWithString:inspection.photo]];
+//    }else if(inspection.localPhoto.length > 0) {
+//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+//        fetcher.imageView = photo;
+//        [fetcher fetchStoredImageForKey:inspection.localPhoto];        
+//    }
+//    
+//    if ([inspection.sync boolValue] && inspection.localPhoto2.length == 0) {
+//        [photo2 sd_setImageWithURL:[NSURL URLWithString:inspection.photo2]];
+//    }else if(inspection.localPhoto2.length > 0) {
+//        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
+//        fetcher.imageView = photo2;
+//        [fetcher fetchStoredImageForKey:inspection.localPhoto2];        
+//    }
     
-    NSDictionary *status = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", inspection.damperStatus]];
-    [damperStatusButton setTitle:[status valueForKey:@"Abbrev"] forState:UIControlStateNormal];
-    damperStatusId = inspection.damperStatus;
-    tagLabel.text = inspection.tag;
-    notes.text = inspection.notes;
-    inspectorNotes.text = inspection.inspectorNotes;
-    length.text = inspection.length;
-    height.text = inspection.height;
-    
-    unit.text = [NSString stringWithFormat:@"%@", inspection.unit];
-    
-    NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", inspection.damperAirstream]];
-    [damperAirstreamButton setTitle:[stream valueForKey:@"Abbrev"] forState:UIControlStateNormal];
-    damperAirstreamValue = inspection.damperAirstream;
-    
-    if ([inspection.sync boolValue] && inspection.localPhoto.length == 0) {
-        [photo sd_setImageWithURL:[NSURL URLWithString:inspection.photo]];
-    }else if(inspection.localPhoto.length > 0) {
-        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
-        fetcher.imageView = photo;
-        [fetcher fetchStoredImageForKey:inspection.localPhoto];        
-    }
-    
-    if ([inspection.sync boolValue] && inspection.localPhoto2.length == 0) {
-        [photo2 sd_setImageWithURL:[NSURL URLWithString:inspection.photo2]];
-    }else if(inspection.localPhoto2.length > 0) {
-        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
-        fetcher.imageView = photo2;
-        [fetcher fetchStoredImageForKey:inspection.localPhoto2];        
-    }
-    
+    return indexPath;
 //    [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:NO];
 }
 
