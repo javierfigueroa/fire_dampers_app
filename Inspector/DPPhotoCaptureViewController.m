@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "DPLocalStorageFetcher.h"
 #import "UIImageView+WebCache.h"
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @interface DPPhotoCaptureViewController ()
 
@@ -75,7 +76,7 @@
 
 -(void)didSelectDoneButton:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didSelectPickerButton:(id)sender
@@ -89,8 +90,8 @@
     
     // Displays a control that allows the user to choose picture or
     // movie capture, if both are available:
-    cameraUI.mediaTypes =
-    [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+    cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
+//    [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
@@ -119,6 +120,7 @@
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
     cameraUI.allowsEditing = NO;
+
     
     cameraUI.delegate = self;
     

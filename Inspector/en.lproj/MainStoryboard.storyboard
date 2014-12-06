@@ -77,7 +77,7 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-V9-7nt">
                                 <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem title="Refresh" id="SqE-PX-wO6">
+                                    <barButtonItem systemItem="refresh" id="SqE-PX-wO6">
                                         <connections>
                                             <action selector="didSelectFetchAll:" destination="g7H-v4-YtS" id="r1G-oT-a2x"/>
                                         </connections>
@@ -95,7 +95,7 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Job Title" id="aQV-qY-O1f">
-                        <barButtonItem key="rightBarButtonItem" title="New Inspection" id="9Gm-Mh-JRK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="9Gm-Mh-JRK">
                             <connections>
                                 <action selector="addDamperButtonSelected:" destination="g7H-v4-YtS" id="wfU-6O-Yxc"/>
                                 <segue destination="8FF-Jm-d5Z" kind="modal" id="gG5-uz-DVA"/>
@@ -153,7 +153,7 @@
                                 <action selector="didSelectLogoutButton:" destination="gRN-pj-qUx" id="rCX-Th-GjP"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="cPs-Tq-e4S">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="cPs-Tq-e4S">
                             <connections>
                                 <action selector="didSelectGetNewJobsButton:" destination="gRN-pj-qUx" id="EX5-Zk-gFc"/>
                             </connections>
@@ -423,9 +423,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where is the fire damper found?" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i44-CY-jjz">
-                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <rect key="frame" x="203" y="10" width="476" height="35"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="STO-aC-Pwn" id="Ut4-z3-0dF"/>
                                                     </connections>
@@ -447,14 +447,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What building is the fire damper found?" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ggE-q2-eJb">
-                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <rect key="frame" x="203" y="10" width="476" height="35"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="STO-aC-Pwn" id="lHU-N1-Sok"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Building Abbreviation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Pg-d2-z2F">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Building Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="4Pg-d2-z2F">
                                                     <rect key="frame" x="65" y="19" width="177" height="21"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -562,7 +562,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Notes" id="QPD-Bs-3HF" userLabel="Notes">
+                            <tableViewSection headerTitle="Notes (do not appear in report)" id="QPD-Bs-3HF" userLabel="Notes">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="140" id="vEY-pl-edq">
                                         <rect key="frame" x="0.0" y="1270" width="768" height="142"/>
@@ -592,7 +592,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="tj6-6x-uV7">
-                        <barButtonItem key="rightBarButtonItem" title="Sync" style="done" id="Uem-A1-hNl">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="Uem-A1-hNl">
                             <connections>
                                 <action selector="didSelectDoneButton:" destination="VqI-9f-5WB" id="5qy-GW-dFp"/>
                             </connections>
@@ -864,9 +864,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Where is the fire damper found?" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Li2-g5-n6U">
-                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <rect key="frame" x="203" y="10" width="476" height="35"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="STO-aC-Pwn" id="kAh-bE-16e"/>
                                                     </connections>
@@ -888,14 +888,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What building is the fire damper found?" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YQ5-IK-86w">
-                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <rect key="frame" x="203" y="10" width="476" height="35"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="STO-aC-Pwn" id="a4e-Da-wtZ"/>
                                                     </connections>
                                                 </textField>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Building Abbreviation" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kva-HF-9Sa">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Building Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="kva-HF-9Sa">
                                                     <rect key="frame" x="65" y="19" width="177" height="21"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1003,7 +1003,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Job Notes" id="3yD-Te-wMP">
+                            <tableViewSection headerTitle="Notes (do not appear in report)" id="3yD-Te-wMP">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="140" id="Rjf-hY-Zgd">
                                         <rect key="frame" x="0.0" y="1270" width="768" height="142"/>
@@ -1075,7 +1075,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Selected a Photo from the Library or Capture with the Camera" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="R9F-ml-6Tu">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Select a photo from the library or capture with the camera" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="R9F-ml-6Tu">
                                 <rect key="frame" x="148" y="469" width="472" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1105,7 +1105,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Damper Image" id="Y8k-cW-YpH"/>
+                    <navigationItem key="navigationItem" title="Damper Image" id="Y8k-cW-YpH">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="qrX-An-OCJ">
+                            <connections>
+                                <action selector="didSelectDoneButton:" destination="KUD-NQ-bBz" id="dg8-kk-YWT"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="sqR-Ua-mX0" id="1b1-CJ-fzk"/>
@@ -1618,8 +1624,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="rpW-o4-zcX"/>
         <segue reference="031-W9-5RG"/>
         <segue reference="dRg-pU-YWJ"/>
+        <segue reference="MbN-3B-XkP"/>
     </inferredMetricsTieBreakers>
 </document>

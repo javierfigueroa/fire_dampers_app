@@ -52,6 +52,8 @@
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *passFailControl;
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 -(IBAction)didSelectStatusButton:(id)sender;
 - (IBAction)didSelectDoneButton:(id)sender;
 

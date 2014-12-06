@@ -125,19 +125,19 @@
     NSArray *array =  [self fetchedUnsyncInspections];
     
     if (array) {
-        BOOL needsUpdate = NO;
+//        BOOL needsUpdate = NO;
         [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
         for (Inspection *inspection in array) {
-            if (![inspection.sync boolValue]) {
+//            if (![inspection.sync boolValue]) {
                 NSLog(@"%@", inspection);
-                needsUpdate = YES;
+//                needsUpdate = YES;
                 [self syncInspection:inspection];
-            }
+//            }
         }
         
-        if (!needsUpdate) {
-            [SVProgressHUD showSuccessWithStatus:@"Nothing to update"];
-        }
+//        if (!needsUpdate) {
+//            [SVProgressHUD showSuccessWithStatus:@"Nothing to update"];
+//        }
     }
 }
 
@@ -224,6 +224,8 @@
 {
     if ([[DPReachability sharedClient] online]) {             
         [self updateInspections];
+    }else{
+        [SVProgressHUD showSuccessWithStatus:@"You're working offline, try syncing once you're back online"];
     }
 }
 
@@ -240,6 +242,7 @@
     UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
     if ([controller isKindOfClass:[DPInspectionTableViewController class]]) {
         DPInspectionTableViewController *newController = (DPInspectionTableViewController *)controller;
+        newController.managedObjectContext = self.managedObjectContext;
         newController.job = self.job;
         newController.inspection = self.selectedInspection;
     }else if ([controller.visibleViewController isKindOfClass:[DPNewInspectionTableViewController class]]) {
@@ -430,12 +433,13 @@
             UITableViewCell *cell = [self.dampersTableView cellForRowAtIndexPath:indexPath];
             [self configureCell:cell atIndexPath:indexPath];
 //            [cell setNeedsLayout];
-//            [dampersTableView  reloadData];
             break;
         }
         case NSFetchedResultsChangeMove:
             // Reloading the section inserts a new row and ensures that titles are updated appropriately.
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+//            [tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            
+            [dampersTableView  reloadData];
             break;
     }
 }
@@ -455,7 +459,8 @@
             
         case NSFetchedResultsChangeMove:
         case NSFetchedResultsChangeUpdate:
-            default:
+        default:
+            [dampersTableView  reloadData];
             break;
     }
 }

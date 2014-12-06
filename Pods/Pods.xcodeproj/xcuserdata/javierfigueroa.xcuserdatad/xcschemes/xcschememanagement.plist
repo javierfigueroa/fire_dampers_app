@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-Inspector-APNumberPad.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Inspector-Reachability.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +37,32 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>5B8AD64CE01D89B36D35D15F</key>
+		<key>1502DBF24AA22B355CC90812</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>753F2B0D099372D10465B268</key>
+		<key>1EFACD095BF58A4BDD20C1EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9797A0ADD94A605631CC9DE0</key>
+		<key>223E9B44F4DDC21B0BE78099</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9F45840845F2F49B47F43D25</key>
+		<key>88C42DE936DD00E96F2756F6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E29A3F35C8633C6A00F49499</key>
+		<key>B3E9560DCC0DF296FD8A1835</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B632C3B771B8726E37EB03B7</key>
 		<dict>
 			<key>primary</key>
 			<true/>

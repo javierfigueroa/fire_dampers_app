@@ -6,5 +6,6 @@ target 'Inspector' do
     pod 'SDWebImage'
     pod 'SVProgressHUD'
     pod 'Reachability'
+    pod 'APNumberPad'
 end
 

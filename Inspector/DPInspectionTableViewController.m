@@ -15,6 +15,7 @@
 #import "UIImageView+WebCache.h"
 #import "DPInspection.h"
 #import "SDWebImageManager.h"
+#import <APNumberPad/APNumberPad.h>
 
 @interface DPInspectionTableViewController ()
 
@@ -82,6 +83,30 @@
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
+    self.damper.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.length.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.height.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.unit.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.floor.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -158,6 +183,16 @@
     inspection.inspectorNotes = inspectorNotes.text;
     inspection.length = length.text;
     inspection.height = height.text;
+    
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        }
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -290,6 +325,7 @@
 {
     UISegmentedControl *control = (UISegmentedControl *)sender;
     self.damperStatusId = [NSNumber numberWithInt:((int)control.selectedSegmentIndex + 1)];
+    self.inspection.sync = [NSNumber numberWithBool:NO];
 }
 
 #pragma mark - DPDamperStatusesDelegate Methods
@@ -299,7 +335,7 @@
     NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", _damperTypeId]];
     damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
     damperTypeId = _damperTypeId;
-    
+    self.inspection.sync = [NSNumber numberWithBool:NO];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -310,7 +346,7 @@
     NSDictionary *type = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", _damperAirstreamId]];
     damperAirstreamTextField.text = [type valueForKey:@"Abbrev"];
     damperAirstreamId = _damperAirstreamId;
-    
+    self.inspection.sync = [NSNumber numberWithBool:NO];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

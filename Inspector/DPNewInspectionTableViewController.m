@@ -10,10 +10,10 @@
 #import "DPInspection.h"
 #import "Inspection.h"
 #import "DPAppDelegate.h"
-#import "SVProgressHUD.h"
 #import "DPReachability.h"
 #import "DPLocalStorageFetcher.h"
 #import "UIImageView+WebCache.h"
+#import <APNumberPad/APNumberPad.h>
 
 @interface DPNewInspectionTableViewController ()
 
@@ -76,10 +76,32 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *dateString = [dateFormatter stringFromDate:[NSDate new]];
     self.inspectionDate.text = dateString;
-    
     self.damperStatusId = [NSNumber numberWithInt:2];
     
-    self.damper.keyboardType = UIKeyboardTypeNumberPad;
+    self.damper.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.length.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.height.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.unit.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
+    
+    self.floor.inputView = ({
+        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
+        numberPad;
+    });
 }
 
 -(void)viewWillAppear:(BOOL)animated

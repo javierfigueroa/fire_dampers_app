@@ -72,6 +72,5 @@
 - (IBAction)didSelectCancelButton:(id)sender;
 - (IBAction)didSelectStatusButton:(id)sender;
 
-- (void)setInspectionFields:(Inspection*)savedInspection;
 
 @end
