@@ -165,7 +165,7 @@
                     if ([response isKindOfClass:[NSError class]]) {
                         [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
                     }else{
-                        [SVProgressHUD showSuccessWithStatus:@"Inspections Retrieved"];
+                        [SVProgressHUD dismiss];
                         
                         NSError *error = nil;
                         NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
@@ -199,6 +199,18 @@
     _addingInspection = NO;
     [self fetchInspections];
 
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.dampersTableView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    self.fetchedResultsController = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

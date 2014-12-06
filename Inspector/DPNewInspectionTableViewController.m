@@ -78,6 +78,8 @@
     self.inspectionDate.text = dateString;
     
     self.damperStatusId = [NSNumber numberWithInt:2];
+    
+    self.damper.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 -(void)viewWillAppear:(BOOL)animated
