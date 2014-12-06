@@ -22,9 +22,6 @@
     
     DPLocalStorageFetcher *_fetcherOpenPhoto;
     DPLocalStorageFetcher *_fetcherClosedPhoto;
-    
-//    UIImage *photo;
-//    UIImage *photo2;
 }
 
 @property (assign, nonatomic) Job *job;
@@ -45,10 +42,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *inspectionDate;
 @property (strong, nonatomic) IBOutlet UILabel *inspector;
 @property (strong, nonatomic) IBOutlet UILabel *photoLabel;
-@property (strong, nonatomic) IBOutlet UIButton *passButton;
-@property (strong, nonatomic) IBOutlet UIButton *failButton;
-
-
 @property (strong, nonatomic) IBOutlet UILabel *damperAirstreamTextField;
 @property (strong, nonatomic) NSNumber *damperAirstreamId;
 @property (strong, nonatomic) IBOutlet UILabel *photo2Label;

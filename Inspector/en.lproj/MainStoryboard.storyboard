@@ -19,13 +19,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="148" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bok-OB-z9z">
                                 <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Inspections" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="f70-RZ-MXp">
-                                    <rect key="frame" x="0.0" y="64" width="768" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DamperInspectionCell" rowHeight="148" id="cYC-FG-Iir" customClass="DPInspectionCell">
                                         <rect key="frame" x="0.0" y="66" width="320" height="148"/>
@@ -84,10 +77,9 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-V9-7nt">
                                 <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem title="Add Inspection" id="GnR-jM-fLK">
+                                    <barButtonItem title="Refresh" id="SqE-PX-wO6">
                                         <connections>
-                                            <action selector="addDamperButtonSelected:" destination="g7H-v4-YtS" id="Psp-mf-4Da"/>
-                                            <segue destination="8FF-Jm-d5Z" kind="modal" id="mrF-Kq-N8m"/>
+                                            <action selector="didSelectFetchAll:" destination="g7H-v4-YtS" id="r1G-oT-a2x"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Tmu-5L-5Wr"/>
@@ -96,26 +88,22 @@
                                             <action selector="didSelectUpdateAll:" destination="g7H-v4-YtS" id="fIx-s6-KPl"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="fz7-i1-zY3"/>
-                                    <barButtonItem title="Sync Selected" id="cbl-yA-HAc">
-                                        <connections>
-                                            <action selector="pushDamperChangesButtonSelected:" destination="g7H-v4-YtS" id="lvR-3I-bgw"/>
-                                        </connections>
-                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Job Title" id="aQV-qY-O1f">
-                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="KRg-wd-9qG">
+                        <barButtonItem key="rightBarButtonItem" title="New Inspection" id="9Gm-Mh-JRK">
                             <connections>
-                                <action selector="didSelectFetchAll:" destination="g7H-v4-YtS" id="96D-Xg-7dD"/>
+                                <action selector="addDamperButtonSelected:" destination="g7H-v4-YtS" id="wfU-6O-Yxc"/>
+                                <segue destination="8FF-Jm-d5Z" kind="modal" id="gG5-uz-DVA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addDamperButton" destination="GnR-jM-fLK" id="e3j-g3-qOg"/>
                         <outlet property="dampersTableView" destination="bok-OB-z9z" id="nwB-GD-dyR"/>
                     </connections>
                 </viewController>
@@ -1630,8 +1618,8 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="EOj-BK-s9m"/>
-        <segue reference="Gb0-K5-wmb"/>
-        <segue reference="FO9-LV-qda"/>
+        <segue reference="rpW-o4-zcX"/>
+        <segue reference="031-W9-5RG"/>
+        <segue reference="dRg-pU-YWJ"/>
     </inferredMetricsTieBreakers>
 </document>
