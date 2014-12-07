@@ -15,7 +15,7 @@
 #import "DPDamperAirstreamViewController.h"
 
 @class DPLocalStorageFetcher;
-@interface DPInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPDamperAirstreamViewControllerDelegate, DPPhotoCaptureViewControllerDelegate>
+@interface DPInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPDamperAirstreamViewControllerDelegate, DPPhotoCaptureViewControllerDelegate, UITextFieldDelegate>
 {
     BOOL _takingOpenPhoto;
     BOOL _takingClosedPhoto;
@@ -56,5 +56,6 @@
 
 -(IBAction)didSelectStatusButton:(id)sender;
 - (IBAction)didSelectDoneButton:(id)sender;
+- (IBAction)didSelectBackButton:(id)sender;
 
 @end

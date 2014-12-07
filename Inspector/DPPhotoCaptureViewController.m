@@ -80,33 +80,29 @@
 }
 
 - (void)didSelectPickerButton:(id)sender
-{    
-    if (_picker && [_picker isPopoverVisible]) {
-        [_picker dismissPopoverAnimated:YES];
-    }else{
-    
+{
+    // Override point for customization after application launch
     UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
     cameraUI.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     // Displays a control that allows the user to choose picture or
     // movie capture, if both are available:
     cameraUI.mediaTypes = [[NSArray alloc] initWithObjects: (NSString *) kUTTypeImage, nil];
-//    [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-    
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
     cameraUI.allowsEditing = NO;
-    
     cameraUI.delegate = self;
     
-    _picker = [[UIPopoverController alloc]initWithContentViewController:cameraUI];
-    
-    [_picker presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if (IPAD) {
+        if (_picker && [_picker isPopoverVisible]) {
+            [_picker dismissPopoverAnimated:YES];
+        }else{
+            _picker = [[UIPopoverController alloc]initWithContentViewController:cameraUI];
+            [_picker presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+    }else{
+        [self.navigationController presentViewController:cameraUI animated:YES completion:nil];
     }
-    
 }
-
-
 
 - (void)didSelectCaptureButton:(id)sender {
     UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
@@ -116,18 +112,12 @@
     cameraUI.mediaTypes =
     [UIImagePickerController availableMediaTypesForSourceType:
      UIImagePickerControllerSourceTypeCamera];
-    
     // Hides the controls for moving & scaling pictures, or for
     // trimming movies. To instead show the controls, use YES.
     cameraUI.allowsEditing = NO;
-
-    
     cameraUI.delegate = self;
-    
     [self presentViewController:cameraUI animated:YES completion:nil];
-    
     _cameraOn = YES;
-    
     [_picker dismissPopoverAnimated:YES];
 }
 
@@ -137,7 +127,11 @@
     
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     
-    [_picker dismissPopoverAnimated:YES];
+    if (IPAD) {
+        [_picker dismissPopoverAnimated:YES];
+    }else{
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }
     
     if (_cameraOn) {
         [self dismissViewControllerAnimated:YES completion:nil];

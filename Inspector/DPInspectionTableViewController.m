@@ -111,6 +111,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self validateForm];
     [super viewWillDisappear:animated];
     [self updateInspection];
     // Release any retained subviews of the main view.
@@ -195,6 +196,26 @@
     }
 }
 
+- (BOOL)validateForm
+{
+    if (   self.damperStatusId == 0
+        || self.damperTypeId == 0
+        || self.floor.text.length == 0
+        || self.location.text.length == 0
+        || self.building.text.length == 0
+        || self.damper.text.length == 0
+        || self.unit.text.length == 0
+        || self.length.text.length == 0
+        || self.height.text.length == 0
+        || self.damperAirstreamTextField.text.length == 0) {
+        
+        [SVProgressHUD showErrorWithStatus:@"Please complete the entire form"];
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.destinationViewController isKindOfClass:[DPDamperTypesViewController class]]) {
@@ -253,71 +274,59 @@
 }
 
 - (IBAction)didSelectDoneButton:(id)sender {
+   
+    if ([self validateForm]) {
     
-    if (   self.damperStatusId == 0
-        || self.damperTypeId == 0
-        || self.floor.text.length == 0
-        || self.location.text.length == 0
-        || self.building.text.length == 0
-        || self.damper.text.length == 0
-        || self.unit.text.length == 0
-        || self.length.text.length == 0
-        || self.height.text.length == 0
-        || self.damperAirstreamTextField.text.length == 0) {
+        [SVProgressHUD showWithStatus:@"Syncing Inspection" maskType:SVProgressHUDMaskTypeGradient];
         
-        [SVProgressHUD showErrorWithStatus:@"Please complete the entire form"];
-        return;
-    }
-    
-    [SVProgressHUD showWithStatus:@"Syncing Inspection" maskType:SVProgressHUDMaskTypeGradient];
-    
-    self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
-    self.inspection.damperStatus = [NSNumber numberWithInt:[self.damperStatusId intValue]];
-    self.inspection.damperAirstream = [NSNumber numberWithInt:[self.damperAirstreamId intValue]];
-    
-    NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
-    self.inspection.floor =  [formatter numberFromString:floor.text];
-    self.inspection.notes = self.notes.text;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.inspection.userId = [defaults valueForKey:@"user_id"];
-    self.inspection.technicianId = [defaults valueForKey:@"technician_id"];
-    self.inspection.location = self.location.text;
-    self.inspection.building = self.building.text;
-    self.inspection.inspected = [NSDate new];
-    self.inspection.jobId = self.job.jobId;
-    self.inspection.damper = [formatter numberFromString:self.damper.text];
-    self.inspection.unit = [formatter numberFromString:self.unit.text];
-    self.inspection.length = self.length.text;
-    self.inspection.height = self.height.text;
-    self.inspection.inspectorNotes = self.inspectorNotes.text;
-    
-    if(self.inspection.localPhoto.length > 0 && _fetcherOpenPhoto.image == nil) {
-        [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
-    }
-    
-    if(self.inspection.localPhoto2.length > 0 && _fetcherClosedPhoto.image == nil) {
-        [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
-    }
-    
-    UIImage *photo = _fetcherOpenPhoto.image;
-    UIImage *photo2 = _fetcherClosedPhoto.image;
-    
-    [self updateInspection];
-    
-    if ([[DPReachability sharedClient] online]) {
-        [DPInspection updateInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
-            
-            if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
-            }else{
-                [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        }];
-    }else{
-        [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
-        [self.navigationController popViewControllerAnimated:YES];
+        self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
+        self.inspection.damperStatus = [NSNumber numberWithInt:[self.damperStatusId intValue]];
+        self.inspection.damperAirstream = [NSNumber numberWithInt:[self.damperAirstreamId intValue]];
+        
+        NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
+        self.inspection.floor =  [formatter numberFromString:floor.text];
+        self.inspection.notes = self.notes.text;
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        self.inspection.userId = [defaults valueForKey:@"user_id"];
+        self.inspection.technicianId = [defaults valueForKey:@"technician_id"];
+        self.inspection.location = self.location.text;
+        self.inspection.building = self.building.text;
+        self.inspection.inspected = [NSDate new];
+        self.inspection.jobId = self.job.jobId;
+        self.inspection.damper = [formatter numberFromString:self.damper.text];
+        self.inspection.unit = [formatter numberFromString:self.unit.text];
+        self.inspection.length = self.length.text;
+        self.inspection.height = self.height.text;
+        self.inspection.inspectorNotes = self.inspectorNotes.text;
+        
+        if(self.inspection.localPhoto.length > 0 && _fetcherOpenPhoto.image == nil) {
+            [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
+        }
+        
+        if(self.inspection.localPhoto2.length > 0 && _fetcherClosedPhoto.image == nil) {
+            [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
+        }
+        
+        UIImage *photo = _fetcherOpenPhoto.image;
+        UIImage *photo2 = _fetcherClosedPhoto.image;
+        
+        [self updateInspection];
+        
+        if ([[DPReachability sharedClient] online]) {
+            [DPInspection updateInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                
+                if ([response isKindOfClass:[NSError class]]) {
+                    [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
+                }else{
+                    [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+            }];
+        }else{
+            [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -326,6 +335,13 @@
     UISegmentedControl *control = (UISegmentedControl *)sender;
     self.damperStatusId = [NSNumber numberWithInt:((int)control.selectedSegmentIndex + 1)];
     self.inspection.sync = [NSNumber numberWithBool:NO];
+}
+
+- (void)didSelectBackButton:(id)sender
+{
+    if ([self validateForm]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - DPDamperStatusesDelegate Methods

@@ -12,7 +12,6 @@
 #import "DPLoginViewController.h"
 #import "DPReachability.h"
 
-
 @implementation DPAppDelegate
 
 @synthesize window = _window;
@@ -26,8 +25,17 @@
     [DPReachability sharedClient];
     
     // Override point for customization after application launch
-    DPLoginViewController *loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController" bundle:nil];
-    [self setLoginViewController:loginViewController];
+    if (IPAD) {
+        // iPad
+        
+        DPLoginViewController *loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController" bundle:nil];
+        [self setLoginViewController:loginViewController];
+    } else {
+        // iPhone / iPod Touch
+        
+        DPLoginViewController *loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController_iPhone" bundle:nil];
+        [self setLoginViewController:loginViewController];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissLoginScreen) name:kUserDidLoginNotification object:nil];
     
