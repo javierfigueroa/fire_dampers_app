@@ -93,12 +93,12 @@
     cameraUI.delegate = self;
     
     if (IPAD) {
-        if (_picker && [_picker isPopoverVisible]) {
-            [_picker dismissPopoverAnimated:YES];
-        }else{
-            _picker = [[UIPopoverController alloc]initWithContentViewController:cameraUI];
-            [_picker presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
+//        if (_picker && [_picker isPopoverVisible]) {
+//            [_picker dismissPopoverAnimated:YES];
+//        }else{
+            UIPopoverController *picker = [[UIPopoverController alloc]initWithContentViewController:cameraUI];
+            [picker presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+//        }
     }else{
         [self.navigationController presentViewController:cameraUI animated:YES completion:nil];
     }
@@ -117,8 +117,8 @@
     cameraUI.allowsEditing = NO;
     cameraUI.delegate = self;
     [self presentViewController:cameraUI animated:YES completion:nil];
-    _cameraOn = YES;
-    [_picker dismissPopoverAnimated:YES];
+//    _cameraOn = YES;
+//    [_picker dismissPopoverAnimated:YES];
 }
 
 #pragma mark - UIImagePicker Delegate
@@ -127,15 +127,15 @@
     
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
     
-    if (IPAD) {
-        [_picker dismissPopoverAnimated:YES];
-    }else{
+//    if (IPAD) {
+//        [picker dismissPopoverAnimated:YES];
+//    }else{
         [picker dismissViewControllerAnimated:YES completion:nil];
-    }
-    
-    if (_cameraOn) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+//    }
+//
+//    if (_cameraOn) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
     
     if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *photo = [info

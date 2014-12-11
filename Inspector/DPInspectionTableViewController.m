@@ -156,16 +156,16 @@
 
     if(self.inspection.localPhoto.length > 0) {
         [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
-        self.photoLabel.text = @"Photo has been selected";
+        self.photoLabel.text = @"Photo selected";
     }else if (self.inspection.photo.length > 0) {
-        self.photoLabel.text = @"Photo has been selected";
+        self.photoLabel.text = @"Photo selected";
     }
     
     if(self.inspection.localPhoto2.length > 0) {
         [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
-        self.photo2Label.text = @"Photo has been selected";
+        self.photo2Label.text = @"Photo selected";
     }else if (self.inspection.photo2.length > 0) {
-        self.photo2Label.text = @"Photo has been selected";
+        self.photo2Label.text = @"Photo selected";
     }
 }
 
@@ -376,13 +376,13 @@
         self.inspection.localPhoto = photoName;
         [DPInspection cacheImageFor:self.inspection image:image andName:photoName];
         _takingOpenPhoto = NO;
-        self.photoLabel.text = @"Photo has been selected";
+        self.photoLabel.text = @"Photo selected";
     }else if(_takingClosedPhoto) {
         NSString *photoName = [NSString stringWithFormat:@"%@-%@-2-%i", self.inspection.jobId, self.inspection.damper, (rand() + 1000)];
         self.inspection.localPhoto2 = photoName;
         [DPInspection cacheImageFor:self.inspection image:image andName:photoName];
         _takingClosedPhoto = NO;
-        self.photo2Label.text = @"Photo has been selected";
+        self.photo2Label.text = @"Photo selected";
     }
 }
 

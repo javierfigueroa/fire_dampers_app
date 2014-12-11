@@ -266,10 +266,10 @@
 {
     if (_takingOpenPhoto) {
         photo = image;
-        self.photoLabel.text = @"Photo has been selected";
+        self.photoLabel.text = @"Photo selected";
     }else if(_takingClosedPhoto) {
         photo2 = image;
-        self.photo2Label.text = @"Photo has been selected";        
+        self.photo2Label.text = @"Photo selected";        
     }
 }
 
