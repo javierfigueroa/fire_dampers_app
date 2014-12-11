@@ -26,12 +26,7 @@
 
 
 - (NSManagedObjectContext *)managedObjectContext{
-    if(__managedObjectContext == nil){
-        DPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        [self setManagedObjectContext:appDelegate.managedObjectContext];
-    }
-    
-    return __managedObjectContext;
+    return [NSManagedObjectContext MR_defaultContext];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -46,13 +41,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,18 +58,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    
-    NSError *error = nil;
-    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        } 
-    }
+    [MagicalRecord saveWithBlock:nil];
 
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -208,16 +185,6 @@
 - (void)didSelectLogoutButton:(id)sender
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserDidLogoutNotification object:nil];
-    
-//    NSError *error;
-//    for (Job *message in [self.fetchedResultsController fetchedObjects]) {
-//        [self.managedObjectContext deleteObject:message];
-//    }
-//    
-//    if (![self.managedObjectContext save:&error]) {
-//        NSLog(@"Delete message error %@, %@", error, [error userInfo]);
-//    }
-
 }
 
 
@@ -230,38 +197,8 @@
         return __fetchedResultsController;
     }
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Job" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, nil];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-//    NSNumber *userId = [[NSUserDefaults standardUserDefaults] objectForKey:@"user_id"];
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId == %@", userId];
-//    [fetchRequest setPredicate:predicate];
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-    
+    __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:nil groupBy:nil delegate:self];
+
     return __fetchedResultsController;
 }    
 

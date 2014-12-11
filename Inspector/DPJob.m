@@ -51,27 +51,10 @@
 
 + (void)updateRecords:(NSMutableArray *)records
 {
-    DPAppDelegate *delegate = (DPAppDelegate *)[[UIApplication sharedApplication] delegate];            
-    NSManagedObjectContext *context = delegate.managedObjectContext;
-    
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Job" 
-                                              inManagedObjectContext:context];
-    for (DPJob *job in records) {                
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];          
-        
-        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"jobId"] rightExpression:[NSExpression expressionForConstantValue:job.identifier]  modifier:NSDirectPredicateModifier type:NSEqualToPredicateOperatorType options:0];
-        [request setPredicate:predicate];
-        NSError *error = nil;
-        NSArray *array = [context executeFetchRequest:request error:&error];
-        
-        Job *managedJob = array.count == 0 ? 
-        (Job *)[NSEntityDescription 
-                            insertNewObjectForEntityForName:@"Job" 
-                            inManagedObjectContext:context] : [array objectAtIndex:0];
-        
-        
+    for (DPJob *job in records) {
+        NSArray *array = [Job MR_findByAttribute:@"jobId" withValue:job.identifier];
+        Job *managedJob = array.count == 0 ? [Job MR_createEntity] : [array objectAtIndex:0];
+                
         managedJob.jobName = job.name;
         managedJob.address = job.address;
         managedJob.active = job.active;

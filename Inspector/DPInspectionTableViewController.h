@@ -25,14 +25,14 @@
 }
 
 @property (assign, nonatomic) Job *job;
-@property (strong, nonatomic) Inspection *inspection;
+@property (assign, nonatomic) Inspection *inspection;
 
 @property (strong, nonatomic) NSMutableDictionary *damperCodes;
 @property (strong, nonatomic) NSMutableDictionary *damperStatus;
 @property (strong, nonatomic) NSMutableDictionary *damperAirstreams;
 
 @property (strong, nonatomic) IBOutlet UITextField *building;
-@property (strong, nonatomic) IBOutlet UITextField *floor;
+@property (strong, nonatomic) IBOutlet UILabel *floor;
 @property (strong, nonatomic) IBOutlet UITextField *location;
 @property (strong, nonatomic) IBOutlet UITextField *damper;
 @property (strong, nonatomic) IBOutlet UILabel *damperTypeIdTextField;
@@ -52,7 +52,6 @@
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *passFailControl;
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 -(IBAction)didSelectStatusButton:(id)sender;
 - (IBAction)didSelectDoneButton:(id)sender;

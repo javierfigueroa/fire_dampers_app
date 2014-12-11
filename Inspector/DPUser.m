@@ -43,7 +43,6 @@
             DPUser *user = [[DPUser alloc]initWithAttributes:responseObject];
             
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//            [defaults setObject:[responseObject valueForKey:@"token"] forKey:@"auth_token"];
             [defaults setObject:user.identifier forKey:@"user_id"];
             [defaults setObject:user.lastName forKey:@"last_name"];
             [defaults setObject:user.firstName forKey:@"first_name"];

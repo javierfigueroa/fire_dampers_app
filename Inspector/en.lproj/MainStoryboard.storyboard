@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="05q-lH-fcY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="05q-lH-fcY">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Job Title-->
@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="HHR-qj-8hs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5bi-H0-a6l">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-V9-7nt">
@@ -160,7 +160,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ud-IC-3XO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -171,7 +171,7 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="05q-lH-fcY" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="yWo-Kk-gKL"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TlG-ia-3cI">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -401,18 +401,16 @@
                                             <rect key="frame" x="45" y="1" width="676" height="58"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What floor is this fire damper on?" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fEU-WZ-55p">
-                                                    <rect key="frame" x="203" y="20" width="476" height="20"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="STO-aC-Pwn" id="IU5-97-tUd"/>
-                                                    </connections>
-                                                </textField>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Floor Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="pH3-P2-Zcb">
                                                     <rect key="frame" x="65" y="19" width="112" height="21"/>
                                                     <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="What floor was the damper on?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="N1u-j7-IHn">
+                                                    <rect key="frame" x="200" y="20" width="476" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
@@ -606,12 +604,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="building" destination="ggE-q2-eJb" id="Fpb-nD-Fay"/>
                         <outlet property="damper" destination="7Lr-dt-S6F" id="0qW-7n-MSg"/>
                         <outlet property="damperAirstreamTextField" destination="W0h-Ye-Hpx" id="hAy-iX-Chf"/>
                         <outlet property="damperTypeIdTextField" destination="EkV-at-fmb" id="G95-ym-j3y"/>
-                        <outlet property="floor" destination="fEU-WZ-55p" id="QFJ-O5-Md9"/>
+                        <outlet property="floor" destination="N1u-j7-IHn" id="oEO-68-uSv"/>
                         <outlet property="height" destination="SSP-E1-gfK" id="TID-6X-PsV"/>
                         <outlet property="inspectionDate" destination="I7I-8R-1WD" id="FlR-0P-p99"/>
                         <outlet property="inspector" destination="c0e-ue-evV" id="qJo-Ah-hpi"/>
@@ -1048,6 +1047,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="building" destination="YQ5-IK-86w" id="gn2-Fu-uFh"/>
                         <outlet property="damper" destination="K9l-Pk-W9u" id="ewX-1y-UD9"/>
@@ -1133,7 +1133,7 @@
         <scene sceneID="Ge6-HE-9Ej">
             <objects>
                 <navigationController definesPresentationContext="YES" modalPresentationStyle="formSheet" id="SAB-R6-O03" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="TPR-sh-mBx">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1180,6 +1180,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Damper Status" id="T9a-Hd-rqz"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WnT-Uq-7N5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1190,7 +1191,7 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="8FF-Jm-d5Z" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="EAl-rd-1Td"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="2PH-sf-666">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1206,7 +1207,7 @@
         <scene sceneID="wiG-pW-jve">
             <objects>
                 <navigationController definesPresentationContext="YES" modalPresentationStyle="formSheet" id="IhV-VQ-HDU" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <navigationBar key="navigationBar" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="D3b-jI-85l">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

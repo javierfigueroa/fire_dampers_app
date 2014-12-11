@@ -33,12 +33,7 @@
 @synthesize damperCodes;
 
 - (NSManagedObjectContext *)managedObjectContext{
-    if(__managedObjectContext == nil){
-        DPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        [self setManagedObjectContext:appDelegate.managedObjectContext];
-    }
-    
-    return __managedObjectContext;
+    return [NSManagedObjectContext MR_defaultContext];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -104,20 +99,8 @@
 
 - (NSArray *)fetchedUnsyncInspections
 {
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Inspection" 
-                                              inManagedObjectContext:self.managedObjectContext];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:entityDescription];          
-    
-    NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"jobId"] rightExpression:[NSExpression expressionForConstantValue:self.job.jobId]  modifier:NSDirectPredicateModifier type:NSEqualToPredicateOperatorType options:0];
-    [request setPredicate:predicate];
-    
-    NSError *error =nil;
-    NSArray *array = [self.managedObjectContext executeFetchRequest:request error:&error];
-    
-    return error == nil ? array : nil;
+    NSFetchRequest *fetchRequest = [Inspection MR_requestAllWhere:@"jobId" isEqualTo:self.job.jobId];
+    return [Inspection MR_executeFetchRequest:fetchRequest];
 }
 
 - (void)updateInspections
@@ -125,64 +108,46 @@
     NSArray *array =  [self fetchedUnsyncInspections];
     
     if (array) {
-//        BOOL needsUpdate = NO;
         [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
         for (Inspection *inspection in array) {
-//            if (![inspection.sync boolValue]) {
-                NSLog(@"%@", inspection);
-//                needsUpdate = YES;
-                [self syncInspection:inspection];
-//            }
+            NSLog(@"%@", inspection);
+            [self syncInspection:inspection];
         }
-        
-//        if (!needsUpdate) {
-//            [SVProgressHUD showSuccessWithStatus:@"Nothing to update"];
-//        }
     }
 }
 
 - (void)fetchInspections
 {
-        if ([[DPReachability sharedClient] online]) {     
-            
-            NSArray *array =  [self fetchedUnsyncInspections];
-            BOOL needsUpdate = NO;
-            if (array) {
-                for (Inspection *inspection in array) {
-                    if (inspection.inspectionId && inspection.inspectionId > 0 && ![inspection.sync boolValue]) {
-                        needsUpdate = YES;
-                    }
+    if ([[DPReachability sharedClient] online]) {
+        NSArray *array =  [self fetchedUnsyncInspections];
+        BOOL needsUpdate = NO;
+        if (array) {
+            for (Inspection *inspection in array) {
+                if (inspection.inspectionId && inspection.inspectionId > 0 && ![inspection.sync boolValue]) {
+                    needsUpdate = YES;
+                    break;
                 }
             }
-
-            
-            if (needsUpdate) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sync Needed" message:@"Please sync all inspection before continuing" delegate:self cancelButtonTitle:@"Later" otherButtonTitles:@"Sync All", nil];
-                [alert show];                
-            }else{
-                [SVProgressHUD showWithStatus:@"Getting inspections..." maskType:SVProgressHUDMaskTypeGradient];
-                [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
-                    if ([response isKindOfClass:[NSError class]]) {
-                        [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
-                    }else{
-                        [SVProgressHUD dismiss];
-                        
-                        NSError *error = nil;
-                        NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
-                        if (managedObjectContext != nil) {
-                            if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-                                // Replace this implementation with code to handle the error appropriately.
-                                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                            }
-                        }
-                    }       
-                }];
-            }
-        }else {
-            [self.dampersTableView reloadData];
-            [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
         }
+        
+        if (needsUpdate) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sync Needed" message:@"Please sync all inspection before continuing" delegate:self cancelButtonTitle:@"Later" otherButtonTitles:@"Sync All", nil];
+            [alert show];                
+        }else{
+            [SVProgressHUD showWithStatus:@"Getting inspections..." maskType:SVProgressHUDMaskTypeGradient];
+            [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
+                if ([response isKindOfClass:[NSError class]]) {
+                    [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
+                }else{
+                    [SVProgressHUD dismiss];
+                    [MagicalRecord saveWithBlock:nil];
+                }       
+            }];
+        }
+    }else {
+        [self.dampersTableView reloadData];
+        [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
+    }
 }
 
 - (void)viewDidLoad
@@ -242,7 +207,6 @@
     UINavigationController *controller = (UINavigationController *) segue.destinationViewController;
     if ([controller isKindOfClass:[DPInspectionTableViewController class]]) {
         DPInspectionTableViewController *newController = (DPInspectionTableViewController *)controller;
-        newController.managedObjectContext = self.managedObjectContext;
         newController.job = self.job;
         newController.inspection = self.selectedInspection;
     }else if ([controller.visibleViewController isKindOfClass:[DPNewInspectionTableViewController class]]) {
@@ -256,15 +220,8 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     
-    NSString *sectionTitle = nil;
-
-    
     Inspection *inspection = (Inspection *)[self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]];
     return [NSString stringWithFormat:NSLocalizedString(@"Floor %@", @"A section title that indications a particular floor number"), inspection.floor];
-
-    NSAssert(sectionTitle != nil, @"Could not get a title for a section!");
-    
-    return sectionTitle;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -274,13 +231,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (tableView == self.dampersTableView) {
         // Return the number of rows in the section.
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-        return [sectionInfo numberOfObjects];
-    }
-
-    return 4;
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -361,113 +314,73 @@
         return __fetchedResultsController;
     }
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Inspection" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
-    [fetchRequest setFetchBatchSize:20];
-    
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"floor" ascending:YES];
-    NSSortDescriptor *sortDescriptor2 = [[NSSortDescriptor alloc] initWithKey:@"damper" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptor, sortDescriptor2, nil];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"jobId == %@", self.job.jobId];
-    [fetchRequest setPredicate:predicate];
-    
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:@"floor" cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-//	    abort();
-	}
-    
-    return __fetchedResultsController;
-}    
+    __fetchedResultsController = [Inspection MR_fetchAllGroupedBy:@"floor" withPredicate:predicate sortedBy:@"damper" ascending:YES delegate:self];    return __fetchedResultsController;
+}
 
 
 
 #pragma mark - FetchedResultsController Delegate
 
-//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-//{
-//    // In the simplest, most efficient, case, reload the table view.
-//    [self.dampersTableView reloadData];
-//}
-
-
-#pragma mark - NSFetchedResultsControllerDelegate methods
-
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
     [self.dampersTableView beginUpdates];
 }
 
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type) {
+        case NSFetchedResultsChangeInsert:
+            [self.dampersTableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.dampersTableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
+            break;
+        case NSFetchedResultsChangeMove:
+            break;
+        case NSFetchedResultsChangeUpdate:
+            [self.dampersTableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
+            default:
+            break;
+    }
+}
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+       atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath {
     
     UITableView *tableView = self.dampersTableView;
     
     switch(type) {
             
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-        case NSFetchedResultsChangeUpdate:{
-            UITableViewCell *cell = [self.dampersTableView cellForRowAtIndexPath:indexPath];
-            [self configureCell:cell atIndexPath:indexPath];
-//            [cell setNeedsLayout];
-            break;
-        }
-        case NSFetchedResultsChangeMove:
-            // Reloading the section inserts a new row and ensures that titles are updated appropriately.
-//            [tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
-            
-            [dampersTableView  reloadData];
-            break;
-    }
-}
-
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-    
-    switch(type) {
-            
-        case NSFetchedResultsChangeInsert:
-            [self.dampersTableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
             
-        case NSFetchedResultsChangeDelete:
-            [self.dampersTableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeMove:
         case NSFetchedResultsChangeUpdate:
-        default:
-            [dampersTableView  reloadData];
+            [self configureCell:[tableView cellForRowAtIndexPath:indexPath]
+                    atIndexPath:indexPath];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
-
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
     [self.dampersTableView endUpdates];
 }
 

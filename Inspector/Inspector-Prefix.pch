@@ -14,5 +14,6 @@
 #import <CoreData/CoreData.h>
 #import <AFNetworking/AFNetworking.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 #define IPAD UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad
 #endif

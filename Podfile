@@ -7,5 +7,6 @@ target 'Inspector' do
     pod 'SVProgressHUD'
     pod 'Reachability'
     pod 'APNumberPad'
+    pod 'MagicalRecord'
 end
 

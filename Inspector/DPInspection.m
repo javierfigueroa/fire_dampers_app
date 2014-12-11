@@ -76,12 +76,7 @@
 
 - (Inspection *)copyToManagedInspectionWithPhoto:(UIImage *)picture1 andPhoto:(UIImage *)picture2
 {
-    DPAppDelegate *delegate = (DPAppDelegate *)[[UIApplication sharedApplication] delegate];            
-    NSManagedObjectContext *context = delegate.managedObjectContext;
-    Inspection *managedInspection = (Inspection *)[NSEntityDescription 
-                                                 insertNewObjectForEntityForName:@"Inspection" 
-                                                 inManagedObjectContext:context];
-    
+    Inspection *managedInspection = [Inspection MR_createEntity];
     DPInspection *inspection = self;
     
     managedInspection.location = inspection.location;
@@ -134,25 +129,9 @@
 
 + (void)updateRecords:(NSMutableArray *)records
 {
-    DPAppDelegate *delegate = (DPAppDelegate *)[[UIApplication sharedApplication] delegate];            
-    NSManagedObjectContext *context = delegate.managedObjectContext;
-    
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Inspection" 
-                                              inManagedObjectContext:context];
-    for (DPInspection *inspection in records) {                
-        NSFetchRequest *request = [[NSFetchRequest alloc] init];
-        [request setEntity:entityDescription];          
-        
-        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForKeyPath:@"damper"] rightExpression:[NSExpression expressionForConstantValue:inspection.damper]  modifier:NSDirectPredicateModifier type:NSEqualToPredicateOperatorType options:0];
-        [request setPredicate:predicate];
-        NSError *error = nil;
-        NSArray *array = [context executeFetchRequest:request error:&error];
-        
-        Inspection *managedInspection = array.count == 0 ? 
-        (Inspection *)[NSEntityDescription 
-                insertNewObjectForEntityForName:@"Inspection" 
-                inManagedObjectContext:context] : [array objectAtIndex:0];
+    for (DPInspection *inspection in records) {
+        NSArray *array = [Inspection MR_findByAttribute:@"damper" withValue:inspection.damper];
+        Inspection *managedInspection = array.count == 0 ? [Inspection MR_createEntity] : [array objectAtIndex:0];
         
         managedInspection.location = inspection.location;
         managedInspection.building = inspection.building;
