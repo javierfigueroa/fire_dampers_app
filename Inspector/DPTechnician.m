@@ -14,7 +14,7 @@
 @synthesize lastName;
 @synthesize email;
 @synthesize identifier;
-
+@synthesize parentUserId;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -26,6 +26,7 @@
     lastName = [attributes valueForKey:@"last_name"];
     email = [attributes valueForKey:@"email"];
     identifier = [attributes valueForKey:@"id"];
+    parentUserId = [attributes valueForKey:@"user_id"];
     
     return self;
 }
@@ -40,6 +41,7 @@
             NSLog(@"%@",user.identifier);
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             [defaults setObject:user.identifier forKey:@"technician_id"];
+            [defaults setObject:user.parentUserId forKey:@"parent_user_id"];
             [defaults synchronize];
             
             if (block) {

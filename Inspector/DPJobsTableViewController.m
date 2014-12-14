@@ -184,6 +184,7 @@
 
 - (void)didSelectLogoutButton:(id)sender
 {
+    __fetchedResultsController = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserDidLogoutNotification object:nil];
 }
 
@@ -197,7 +198,10 @@
         return __fetchedResultsController;
     }
     
-    __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:nil groupBy:nil delegate:self];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSNumber *userId = [defaults valueForKey:@"parent_user_id"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId == %@", userId];
+    __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
 
     return __fetchedResultsController;
 }    

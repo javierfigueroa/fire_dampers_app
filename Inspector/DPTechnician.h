@@ -14,8 +14,7 @@
 @property (strong, nonatomic) NSString *lastName;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSNumber *identifier;
-
-
+@property (strong, nonatomic) NSNumber *parentUserId;
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 + (void)getTechnicianWithBlock:(void (^)(NSObject *))block;
