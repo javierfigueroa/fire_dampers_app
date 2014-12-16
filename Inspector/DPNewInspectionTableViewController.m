@@ -176,6 +176,7 @@
         return;
     }
     
+    [self.view endEditing:YES];
     
     self.inspection = [[DPInspection alloc]init];
     self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
@@ -201,6 +202,13 @@
     
     [SVProgressHUD showWithStatus:@"Adding Inspection" maskType:SVProgressHUDMaskTypeGradient];
     
+    if (![self.inspection isUnique]) {
+        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Damper with damper id %@ already exists", self.inspection.damper]];
+        return;
+    }
+    
+    [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
+    
     if ([[DPReachability sharedClient] online]) {
         [DPInspection addInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
@@ -214,7 +222,6 @@
             }        
         }];
     }else{
-        [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
         [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
         if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
             [delegate didAddInspection];

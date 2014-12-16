@@ -196,7 +196,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Jobs" id="mOz-kf-OFz">
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="hka-b9-H6d">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="hka-b9-H6d">
                             <connections>
                                 <action selector="didSelectLogoutButton:" destination="gRN-pj-qUx" id="rCX-Th-GjP"/>
                             </connections>
@@ -330,23 +330,24 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Lr-dt-S6F">
-                                                    <rect key="frame" x="167" y="19" width="200" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="VqI-9f-5WB" id="bRn-ct-bUh"/>
-                                                    </connections>
-                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="12345" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="bXE-h9-tmn">
+                                                    <rect key="frame" x="165" y="10" width="200" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="200" id="FUO-T4-vNF"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="hvm-LE-SHD"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="7Lr-dt-S6F" firstAttribute="leading" secondItem="WhT-RT-qa0" secondAttribute="trailing" constant="53" id="0kT-gy-weE"/>
-                                                <constraint firstItem="7Lr-dt-S6F" firstAttribute="trailing" secondItem="qCr-Zz-13i" secondAttribute="trailingMargin" id="Aig-XN-7St"/>
                                                 <constraint firstItem="WhT-RT-qa0" firstAttribute="centerY" secondItem="qCr-Zz-13i" secondAttribute="centerY" id="KW8-G3-mld"/>
                                                 <constraint firstItem="WhT-RT-qa0" firstAttribute="top" secondItem="qCr-Zz-13i" secondAttribute="topMargin" constant="11" id="TOi-Ho-dHV"/>
-                                                <constraint firstItem="WhT-RT-qa0" firstAttribute="bottom" secondItem="7Lr-dt-S6F" secondAttribute="bottom" id="Tgl-m0-mfT"/>
+                                                <constraint firstItem="bXE-h9-tmn" firstAttribute="top" secondItem="qCr-Zz-13i" secondAttribute="topMargin" constant="2" id="Xw2-Vu-5Bb"/>
                                                 <constraint firstItem="WhT-RT-qa0" firstAttribute="leading" secondItem="qCr-Zz-13i" secondAttribute="leadingMargin" id="i6l-6i-5Jr"/>
-                                                <constraint firstItem="WhT-RT-qa0" firstAttribute="firstBaseline" secondItem="7Lr-dt-S6F" secondAttribute="baseline" id="seH-FX-Wov"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="bXE-h9-tmn" secondAttribute="trailing" constant="2" id="tQV-g2-3Vc"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="bXE-h9-tmn" secondAttribute="bottom" constant="6" id="ta3-F4-Ye0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -563,7 +564,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="pha-DW-ZlK" firstAttribute="leading" secondItem="pH3-P2-Zcb" secondAttribute="trailing" constant="45" id="9Mz-4S-jIz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pha-DW-ZlK" secondAttribute="trailing" constant="2" id="CAs-qC-3hB"/>
                                                 <constraint firstItem="pH3-P2-Zcb" firstAttribute="top" secondItem="hzF-Sv-Upx" secondAttribute="topMargin" constant="11" id="Ghp-8U-7YT"/>
                                                 <constraint firstItem="pH3-P2-Zcb" firstAttribute="leading" secondItem="hzF-Sv-Upx" secondAttribute="leadingMargin" id="Hip-Sh-i6b"/>
                                                 <constraint firstItem="pha-DW-ZlK" firstAttribute="top" secondItem="hzF-Sv-Upx" secondAttribute="topMargin" constant="2" id="PGg-70-hz0"/>
@@ -794,7 +795,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Notes (do not appear in report)" id="QPD-Bs-3HF" userLabel="Notes">
+                            <tableViewSection headerTitle="Notes" id="QPD-Bs-3HF" userLabel="Notes">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="140" id="vEY-pl-edq">
                                         <rect key="frame" x="0.0" y="1270" width="768" height="142"/>
@@ -844,7 +845,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="building" destination="ggE-q2-eJb" id="Fpb-nD-Fay"/>
-                        <outlet property="damper" destination="7Lr-dt-S6F" id="0qW-7n-MSg"/>
+                        <outlet property="damper" destination="bXE-h9-tmn" id="k8c-VW-D05"/>
                         <outlet property="damperAirstreamTextField" destination="W0h-Ye-Hpx" id="hAy-iX-Chf"/>
                         <outlet property="damperTypeIdTextField" destination="EkV-at-fmb" id="G95-ym-j3y"/>
                         <outlet property="floor" destination="pha-DW-ZlK" id="YNO-Ea-Edp"/>
@@ -964,7 +965,7 @@
                                             <rect key="frame" x="45" y="0.0" width="676" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="e.g. 123" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K9l-Pk-W9u">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1234" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K9l-Pk-W9u">
                                                     <rect key="frame" x="167" y="10" width="200" height="35"/>
                                                     <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
@@ -1467,7 +1468,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Notes (do not appear in report)" id="3yD-Te-wMP">
+                            <tableViewSection headerTitle="Notes " id="3yD-Te-wMP">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="140" id="Rjf-hY-Zgd">
                                         <rect key="frame" x="0.0" y="1270" width="768" height="142"/>
@@ -1545,14 +1546,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Select a photo from the library or capture with the camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="R9F-ml-6Tu">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Select a photo from the library or capture with the camera" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="R9F-ml-6Tu">
                                 <rect key="frame" x="87" y="286" width="200" height="40"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqR-Ua-mX0">
-                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="sqR-Ua-mX0">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="375" id="dOo-2Z-Haj"/>
@@ -1599,13 +1600,13 @@
                             <constraint firstItem="R9F-ml-6Tu" firstAttribute="top" secondItem="IbC-gD-7IR" secondAttribute="bottom" constant="222" id="EYu-im-x5p"/>
                             <constraint firstItem="R9F-ml-6Tu" firstAttribute="centerX" secondItem="fZx-OC-ZFY" secondAttribute="centerX" id="QzE-R0-xyo"/>
                             <constraint firstItem="fZx-OC-ZFY" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leading" id="RNw-ss-6JB"/>
-                            <constraint firstItem="sqR-Ua-mX0" firstAttribute="top" secondItem="G8H-8H-2uT" secondAttribute="top" constant="64" id="Rol-4g-oxW"/>
+                            <constraint firstItem="sqR-Ua-mX0" firstAttribute="top" secondItem="G8H-8H-2uT" secondAttribute="top" id="Rol-4g-oxW"/>
                             <constraint firstItem="R9F-ml-6Tu" firstAttribute="centerX" secondItem="fZx-OC-ZFY" secondAttribute="centerX" id="TkS-cb-Q8z"/>
                             <constraint firstAttribute="trailing" secondItem="fZx-OC-ZFY" secondAttribute="trailing" id="X2m-7r-xAe"/>
                             <constraint firstItem="fZx-OC-ZFY" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leading" id="Y2w-tn-4q2"/>
                             <constraint firstItem="R9F-ml-6Tu" firstAttribute="centerY" secondItem="G8H-8H-2uT" secondAttribute="centerY" id="Yju-mv-ShZ"/>
                             <constraint firstItem="sqR-Ua-mX0" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leading" id="cRk-px-3mP"/>
-                            <constraint firstItem="R9F-ml-6Tu" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leadingMargin" constant="67" id="d41-vD-asy"/>
+                            <constraint firstItem="R9F-ml-6Tu" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leadingMargin" constant="71" id="d41-vD-asy"/>
                             <constraint firstItem="fZx-OC-ZFY" firstAttribute="leading" secondItem="G8H-8H-2uT" secondAttribute="leadingMargin" id="jLb-af-i3m"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fZx-OC-ZFY" secondAttribute="trailing" id="o4H-gE-RHE"/>
                             <constraint firstItem="R9F-ml-6Tu" firstAttribute="centerY" secondItem="G8H-8H-2uT" secondAttribute="centerY" id="p6q-J1-6VY"/>
@@ -2149,7 +2150,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Gb0-K5-wmb"/>
-        <segue reference="FO9-LV-qda"/>
         <segue reference="EOj-BK-s9m"/>
+        <segue reference="FO9-LV-qda"/>
     </inferredMetricsTieBreakers>
 </document>

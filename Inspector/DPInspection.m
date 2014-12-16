@@ -74,6 +74,28 @@
     return self;
 }
 
+- (BOOL)isUnique
+{
+    NSFetchRequest *request = [Inspection MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:@"jobId == %@ && damper == %@", self.jobId, self.damper]];
+    
+    id inspection = [Inspection MR_executeFetchRequestAndReturnFirstObject:request];
+    
+    if (inspection != nil && [inspection isKindOfClass:[Inspection class]]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
++ (void)deleteInspectionByDamperId:(NSNumber*)_damperId andJobId:(NSNumber*)_jobId
+{
+    NSFetchRequest *request = [Inspection MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:@"jobId == %@ && damper == %@", _jobId, _damperId]];
+    id inspection = [Inspection MR_executeFetchRequestAndReturnFirstObject:request];
+    if (inspection != nil && [inspection isKindOfClass:[Inspection class]]) {
+        [[NSManagedObjectContext MR_defaultContext] deleteObject:inspection];
+    }
+}
+
 - (Inspection *)copyToManagedInspectionWithPhoto:(UIImage *)picture1 andPhoto:(UIImage *)picture2
 {
     Inspection *managedInspection = [Inspection MR_createEntity];
@@ -386,12 +408,13 @@
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(@"Error: %@", error);
             if (block) {
-                
                 NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-                block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
-                //                [inspection copyToManagedInspectionWithPhoto:photoOpen andPhoto:photoClosed];
-                
-                
+                if (response.statusCode == 422) {
+                    [self deleteInspectionByDamperId:inspection.damper andJobId:inspection.jobId];
+                    block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
+                }else{
+                    block([NSError errorWithDomain:response.description code:response.statusCode userInfo:nil]);
+                }
             }
         }];
     }else{
@@ -400,8 +423,13 @@
             block(nil);
         } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"%@", error);
-            NSHTTPURLResponse *response = (NSHTTPURLResponse *)operation.response;
-            block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
+            NSHTTPURLResponse *response = (NSHTTPURLResponse *)operation.response;            
+            if (response.statusCode == 422) {
+                [self deleteInspectionByDamperId:inspection.damper andJobId:inspection.jobId];
+                block([NSError errorWithDomain:NSLocalizedString(@"Damper Id is a duplicate, enter a correct Damper Id", @"Damper Id is a duplicate, enter a correct Damper Id") code:response.statusCode userInfo:nil]);
+            }else{
+                block([NSError errorWithDomain:response.description code:response.statusCode userInfo:nil]);
+            }
         }];
     }    
 }

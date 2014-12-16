@@ -99,7 +99,8 @@
 
 - (NSArray *)fetchedUnsyncInspections
 {
-    NSFetchRequest *fetchRequest = [Inspection MR_requestAllWhere:@"jobId" isEqualTo:self.job.jobId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
+    NSFetchRequest *fetchRequest = [Inspection MR_requestAllWithPredicate:predicate];
     return [Inspection MR_executeFetchRequest:fetchRequest];
 }
 
@@ -107,7 +108,7 @@
 {
     NSArray *array =  [self fetchedUnsyncInspections];
     
-    if (array) {
+    if (array.count > 0) {
         [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
         for (Inspection *inspection in array) {
             NSLog(@"%@", inspection);
@@ -119,31 +120,16 @@
 - (void)fetchInspections
 {
     if ([[DPReachability sharedClient] online]) {
-        NSArray *array =  [self fetchedUnsyncInspections];
-        BOOL needsUpdate = NO;
-        if (array) {
-            for (Inspection *inspection in array) {
-                if (inspection.inspectionId && inspection.inspectionId > 0 && ![inspection.sync boolValue]) {
-                    needsUpdate = YES;
-                    break;
-                }
-            }
-        }
-        
-        if (needsUpdate) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sync Needed" message:@"Please sync all inspection before continuing" delegate:self cancelButtonTitle:@"Later" otherButtonTitles:@"Sync All", nil];
-            [alert show];                
-        }else{
-            [SVProgressHUD showWithStatus:@"Getting inspections..." maskType:SVProgressHUDMaskTypeGradient];
-            [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
-                if ([response isKindOfClass:[NSError class]]) {
-                    [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
-                }else{
-                    [SVProgressHUD dismiss];
-                    [MagicalRecord saveWithBlock:nil];
-                }       
-            }];
-        }
+        [self updateInspections];
+        [SVProgressHUD showWithStatus:@"Downloading inspections" maskType:SVProgressHUDMaskTypeGradient];
+        [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
+            if ([response isKindOfClass:[NSError class]]) {
+                [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
+            }else{
+                [SVProgressHUD dismiss];
+                [MagicalRecord saveWithBlock:nil];
+            }       
+        }];
     }else {
         [self.dampersTableView reloadData];
         [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
@@ -159,9 +145,7 @@
     self.damperCodes = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
     path = [[NSBundle mainBundle] pathForResource:@"DamperAirstream" ofType:@"plist"];
     self.damperAirstreams = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
-    
     self.title = self.job.jobName;
-    _addingInspection = NO;
     [self fetchInspections];
 
 }
@@ -213,7 +197,6 @@
         DPNewInspectionTableViewController *newController = (DPNewInspectionTableViewController *)controller.visibleViewController;
         newController.job = self.job;
         newController.delegate = self;
-        _addingInspection = YES;
     }
 }
 
@@ -245,10 +228,21 @@
     return cell;
 }
 
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        Inspection *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        [self.managedObjectContext deleteObject:object];
+        [MagicalRecord saveWithBlock:nil];
+
+    }
+}
+
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Return NO if you do not want the specified item to be editable.
-    return NO;
+    Inspection *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    return [object.sync boolValue] == NO;
 }  
 
 
@@ -256,6 +250,11 @@
 {
     // The table view should not be re-orderable.
     return NO;
+}
+
+-(void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -315,7 +314,9 @@
     }
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"jobId == %@", self.job.jobId];
-    __fetchedResultsController = [Inspection MR_fetchAllGroupedBy:@"floor" withPredicate:predicate sortedBy:@"damper" ascending:YES delegate:self];    return __fetchedResultsController;
+    __fetchedResultsController = [Inspection MR_fetchAllSortedBy:@"floor,damper" ascending:YES withPredicate:predicate groupBy:@"floor" delegate:self];
+    
+    return __fetchedResultsController;
 }
 
 
@@ -388,13 +389,12 @@
 
 - (void)didAddInspection
 {
-    _addingInspection = NO;
     [self fetchInspections];
 }
 
  -(void)didCancelInspection
 {
-    _addingInspection = NO;
+    
 }
 
 #pragma mark - UIAlertView Delegate

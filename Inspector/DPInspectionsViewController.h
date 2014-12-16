@@ -25,7 +25,7 @@ enum{
 
 @interface DPInspectionsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource,NSFetchedResultsControllerDelegate,DPNewInspectionTableViewControllerDelegate, UIAlertViewDelegate, UITextFieldDelegate, UITextViewDelegate>
 {
-    BOOL _addingInspection;
+    
 }
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;

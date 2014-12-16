@@ -32,15 +32,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)viewDidUnload
-{
-    [self setUsernameTextField:[[NSUserDefaults standardUserDefaults] objectForKey:@"username"]];
-    [self setPasswordTextField:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    self.usernameTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"username"];
+    self.passwordTextField.text = @"";
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -50,7 +43,8 @@
 
 - (IBAction)didSelectLoginButton:(id)sender {
     
-    [self loginWithUsername:usernameTextField.text password:passwordTextField.text];
+    [self loginWithUsername:self.usernameTextField.text password:self.passwordTextField.text];
+     [self.view endEditing:YES];
     
 }
 
@@ -58,7 +52,7 @@
 //TODO: Verify username and password is correct
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password{
     
-    [SVProgressHUD showWithStatus:@"Logging in..." maskType:SVProgressHUDMaskTypeGradient];
+    [SVProgressHUD showWithStatus:@"Signing in" maskType:SVProgressHUDMaskTypeGradient];
     [DPUser loginWithUsername:username andPassword:password block:^(NSObject *response) {
         if ([response isKindOfClass:[DPUser class]]) {
             [DPTechnician getTechnicianWithBlock:^(NSObject *response) {

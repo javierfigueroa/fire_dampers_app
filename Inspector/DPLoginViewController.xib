@@ -6,8 +6,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DPLoginViewController">
             <connections>
-                <outlet property="passwordTextField" destination="6" id="9"/>
-                <outlet property="usernameTextField" destination="5" id="8"/>
+                <outlet property="passwordTextField" destination="6" id="zJ6-qB-xQb"/>
+                <outlet property="usernameTextField" destination="5" id="XiL-xt-rmN"/>
                 <outlet property="view" destination="3" id="11"/>
             </connections>
         </placeholder>
@@ -30,7 +30,7 @@
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                    <rect key="frame" x="272" y="215" width="225" height="36"/>
+                    <rect key="frame" x="272" y="185" width="225" height="36"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="12"/>
@@ -51,9 +51,10 @@
                 <constraint firstItem="6" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" id="18"/>
                 <constraint firstItem="7" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="19"/>
                 <constraint firstItem="6" firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="20"/>
-                <constraint firstItem="7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="215" id="FB9-0O-cKp"/>
+                <constraint firstItem="5" firstAttribute="top" secondItem="3" secondAttribute="top" constant="102" id="9ff-JA-ckq"/>
                 <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="8" id="R7e-Z7-XKX"/>
-                <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="45" id="hDZ-FS-OZZ"/>
+                <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="hDZ-FS-OZZ"/>
+                <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="15" id="zYj-wV-qTD"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>

@@ -83,10 +83,6 @@
                                              selector:@selector(keyboardWasShown:)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
-    self.damper.inputView = ({
-        APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
-        numberPad;
-    });
     
     self.length.inputView = ({
         APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];

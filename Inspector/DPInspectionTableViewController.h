@@ -34,7 +34,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *building;
 @property (strong, nonatomic) IBOutlet UILabel *floor;
 @property (strong, nonatomic) IBOutlet UITextField *location;
-@property (strong, nonatomic) IBOutlet UITextField *damper;
+@property (strong, nonatomic) IBOutlet UILabel *damper;
 @property (strong, nonatomic) IBOutlet UILabel *damperTypeIdTextField;
 @property (strong, nonatomic) NSNumber *damperTypeId;
 @property (strong, nonatomic) NSNumber *damperStatusId;

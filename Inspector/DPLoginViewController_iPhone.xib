@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DPLoginViewController">
@@ -20,6 +20,7 @@
                     <rect key="frame" x="57" y="85" width="262" height="31"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="31" id="21"/>
+                        <constraint firstAttribute="height" constant="31" id="o7V-hQ-f6a"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
@@ -29,8 +30,16 @@
                         </mask>
                     </variation>
                 </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                    <rect key="frame" x="57" y="46" width="262" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="31" id="HWn-Zz-0T3"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7">
-                    <rect key="frame" x="57" y="161" width="262" height="36"/>
+                    <rect key="frame" x="57" y="124" width="262" height="36"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="12"/>
@@ -43,28 +52,19 @@
                         <action selector="didSelectLoginButton:" destination="-1" eventType="touchUpInside" id="10"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                    <rect key="frame" x="57" y="46" width="262" height="31"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="31" id="HWn-Zz-0T3"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="318" id="13"/>
-                <constraint firstItem="6" firstAttribute="centerX" secondItem="3" secondAttribute="centerX" id="18"/>
-                <constraint firstItem="7" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="19"/>
-                <constraint firstItem="6" firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="20"/>
+                <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="8" symbolic="YES" id="10k-7F-AA0"/>
+                <constraint firstItem="6" firstAttribute="leading" secondItem="5" secondAttribute="leading" id="3xM-8c-5by"/>
                 <constraint firstItem="5" firstAttribute="top" secondItem="3" secondAttribute="top" constant="46" id="5xy-iz-dVz"/>
-                <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="8" symbolic="YES" id="OrO-MK-4eE"/>
+                <constraint firstItem="6" firstAttribute="trailing" secondItem="5" secondAttribute="trailing" id="FWQ-UU-XGs"/>
                 <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="45" id="Q63-1J-0Yu"/>
-                <constraint firstItem="5" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="Xuf-F5-LEW"/>
-                <constraint firstItem="5" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="kx8-gD-VCm"/>
-                <constraint firstItem="7" firstAttribute="top" secondItem="3" secondAttribute="top" constant="161" id="m7J-Xw-V1r"/>
-                <constraint firstItem="7" firstAttribute="top" secondItem="6" secondAttribute="bottom" constant="45" id="qpW-dQ-LVc"/>
+                <constraint firstItem="6" firstAttribute="trailing" secondItem="7" secondAttribute="trailing" id="V7I-Hf-brQ"/>
+                <constraint firstAttribute="trailing" secondItem="6" secondAttribute="trailing" constant="56" id="YW0-HP-DJa"/>
+                <constraint firstItem="6" firstAttribute="top" secondItem="5" secondAttribute="bottom" constant="8" symbolic="YES" id="iVS-8T-yFB"/>
+                <constraint firstItem="6" firstAttribute="leading" secondItem="7" secondAttribute="leading" id="rEU-rL-8Ur"/>
                 <constraint firstItem="5" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="57" id="skR-xZ-ab6"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

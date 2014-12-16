@@ -51,7 +51,7 @@
         [[NSUserDefaults standardUserDefaults] valueForKey:@"password"] ) {
         [self didSelectGetNewJobsButton:nil];
     }else{
-        [self didSelectLogoutButton:nil];
+        [self logout];
     }
 }
 
@@ -167,7 +167,7 @@
 //See https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CoreData/Articles/cdImporting.html for guidelines related to importing data into core data efficiently
 - (IBAction)didSelectGetNewJobsButton:(id)sender {
     if ([[DPReachability sharedClient] online]) {
-        [SVProgressHUD showWithStatus:@"Downloading Jobs..." maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"Downloading Jobs" maskType:SVProgressHUDMaskTypeGradient];
         [DPJob getJobsWithBlock:^(NSObject *response) {
             NSLog(@"%@", response);
             if([response isKindOfClass:[NSError class]]) {
@@ -184,10 +184,14 @@
 
 - (void)didSelectLogoutButton:(id)sender
 {
+    [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Sign out" otherButtonTitles:nil] showInView:self.view];
+}
+
+- (void)logout
+{
     __fetchedResultsController = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kUserDidLogoutNotification object:nil];
 }
-
 
 #pragma mark - Core Data Stack
 
@@ -204,9 +208,7 @@
     __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
 
     return __fetchedResultsController;
-}    
-
-
+}
 
 #pragma mark - FetchedResultsController Delegate
 
@@ -214,6 +216,20 @@
 {
     // In the simplest, most efficient, case, reload the table view.
     [self.tableView reloadData];
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+        case 0:
+            [self logout];
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

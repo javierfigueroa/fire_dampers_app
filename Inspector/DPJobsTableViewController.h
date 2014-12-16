@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class Job;
-@interface DPJobsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface DPJobsTableViewController : UITableViewController <NSFetchedResultsControllerDelegate, UIActionSheetDelegate>
 
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
