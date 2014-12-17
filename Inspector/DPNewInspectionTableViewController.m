@@ -11,7 +11,7 @@
 #import "Inspection.h"
 #import "DPAppDelegate.h"
 #import "DPReachability.h"
-#import "DPLocalStorageFetcher.h"
+#import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import <APNumberPad/APNumberPad.h>
 

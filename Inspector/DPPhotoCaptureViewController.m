@@ -10,7 +10,7 @@
 #import "DPInspectionsViewController.h"
 #import "UIImage+FixOrientation.h"
 #import "SVProgressHUD.h"
-#import "DPLocalStorageFetcher.h"
+#import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 
@@ -53,9 +53,9 @@
     if (self.imageUrl != nil) {
         [self.imageView sd_setImageWithURL:self.imageUrl];
     }else if(self.imageKey != nil) {
-        DPLocalStorageFetcher *fetcher = [[DPLocalStorageFetcher alloc]init];
-        fetcher.imageView = self.imageView;
-        [fetcher fetchStoredImageForKey:self.imageKey];
+        [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.imageKey done:^(UIImage *image, SDImageCacheType cacheType) {
+            self.imageView.image = image;
+        }];
     }else if (self.image != nil) {
         self.imageView.image = self.image;
     }

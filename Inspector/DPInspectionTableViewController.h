@@ -19,9 +19,6 @@
 {
     BOOL _takingOpenPhoto;
     BOOL _takingClosedPhoto;
-    
-    DPLocalStorageFetcher *_fetcherOpenPhoto;
-    DPLocalStorageFetcher *_fetcherClosedPhoto;
 }
 
 @property (assign, nonatomic) Job *job;

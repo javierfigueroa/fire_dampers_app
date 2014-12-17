@@ -25,7 +25,6 @@
 		3B720762155CC18100F57295 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B720761155CC18100F57295 /* ImageIO.framework */; };
 		3B720764155CC19C00F57295 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B720763155CC19C00F57295 /* MapKit.framework */; };
 		3B72077A155D504C00F57295 /* UIImage+FixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B720779155D504C00F57295 /* UIImage+FixOrientation.m */; };
-		3B720783155D74E600F57295 /* DPLocalStorageFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B720782155D74E300F57295 /* DPLocalStorageFetcher.m */; };
 		3BAB69DF156BF8D90013E4D0 /* DPDamperAirstreamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BAB69DE156BF8D90013E4D0 /* DPDamperAirstreamViewController.m */; };
 		3BFECE06156B542A00EA4364 /* Inspection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BFECE05156B542A00EA4364 /* Inspection.m */; };
 		3BFECE09156BCEFA00EA4364 /* DamperAirstream.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3BFECE08156BCEFA00EA4364 /* DamperAirstream.plist */; };
@@ -80,8 +79,6 @@
 		3B720763155CC19C00F57295 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		3B720778155D504C00F57295 /* UIImage+FixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FixOrientation.h"; sourceTree = "<group>"; };
 		3B720779155D504C00F57295 /* UIImage+FixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FixOrientation.m"; sourceTree = "<group>"; };
-		3B720781155D74E200F57295 /* DPLocalStorageFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLocalStorageFetcher.h; sourceTree = "<group>"; };
-		3B720782155D74E300F57295 /* DPLocalStorageFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPLocalStorageFetcher.m; sourceTree = "<group>"; };
 		3BAB69DD156BF8D90013E4D0 /* DPDamperAirstreamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDamperAirstreamViewController.h; sourceTree = "<group>"; };
 		3BAB69DE156BF8D90013E4D0 /* DPDamperAirstreamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDamperAirstreamViewController.m; sourceTree = "<group>"; };
 		3BFECDFF156B42BF00EA4364 /* Inspector 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Inspector 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -286,8 +283,6 @@
 				85B98650152746400061660C /* Supporting Files */,
 				3B720715155CB29400F57295 /* DPReachability.h */,
 				3B720716155CB29500F57295 /* DPReachability.m */,
-				3B720781155D74E200F57295 /* DPLocalStorageFetcher.h */,
-				3B720782155D74E300F57295 /* DPLocalStorageFetcher.m */,
 				C6204E761A3CF428001FEF33 /* Images.xcassets */,
 			);
 			path = Inspector;
@@ -439,7 +434,6 @@
 				3B720703155C573300F57295 /* DPPhotoCaptureViewController.m in Sources */,
 				3B720717155CB29600F57295 /* DPReachability.m in Sources */,
 				3B72077A155D504C00F57295 /* UIImage+FixOrientation.m in Sources */,
-				3B720783155D74E600F57295 /* DPLocalStorageFetcher.m in Sources */,
 				3BFECE06156B542A00EA4364 /* Inspection.m in Sources */,
 				3BAB69DF156BF8D90013E4D0 /* DPDamperAirstreamViewController.m in Sources */,
 			);

@@ -398,7 +398,7 @@
             
         } success:^(NSURLSessionDataTask *task, id responseObject) {
             if(block) {
-                block(nil);
+                block([responseObject valueForKey:@"inspection"]);
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(@"Error: %@", error);
@@ -415,7 +415,7 @@
     }else{
             
         [[DPApiClient sharedClient] POST:@"inspections.json" parameters:parameters success:^(NSURLSessionTask *operation, id responseObject) {
-            block(nil);
+            block([responseObject valueForKey:@"inspection"]);
         } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"%@", error);
             NSHTTPURLResponse *response = (NSHTTPURLResponse *)operation.response;            

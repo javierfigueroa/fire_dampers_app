@@ -15,8 +15,8 @@
 #import "UIImageView+WebCache.h"
 #import "DPReachability.h"
 #import "SVProgressHUD.h"
-#import "DPLocalStorageFetcher.h"
 #import "DPInspectionTableViewController.h"
+#import "SDImageCache.h"
 
 @interface DPInspectionsViewController ()
 
@@ -46,54 +46,48 @@
 }
 
 - (void)syncInspection:(Inspection *)inspection {
-    DPLocalStorageFetcher *fetcherOpenPhoto = [[DPLocalStorageFetcher alloc]init];
-    DPLocalStorageFetcher *fetcherClosedPhoto = [[DPLocalStorageFetcher alloc]init];
-    
-    if (inspection.localPhoto.length > 0) {
-        [fetcherOpenPhoto fetchStoredImageForKey:inspection.localPhoto];
-    }
-    
-    if (inspection.localPhoto2.length > 0) {
-        [fetcherClosedPhoto fetchStoredImageForKey:inspection.localPhoto2];
-    }
-    
-    if (inspection.inspectionId && inspection.inspectionId > 0) {
-        [DPInspection updateInspection:inspection withDamperPhotoOpen:fetcherOpenPhoto.image  withDamperPhotoClosed:fetcherClosedPhoto.image withBlock:^(NSObject *response) {
-            if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
+    [[SDImageCache sharedImageCache] queryDiskCacheForKey:inspection.localPhoto done:^(UIImage *photo, SDImageCacheType cacheType) {
+        [[SDImageCache sharedImageCache] queryDiskCacheForKey:inspection.localPhoto2 done:^(UIImage *photo2, SDImageCacheType cacheType) {
+            if (inspection.inspectionId && inspection.inspectionId > 0) {
+                [DPInspection updateInspection:inspection withDamperPhotoOpen:photo  withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                    if ([response isKindOfClass:[NSError class]]) {
+                        [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
+                    }else{
+                        [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
+                    }
+                }];
             }else{
-                [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
-            }        
+                
+                DPInspection *DPinspection = [[DPInspection alloc]init];
+                DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
+                DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
+                DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
+                
+                DPinspection.floor =  inspection.floor;
+                DPinspection.notes = inspection.notes;
+                DPinspection.unit = inspection.unit;
+                DPinspection.userId = inspection.userId;
+                DPinspection.location = inspection.location;
+                DPinspection.building = inspection.building;
+                DPinspection.inspected = inspection.inspected;
+                DPinspection.jobId = inspection.jobId;
+                DPinspection.inspectorNotes = inspection.inspectorNotes;
+                DPinspection.length = inspection.length;
+                DPinspection.height = inspection.height;
+                DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
+                
+                [DPInspection addInspection:DPinspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                    if ([response isKindOfClass:[NSError class]]) {
+                        [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
+                    }else{
+                        inspection.inspectionId = [response valueForKey:@"id"];
+                        inspection.sync = [NSNumber numberWithBool:YES];
+                        [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
+                    }        
+                }];
+            }
         }];
-    }else{
-        
-        DPInspection *DPinspection = [[DPInspection alloc]init];
-        DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
-        DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
-        DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
-        
-        DPinspection.floor =  inspection.floor;
-        DPinspection.notes = inspection.notes;
-        DPinspection.unit = inspection.unit;
-        DPinspection.userId = inspection.userId;
-        DPinspection.location = inspection.location;
-        DPinspection.building = inspection.building;
-        DPinspection.inspected = inspection.inspected;
-        DPinspection.jobId = inspection.jobId;
-        DPinspection.inspectorNotes = inspection.inspectorNotes;
-        DPinspection.length = inspection.length;
-        DPinspection.height = inspection.height;
-        DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
-        
-        [DPInspection addInspection:DPinspection withDamperPhotoOpen:fetcherOpenPhoto.image withDamperPhotoClosed:fetcherClosedPhoto.image withBlock:^(NSObject *response) {
-            if ([response isKindOfClass:[NSError class]]) {
-                [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
-            }else{                
-                inspection.sync = [NSNumber numberWithBool:YES];
-                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
-            }        
-        }];
-    }
+    }];
 }
 
 - (NSArray *)fetchedUnsyncInspections
@@ -179,7 +173,12 @@
 
 - (void)didSelectFetchAll:(id)sender
 {
-    [self fetchInspections];
+    if ([[DPReachability sharedClient] online]) {
+        [self updateInspections];
+        [self fetchInspections];
+    }else{
+        [SVProgressHUD showSuccessWithStatus:@"You're working offline, try syncing once you're back online"];
+    }
 }
 
 #pragma mark - Table View
@@ -241,7 +240,7 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Inspection *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    return [object.sync boolValue] == NO;
+    return (!object.inspectionId || object.inspectionId == 0);
 }  
 
 

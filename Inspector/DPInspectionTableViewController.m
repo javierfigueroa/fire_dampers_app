@@ -11,7 +11,7 @@
 #import "DPAppDelegate.h"
 #import "SVProgressHUD.h"
 #import "DPReachability.h"
-#import "DPLocalStorageFetcher.h"
+#import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
 #import "DPInspection.h"
 #import "SDWebImageManager.h"
@@ -75,9 +75,6 @@
     
     _takingOpenPhoto = NO;
     _takingClosedPhoto = NO;
-    
-    _fetcherOpenPhoto = [[DPLocalStorageFetcher alloc]init];
-    _fetcherClosedPhoto = [[DPLocalStorageFetcher alloc]init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWasShown:)
@@ -146,14 +143,12 @@
     self.passFailControl.selectedSegmentIndex = [self.damperStatusId integerValue] - 1;
 
     if(self.inspection.localPhoto.length > 0) {
-        [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
         self.photoLabel.text = @"Photo selected";
     }else if (self.inspection.photo.length > 0) {
         self.photoLabel.text = @"Photo selected";
     }
     
     if(self.inspection.localPhoto2.length > 0) {
-        [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
         self.photo2Label.text = @"Photo selected";
     }else if (self.inspection.photo2.length > 0) {
         self.photo2Label.text = @"Photo selected";
@@ -217,16 +212,12 @@
                 photoController.imageKey = inspection.localPhoto;
             }else if (inspection.photo.length > 0) {
                 photoController.imageUrl = [NSURL URLWithString:inspection.photo];
-            }else{
-                photoController.image = _fetcherOpenPhoto.image;
             }
         }else{
             if(inspection.localPhoto2.length > 0) {
                 photoController.imageKey = inspection.localPhoto2;
             }else if (inspection.photo2.length > 0) {
                 photoController.imageUrl = [NSURL URLWithString:inspection.photo2];
-            }else{
-                photoController.image = _fetcherClosedPhoto.image;
             }
         }
     }
@@ -281,28 +272,54 @@
         self.inspection.height = self.height.text;
         self.inspection.inspectorNotes = self.inspectorNotes.text;
         
-        if(self.inspection.localPhoto.length > 0 && _fetcherOpenPhoto.image == nil) {
-            [_fetcherOpenPhoto fetchStoredImageForKey:self.inspection.localPhoto];
-        }
-        
-        if(self.inspection.localPhoto2.length > 0 && _fetcherClosedPhoto.image == nil) {
-            [_fetcherClosedPhoto fetchStoredImageForKey:self.inspection.localPhoto2];
-        }
-        
-        UIImage *photo = _fetcherOpenPhoto.image;
-        UIImage *photo2 = _fetcherClosedPhoto.image;
-        
         [self updateInspection];
         
         if ([[DPReachability sharedClient] online]) {
-            [DPInspection updateInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
-                
-                if ([response isKindOfClass:[NSError class]]) {
-                    [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
-                }else{
-                    [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }
+            
+            [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.inspection.localPhoto done:^(UIImage *photo, SDImageCacheType cacheType) {
+                [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.inspection.localPhoto2 done:^(UIImage *photo2, SDImageCacheType cacheType) {
+                    if (inspection.inspectionId && inspection.inspectionId > 0) {
+                        [DPInspection updateInspection:inspection withDamperPhotoOpen:photo  withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                            if ([response isKindOfClass:[NSError class]]) {
+                                [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
+                            }else{
+                                [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+                        }];
+                    }else{
+                        DPInspection *DPinspection = [[DPInspection alloc]init];
+                        DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
+                        DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
+                        DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
+                        
+                        DPinspection.floor =  inspection.floor;
+                        DPinspection.notes = inspection.notes;
+                        DPinspection.unit = inspection.unit;
+                        DPinspection.userId = inspection.userId;
+                        DPinspection.location = inspection.location;
+                        DPinspection.building = inspection.building;
+                        DPinspection.inspected = inspection.inspected;
+                        DPinspection.jobId = inspection.jobId;
+                        DPinspection.inspectorNotes = inspection.inspectorNotes;
+                        DPinspection.length = inspection.length;
+                        DPinspection.height = inspection.height;
+                        DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
+                        
+                        [DPInspection addInspection:DPinspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                            if ([response isKindOfClass:[NSError class]]) {
+                                [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
+                            }else{
+                                self.inspection.inspectionId = [response valueForKey:@"id"];
+                                inspection.sync = [NSNumber numberWithBool:YES];
+                                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }        
+                        }];
+                    }
+
+                    
+                }];
             }];
         }else{
             [SVProgressHUD showErrorWithStatus:@"You're working offline, this inspection will be synced next time you get online"];
