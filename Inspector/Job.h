@@ -23,5 +23,6 @@
 @property (nonatomic, retain) NSDate * startDate;
 @property (retain, nonatomic) NSNumber *jobId;
 @property (retain, nonatomic) NSNumber *userId;
+@property (retain, nonatomic) NSNumber *companyId;
 
 @end

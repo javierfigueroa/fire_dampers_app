@@ -23,6 +23,7 @@
 @synthesize identifier;
 @synthesize active;
 @synthesize userId;
+@synthesize companyId;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -43,6 +44,7 @@
     phone = [attributes valueForKey:@"contact_phone"];
     identifier = [attributes valueForKey:@"id"];
     userId = [attributes valueForKey:@"user_id"];
+    companyId = [attributes valueForKey:@"company_id"];
     active = [NSNumber numberWithBool:[[attributes valueForKey:@"active"] boolValue]];
     
     
@@ -66,6 +68,7 @@
         managedJob.contactPhoneNumber = job.phone;
         managedJob.jobId = job.identifier;
         managedJob.userId = job.userId;
+        managedJob.companyId = job.companyId;
     }
 }
 

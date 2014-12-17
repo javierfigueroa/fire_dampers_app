@@ -76,7 +76,6 @@
         DPinspection.notes = inspection.notes;
         DPinspection.unit = inspection.unit;
         DPinspection.userId = inspection.userId;
-        DPinspection.technicianId = inspection.technicianId;
         DPinspection.location = inspection.location;
         DPinspection.building = inspection.building;
         DPinspection.inspected = inspection.inspected;
@@ -120,7 +119,7 @@
 - (void)fetchInspections
 {
     if ([[DPReachability sharedClient] online]) {
-        [self updateInspections];
+        //[self updateInspections];
         [SVProgressHUD showWithStatus:@"Downloading inspections" maskType:SVProgressHUDMaskTypeGradient];
         [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {

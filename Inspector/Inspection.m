@@ -25,7 +25,6 @@
 @dynamic notes;
 @dynamic photo;
 @dynamic sync;
-@dynamic technicianId;
 @dynamic updated_at;
 @dynamic userId;
 @dynamic photo2;

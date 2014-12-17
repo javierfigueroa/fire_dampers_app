@@ -18,7 +18,6 @@
 @synthesize building;
 @synthesize photo;
 @synthesize notes;
-@synthesize technicianId;
 @synthesize floor;
 @synthesize damper;
 @synthesize userId;
@@ -53,7 +52,6 @@
     updated = [dateFormatter dateFromString:[attributes valueForKey:@"updated_at"]];
     photo = [attributes valueForKey:@"damper_image_url_open"];
     notes = [attributes valueForKey:@"description"];
-    technicianId = [attributes valueForKey:@"technician_id"];
     userId = [attributes valueForKey:@"user_id"];
     damper = [attributes valueForKey:@"damper_id"];
     damperStatus = [attributes valueForKey:@"damper_status_id"];
@@ -105,7 +103,6 @@
     managedInspection.building = inspection.building;
     managedInspection.photo = inspection.photo;
     managedInspection.notes = inspection.notes;
-    managedInspection.technicianId = inspection.technicianId;
     managedInspection.floor = inspection.floor;
     managedInspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
     managedInspection.userId = inspection.userId;
@@ -159,7 +156,6 @@
         managedInspection.building = inspection.building;
         managedInspection.photo = inspection.photo;
         managedInspection.notes = inspection.notes;
-        managedInspection.technicianId = inspection.technicianId;
         managedInspection.floor = inspection.floor;
         managedInspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
         managedInspection.userId = inspection.userId;
@@ -238,7 +234,6 @@
     
     [parameters setValue:inspection.jobId forKey:@"inspection[job_id]"];
     [parameters setValue:inspection.location forKey:@"inspection[location]"];
-    [parameters setValue:inspection.technicianId forKey:@"inspection[technician_id]"];
     [parameters setValue:inspection.unit forKey:@"inspection[unit]"];
     [parameters setValue:inspection.damperAirstream forKey:@"inspection[damper_airstream_id]"];
     [parameters setValue:inspection.inspectorNotes forKey:@"inspection[notes]"];
@@ -337,6 +332,7 @@
     [parameters setValue:inspection.inspectorNotes forKey:@"inspection[notes]"];
     [parameters setValue:inspection.length forKey:@"inspection[length]"];
     [parameters setValue:inspection.height forKey:@"inspection[height]"];
+    [parameters setValue:inspection.userId forKey:@"inspection[user_id]"];
     
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -354,7 +350,6 @@
     
     [parameters setValue:inspection.jobId forKey:@"inspection[job_id]"];
     [parameters setValue:inspection.location forKey:@"inspection[location]"];
-    [parameters setValue:inspection.technicianId forKey:@"inspection[technician_id]"];
     
     if (photoOpen || photoClosed) {
         NSData *imageDataOpen = nil;

@@ -17,7 +17,7 @@
 @property (strong, nonatomic) NSString* building;
 @property (strong, nonatomic) NSString* photo;
 @property (strong, nonatomic) NSString* notes;
-@property (strong, nonatomic) NSNumber* technicianId;
+//@property (strong, nonatomic) NSNumber* technicianId;
 @property (strong, nonatomic) NSNumber* floor;
 @property (strong, nonatomic) NSNumber* inspectionId;
 @property (strong, nonatomic) NSNumber* damper;

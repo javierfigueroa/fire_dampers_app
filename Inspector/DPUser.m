@@ -14,7 +14,7 @@
 @synthesize lastName;
 @synthesize email;
 @synthesize identifier;
-
+@synthesize companyId;
 
 - (id)initWithAttributes:(NSDictionary *)attributes {
     self = [super init];
@@ -26,6 +26,7 @@
     lastName = [attributes valueForKey:@"last_name"];
     email = [attributes valueForKey:@"email"];
     identifier = [attributes valueForKey:@"id"];
+    companyId = [attributes valueForKey:@"company_id"];
     
     return self;
 }
@@ -47,6 +48,7 @@
             [defaults setObject:user.lastName forKey:@"last_name"];
             [defaults setObject:user.firstName forKey:@"first_name"];
             [defaults setObject:user.email forKey:@"email"];
+            [defaults setObject:user.companyId forKey:@"company_id"];
             [defaults setObject:username forKey:@"username"];
             [defaults setObject:password forKey:@"password"];
             [defaults synchronize];

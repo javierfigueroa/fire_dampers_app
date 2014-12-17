@@ -189,7 +189,6 @@
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.inspection.userId = [defaults valueForKey:@"user_id"];
-    self.inspection.technicianId = [defaults valueForKey:@"technician_id"];
     self.inspection.location = self.location.text;
     self.inspection.building = self.building.text;
     self.inspection.inspected = [NSDate new];

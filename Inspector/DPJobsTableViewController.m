@@ -166,6 +166,8 @@
 #pragma mark - Interface Builder
 //See https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CoreData/Articles/cdImporting.html for guidelines related to importing data into core data efficiently
 - (IBAction)didSelectGetNewJobsButton:(id)sender {
+    __fetchedResultsController = nil;
+    
     if ([[DPReachability sharedClient] online]) {
         [SVProgressHUD showWithStatus:@"Downloading Jobs" maskType:SVProgressHUDMaskTypeGradient];
         [DPJob getJobsWithBlock:^(NSObject *response) {
@@ -203,8 +205,8 @@
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *userId = [defaults valueForKey:@"parent_user_id"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"userId == %@", userId];
+    NSNumber *userId = [defaults valueForKey:@"company_id"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"companyId == %@", userId];
     __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
 
     return __fetchedResultsController;

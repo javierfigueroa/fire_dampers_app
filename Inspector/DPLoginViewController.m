@@ -55,10 +55,10 @@
     [SVProgressHUD showWithStatus:@"Signing in" maskType:SVProgressHUDMaskTypeGradient];
     [DPUser loginWithUsername:username andPassword:password block:^(NSObject *response) {
         if ([response isKindOfClass:[DPUser class]]) {
-            [DPTechnician getTechnicianWithBlock:^(NSObject *response) {
+            //[DPTechnician getTechnicianWithBlock:^(NSObject *response) {
                 [SVProgressHUD showSuccessWithStatus:@"Logged in Successfully"];
                [[NSNotificationCenter defaultCenter] postNotificationName:kUserDidLoginNotification object:self];
-            }];
+            //}];
         }else{
             [SVProgressHUD showErrorWithStatus:@"Failed to login, check your credentials or contact Support"];
         }

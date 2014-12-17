@@ -22,4 +22,5 @@
 @dynamic startDate;
 @dynamic jobId;
 @dynamic userId;
+@dynamic companyId;
 @end

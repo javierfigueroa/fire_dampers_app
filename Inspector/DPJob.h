@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSNumber *identifier;
 @property (strong, nonatomic) NSNumber *active;
 @property (strong, nonatomic) NSNumber *userId;
+@property (strong, nonatomic) NSNumber *companyId;
 
 
 - (id)initWithAttributes:(NSDictionary *)attributes;

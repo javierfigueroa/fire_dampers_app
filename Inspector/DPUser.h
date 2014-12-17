@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSString *lastName;
 @property (strong, nonatomic) NSString *email;
 @property (strong, nonatomic) NSNumber *identifier;
+@property (strong, nonatomic) NSNumber *companyId;
 
 
 + (void)loginWithUsername:(NSString *)username 
