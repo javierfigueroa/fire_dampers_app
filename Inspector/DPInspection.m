@@ -63,26 +63,15 @@
     
     photo2 = [attributes valueForKey:@"damper_image_url_closed"];
     damperAirstream = [attributes valueForKey:@"damper_airstream_id"];
-    unit = [attributes valueForKey:@"unit"];
+    if (![[attributes valueForKey:@"unit"] isKindOfClass:[NSNull class]]) {
+        unit = [attributes valueForKey:@"unit"];
+    }
     length = [attributes valueForKey:@"length"];
     height = [attributes valueForKey:@"height"];
     inspectorNotes = [attributes valueForKey:@"notes"];
     tag = [attributes valueForKey:@"tag"];
     
     return self;
-}
-
-- (BOOL)isUnique
-{
-    NSFetchRequest *request = [Inspection MR_requestFirstWithPredicate:[NSPredicate predicateWithFormat:@"jobId == %@ && damper == %@", self.jobId, self.damper]];
-    
-    id inspection = [Inspection MR_executeFetchRequestAndReturnFirstObject:request];
-    
-    if (inspection != nil && [inspection isKindOfClass:[Inspection class]]) {
-        return NO;
-    }
-    
-    return YES;
 }
 
 + (void)deleteInspectionByDamperId:(NSNumber*)_damperId andJobId:(NSNumber*)_jobId
@@ -115,7 +104,9 @@
     managedInspection.inspectionId = inspection.inspectionId;
     managedInspection.photo2 = inspection.photo2;
     managedInspection.damperAirstream = inspection.damperAirstream;
-    managedInspection.unit = inspection.unit;
+    if (![inspection.unit isKindOfClass:[NSNull class]]) {
+        managedInspection.unit = inspection.unit;
+    }
     managedInspection.length = inspection.length;
     managedInspection.height = inspection.height;
     managedInspection.inspectorNotes = inspection.inspectorNotes;
@@ -149,7 +140,7 @@
 + (void)updateRecords:(NSMutableArray *)records
 {
     for (DPInspection *inspection in records) {
-        NSArray *array = [Inspection MR_findByAttribute:@"damper" withValue:inspection.damper];
+        NSArray *array = [Inspection MR_findByAttribute:@"inspectionId" withValue:inspection.inspectionId];
         Inspection *managedInspection = array.count == 0 ? [Inspection MR_createEntity] : [array objectAtIndex:0];
         
         managedInspection.location = inspection.location;
@@ -168,7 +159,9 @@
         managedInspection.inspectionId = inspection.inspectionId;
         managedInspection.photo2 = inspection.photo2;
         managedInspection.damperAirstream = inspection.damperAirstream;
-        managedInspection.unit = inspection.unit;
+        if (![inspection.unit isKindOfClass:[NSNull class]]) {
+            managedInspection.unit = inspection.unit;
+        }
         managedInspection.length = inspection.length;
         managedInspection.height = inspection.height;
         managedInspection.inspectorNotes = inspection.inspectorNotes;
@@ -318,17 +311,17 @@
 }
 
 
-+ (void)addInspection:(DPInspection *)inspection withDamperPhotoOpen:(UIImage *)photoOpen withDamperPhotoClosed:(UIImage *)photoClosed withBlock:(void (^)(NSObject *))block
++ (void)addInspection:(Inspection *)inspection withDamperPhotoOpen:(UIImage *)photoOpen withDamperPhotoClosed:(UIImage *)photoClosed withBlock:(void (^)(NSObject *))block
 {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc]init];
     [parameters setValue:inspection.building forKey:@"inspection[building_abbrev]"];
-    [parameters setValue:inspection.damper forKey:@"inspection[damper_id]"];
-    [parameters setValue:inspection.damperStatus forKey:@"inspection[damper_status_id"];
-    [parameters setValue:inspection.damperTypeId forKey:@"inspection[damper_type_id]"];
+    [parameters setValue:[NSNumber numberWithInt:[inspection.damper intValue]] forKey:@"inspection[damper_id]"];
+    [parameters setValue:[NSNumber numberWithInt:[inspection.damperStatus intValue]] forKey:@"inspection[damper_status_id"];
+    [parameters setValue:[NSNumber numberWithInt:[inspection.damperTypeId intValue]] forKey:@"inspection[damper_type_id]"];
     [parameters setValue:inspection.notes forKey:@"inspection[description]"];
     [parameters setValue:inspection.floor forKey:@"inspection[floor]"];
     [parameters setValue:inspection.unit forKey:@"inspection[unit]"];
-    [parameters setValue:inspection.damperAirstream forKey:@"inspection[damper_airstream_id]"];
+    [parameters setValue:[NSNumber numberWithInt:[inspection.damperAirstream intValue]] forKey:@"inspection[damper_airstream_id]"];
     [parameters setValue:inspection.inspectorNotes forKey:@"inspection[notes]"];
     [parameters setValue:inspection.length forKey:@"inspection[length]"];
     [parameters setValue:inspection.height forKey:@"inspection[height]"];

@@ -45,6 +45,8 @@
     return self;
 }
 
+#pragma mark - API calls
+
 - (void)syncInspection:(Inspection *)inspection {
     [[SDImageCache sharedImageCache] queryDiskCacheForKey:inspection.localPhoto done:^(UIImage *photo, SDImageCacheType cacheType) {
         [[SDImageCache sharedImageCache] queryDiskCacheForKey:inspection.localPhoto2 done:^(UIImage *photo2, SDImageCacheType cacheType) {
@@ -56,27 +58,8 @@
                         [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
                     }
                 }];
-            }else{
-                
-                DPInspection *DPinspection = [[DPInspection alloc]init];
-                DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
-                DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
-                DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
-                
-                DPinspection.floor =  inspection.floor;
-                DPinspection.notes = inspection.notes;
-                DPinspection.unit = inspection.unit;
-                DPinspection.userId = inspection.userId;
-                DPinspection.location = inspection.location;
-                DPinspection.building = inspection.building;
-                DPinspection.inspected = inspection.inspected;
-                DPinspection.jobId = inspection.jobId;
-                DPinspection.inspectorNotes = inspection.inspectorNotes;
-                DPinspection.length = inspection.length;
-                DPinspection.height = inspection.height;
-                DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
-                
-                [DPInspection addInspection:DPinspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+            }else{                
+                [DPInspection addInspection:inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
                     if ([response isKindOfClass:[NSError class]]) {
                         [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
                     }else{
@@ -90,30 +73,28 @@
     }];
 }
 
-- (NSArray *)fetchedUnsyncInspections
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
-    NSFetchRequest *fetchRequest = [Inspection MR_requestAllWithPredicate:predicate];
-    return [Inspection MR_executeFetchRequest:fetchRequest];
-}
-
 - (void)updateInspections
 {
-    NSArray *array =  [self fetchedUnsyncInspections];
-    
-    if (array.count > 0) {
-        [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
-        for (Inspection *inspection in array) {
-            NSLog(@"%@", inspection);
-            [self syncInspection:inspection];
+    if ([[DPReachability sharedClient] online]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
+        NSFetchRequest *fetchRequest = [Inspection MR_requestAllWithPredicate:predicate];
+        NSArray *array = [Inspection MR_executeFetchRequest:fetchRequest];
+        if (array.count > 0) {
+            [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
+            for (Inspection *inspection in array) {
+                NSLog(@"%@", inspection);
+                [self syncInspection:inspection];
+            }
         }
+    }else {
+        [self.dampersTableView reloadData];
+        [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
     }
 }
 
 - (void)fetchInspections
 {
     if ([[DPReachability sharedClient] online]) {
-        //[self updateInspections];
         [SVProgressHUD showWithStatus:@"Downloading inspections" maskType:SVProgressHUDMaskTypeGradient];
         [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
@@ -128,6 +109,8 @@
         [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
     }
 }
+
+#pragma mark - View Cycle Methods
 
 - (void)viewDidLoad
 {
@@ -387,7 +370,7 @@
 
 - (void)didAddInspection
 {
-    [self fetchInspections];
+    [self updateInspections];
 }
 
  -(void)didCancelInspection

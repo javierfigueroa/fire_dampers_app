@@ -132,8 +132,9 @@
     self.inspectorNotes.text = self.inspection.inspectorNotes;
     self.length.text = self.inspection.length;
     self.height.text = self.inspection.height;
-
-    self.unit.text = [NSString stringWithFormat:@"%@", self.inspection.unit];
+    if (self.inspection.unit  != nil) {
+        self.unit.text = [NSString stringWithFormat:@"%@", self.inspection.unit];
+    }
 
     NSDictionary *stream = [self.damperAirstreams objectForKey:[NSString stringWithFormat:@"%@", inspection.damperAirstream]];
     self.damperAirstreamTextField.text = [stream valueForKey:@"Abbrev"];
@@ -181,7 +182,6 @@
         || self.location.text.length == 0
         || self.building.text.length == 0
         || self.damper.text.length == 0
-        || self.unit.text.length == 0
         || self.length.text.length == 0
         || self.height.text.length == 0
         || self.damperAirstreamTextField.text.length == 0) {
@@ -275,7 +275,6 @@
         [self updateInspection];
         
         if ([[DPReachability sharedClient] online]) {
-            
             [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.inspection.localPhoto done:^(UIImage *photo, SDImageCacheType cacheType) {
                 [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.inspection.localPhoto2 done:^(UIImage *photo2, SDImageCacheType cacheType) {
                     if (inspection.inspectionId && inspection.inspectionId > 0) {
@@ -288,25 +287,7 @@
                             }
                         }];
                     }else{
-                        DPInspection *DPinspection = [[DPInspection alloc]init];
-                        DPinspection.damperTypeId = [NSNumber numberWithInt:[inspection.damperTypeId intValue]];
-                        DPinspection.damperStatus = [NSNumber numberWithInt:[inspection.damperStatus intValue]];
-                        DPinspection.damperAirstream = [NSNumber numberWithInt:[inspection.damperAirstream intValue]];
-                        
-                        DPinspection.floor =  inspection.floor;
-                        DPinspection.notes = inspection.notes;
-                        DPinspection.unit = inspection.unit;
-                        DPinspection.userId = inspection.userId;
-                        DPinspection.location = inspection.location;
-                        DPinspection.building = inspection.building;
-                        DPinspection.inspected = inspection.inspected;
-                        DPinspection.jobId = inspection.jobId;
-                        DPinspection.inspectorNotes = inspection.inspectorNotes;
-                        DPinspection.length = inspection.length;
-                        DPinspection.height = inspection.height;
-                        DPinspection.damper = [NSNumber numberWithInt:[inspection.damper intValue]];
-                        
-                        [DPInspection addInspection:DPinspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+                        [DPInspection addInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
                             if ([response isKindOfClass:[NSError class]]) {
                                 [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
                             }else{
@@ -317,8 +298,6 @@
                             }        
                         }];
                     }
-
-                    
                 }];
             }];
         }else{

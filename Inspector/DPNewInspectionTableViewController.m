@@ -167,7 +167,6 @@
         || self.location.text.length == 0
         || self.building.text.length == 0
         || self.damper.text.length == 0 
-        || self.unit.text.length == 0
         || self.length.text.length == 0 
         || self.height.text.length == 0
         || self.damperAirstreamTextField.text.length == 0) {
@@ -200,16 +199,10 @@
     self.inspection.inspectorNotes = self.inspectorNotes.text;
     
     [SVProgressHUD showWithStatus:@"Adding Inspection" maskType:SVProgressHUDMaskTypeGradient];
-    
-    if (![self.inspection isUnique]) {
-        [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Damper with damper id %@ already exists", self.inspection.damper]];
-        return;
-    }
-    
-    [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
+    Inspection *managedInspection = [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
     
     if ([[DPReachability sharedClient] online]) {
-        [DPInspection addInspection:self.inspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
+        [DPInspection addInspection:managedInspection withDamperPhotoOpen:photo withDamperPhotoClosed:photo2 withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
                 [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
             }else{
@@ -225,6 +218,7 @@
         if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
             [delegate didAddInspection];
         }
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }    
 }

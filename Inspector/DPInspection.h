@@ -17,7 +17,6 @@
 @property (strong, nonatomic) NSString* building;
 @property (strong, nonatomic) NSString* photo;
 @property (strong, nonatomic) NSString* notes;
-//@property (strong, nonatomic) NSNumber* technicianId;
 @property (strong, nonatomic) NSNumber* floor;
 @property (strong, nonatomic) NSNumber* inspectionId;
 @property (strong, nonatomic) NSNumber* damper;
@@ -40,11 +39,10 @@
 
 - (id)initWithAttributes:(NSDictionary *)attributes;
 - (Inspection *)copyToManagedInspectionWithPhoto:(UIImage *)picture1 andPhoto:(UIImage *)picture2;
-- (BOOL)isUnique;
 
 + (void)deleteInspectionByDamperId:(NSNumber*)_damperId andJobId:(NSNumber*)_jobId;
 + (void)cacheImageFor:(Inspection *)inspection image:(UIImage *)picture andName:(NSString *)name;
 + (void)getInspectionsForJobId:(NSNumber *)jobId withBlock:(void (^)(NSObject *))block;
 + (void)updateInspection:(Inspection *)inspection withDamperPhotoOpen:(UIImage *)photoOpen withDamperPhotoClosed:(UIImage *)photoClosed withBlock:(void (^)(NSObject *))block;
-+ (void)addInspection:(DPInspection *)inspection withDamperPhotoOpen:(UIImage *)photoOpen withDamperPhotoClosed:(UIImage *)photoClosed withBlock:(void (^)(NSObject *))block;
++ (void)addInspection:(Inspection *)inspection withDamperPhotoOpen:(UIImage *)photoOpen withDamperPhotoClosed:(UIImage *)photoClosed withBlock:(void (^)(NSObject *))block;
 @end
