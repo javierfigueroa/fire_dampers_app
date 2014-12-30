@@ -12,6 +12,7 @@
 #import "SVProgressHUD.h"
 #import "SDImageCache.h"
 #import "UIImageView+WebCache.h"
+#import "DPReachability.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 
 @interface DPPhotoCaptureViewController ()
@@ -51,6 +52,11 @@
     }
     
     if (self.imageUrl != nil) {
+        
+        if (![[DPReachability sharedClient] online]) {
+            [SVProgressHUD showErrorWithStatus:@"You're working offline, and the server images will not load without internet"];
+        }
+        
         [self.imageView sd_setImageWithURL:self.imageUrl];
     }else if(self.imageKey != nil) {
         [[SDImageCache sharedImageCache] queryDiskCacheForKey:self.imageKey done:^(UIImage *image, SDImageCacheType cacheType) {

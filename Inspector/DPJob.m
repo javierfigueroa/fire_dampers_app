@@ -70,6 +70,8 @@
         managedJob.userId = job.userId;
         managedJob.companyId = job.companyId;
     }
+    
+    [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
 }
 
 + (void)getJobsWithBlock:(void (^)(NSObject *))block

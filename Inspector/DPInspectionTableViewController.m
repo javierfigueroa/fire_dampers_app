@@ -171,7 +171,7 @@
     inspection.length = length.text;
     inspection.height = height.text;
     
-    [MagicalRecord saveWithBlock:nil];
+    [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
 }
 
 - (BOOL)validateForm
@@ -250,7 +250,7 @@
    
     if ([self validateForm]) {
     
-        [SVProgressHUD showWithStatus:@"Syncing Inspection" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"Saving" maskType:SVProgressHUDMaskTypeGradient];
         
         self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
         self.inspection.damperStatus = [NSNumber numberWithInt:[self.damperStatusId intValue]];
@@ -282,7 +282,7 @@
                             if ([response isKindOfClass:[NSError class]]) {
                                 [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
                             }else{
-                                [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
+                                [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
                                 [self.navigationController popViewControllerAnimated:YES];
                             }
                         }];
@@ -293,7 +293,7 @@
                             }else{
                                 self.inspection.inspectionId = [response valueForKey:@"id"];
                                 inspection.sync = [NSNumber numberWithBool:YES];
-                                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
+                                [SVProgressHUD showSuccessWithStatus:@"Inspection added"];
                                 [self.navigationController popViewControllerAnimated:YES];
                             }        
                         }];

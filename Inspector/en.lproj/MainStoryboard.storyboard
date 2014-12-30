@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="HHR-qj-8hs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5bi-H0-a6l">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-V9-7nt">
@@ -25,7 +25,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Tmu-5L-5Wr"/>
-                                    <barButtonItem title="Sync All" id="Hk6-Th-tfO">
+                                    <barButtonItem title="Sync" id="Hk6-Th-tfO">
                                         <connections>
                                             <action selector="didSelectUpdateAll:" destination="g7H-v4-YtS" id="fIx-s6-KPl"/>
                                         </connections>
@@ -103,7 +103,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="dampersTableView" destination="bok-OB-z9z" id="nwB-GD-dyR"/>
                     </connections>

@@ -121,7 +121,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Tmu-5L-5Wr"/>
-                                    <barButtonItem title="Sync All" id="Hk6-Th-tfO">
+                                    <barButtonItem title="Sync" id="Hk6-Th-tfO">
                                         <connections>
                                             <action selector="didSelectUpdateAll:" destination="g7H-v4-YtS" id="fIx-s6-KPl"/>
                                         </connections>
@@ -866,10 +866,10 @@
             </objects>
             <point key="canvasLocation" x="1367.5" y="-607.5"/>
         </scene>
-        <!--New Damper Inspection-->
+        <!--New Inspection-->
         <scene sceneID="zKr-8A-7vn">
             <objects>
-                <tableViewController id="STO-aC-Pwn" customClass="DPNewInspectionTableViewController" sceneMemberID="viewController">
+                <tableViewController title="New Inspection" id="STO-aC-Pwn" customClass="DPNewInspectionTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="wKr-tX-OHb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2149,8 +2149,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Gb0-K5-wmb"/>
-        <segue reference="EOj-BK-s9m"/>
-        <segue reference="FO9-LV-qda"/>
+        <segue reference="031-W9-5RG"/>
+        <segue reference="dRg-pU-YWJ"/>
+        <segue reference="rpW-o4-zcX"/>
     </inferredMetricsTieBreakers>
 </document>

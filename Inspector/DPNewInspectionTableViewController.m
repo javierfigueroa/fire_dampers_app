@@ -102,6 +102,8 @@
         APNumberPad *numberPad = [APNumberPad numberPadWithDelegate:nil];
         numberPad;
     });
+    
+    self.title = @"New Inspection";
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -198,7 +200,7 @@
     self.inspection.height = self.height.text;
     self.inspection.inspectorNotes = self.inspectorNotes.text;
     
-    [SVProgressHUD showWithStatus:@"Adding Inspection" maskType:SVProgressHUDMaskTypeGradient];
+    [SVProgressHUD showWithStatus:@"Saving" maskType:SVProgressHUDMaskTypeGradient];
     Inspection *managedInspection = [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];
     
     if ([[DPReachability sharedClient] online]) {
@@ -206,7 +208,7 @@
             if ([response isKindOfClass:[NSError class]]) {
                 [SVProgressHUD showErrorWithStatus:[(NSError*)response domain]];
             }else{
-                [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
+                [SVProgressHUD showSuccessWithStatus:@"Inspection added"];
                 if (delegate && [delegate respondsToSelector:@selector(didAddInspection)]) {
                     [delegate didAddInspection];
                 }

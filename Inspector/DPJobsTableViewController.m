@@ -41,27 +41,21 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self didSelectGetNewJobsButton:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kUserDidLoginNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        [self didSelectGetNewJobsButton:nil];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"] &&
-        [[NSUserDefaults standardUserDefaults] valueForKey:@"password"] ) {
-        [self didSelectGetNewJobsButton:nil];
-    }else{
+    if (![[NSUserDefaults standardUserDefaults] valueForKey:@"username"] ||
+        ![[NSUserDefaults standardUserDefaults] valueForKey:@"password"] ) {
         [self logout];
     }
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [MagicalRecord saveWithBlock:nil];
-
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -166,21 +160,16 @@
 #pragma mark - Interface Builder
 //See https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CoreData/Articles/cdImporting.html for guidelines related to importing data into core data efficiently
 - (IBAction)didSelectGetNewJobsButton:(id)sender {
-    __fetchedResultsController = nil;
-    
     if ([[DPReachability sharedClient] online]) {
-        [SVProgressHUD showWithStatus:@"Downloading Jobs" maskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"Downloading jobs" maskType:SVProgressHUDMaskTypeGradient];
         [DPJob getJobsWithBlock:^(NSObject *response) {
             NSLog(@"%@", response);
-            if([response isKindOfClass:[NSError class]]) {
-                [self didSelectLogoutButton:nil];
-            }
-            
             [SVProgressHUD dismiss];
-             // showSuccessWithStatus:@"Jobs updated"];
+            [self.tableView reloadData];
         }];
     }else{
         [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
+        [self.tableView reloadData];
     }
 }
 
@@ -205,9 +194,9 @@
     }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSNumber *userId = [defaults valueForKey:@"company_id"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"companyId == %@", userId];
-    __fetchedResultsController = [Job MR_fetchAllSortedBy:@"startDate" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
+    NSNumber *companyId = [defaults valueForKey:@"company_id"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"companyId == %@", companyId];
+    __fetchedResultsController = [Job MR_fetchAllSortedBy:@"jobId" ascending:NO withPredicate:predicate groupBy:nil delegate:self];
 
     return __fetchedResultsController;
 }

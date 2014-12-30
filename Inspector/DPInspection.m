@@ -125,6 +125,7 @@
         [DPInspection cacheImageFor:managedInspection image:picture2 andName:photoName2]; 
     }
     
+    [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
     return managedInspection;
 }
 
@@ -170,6 +171,8 @@
         managedInspection.localPhoto = @"";
         managedInspection.sync = [NSNumber numberWithBool:YES];
     }
+    
+    [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
 }
 
 + (void)getInspectionsForJobId:(NSNumber *)jobId withBlock:(void (^)(NSObject *))block

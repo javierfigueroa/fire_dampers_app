@@ -55,7 +55,7 @@
                     if ([response isKindOfClass:[NSError class]]) {
                         [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
                     }else{
-                        [SVProgressHUD showSuccessWithStatus:@"Inspection Updated"];
+                        [SVProgressHUD showSuccessWithStatus:@"Inspection updated"];
                     }
                 }];
             }else{                
@@ -65,7 +65,7 @@
                     }else{
                         inspection.inspectionId = [response valueForKey:@"id"];
                         inspection.sync = [NSNumber numberWithBool:YES];
-                        [SVProgressHUD showSuccessWithStatus:@"Inspection Added"];
+                        [SVProgressHUD showSuccessWithStatus:@"Inspection added"];
                     }        
                 }];
             }
@@ -73,18 +73,29 @@
     }];
 }
 
-- (void)updateInspections
+-(BOOL)hasUnsyncedInspections {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
+    return [Inspection MR_countOfEntitiesWithPredicate:predicate] > 0;
+}
+
+-(NSArray*)getUnsyncInspections {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
+    NSFetchRequest *fetchRequest = [Inspection MR_requestAllWithPredicate:predicate];
+    return [Inspection MR_executeFetchRequest:fetchRequest];
+}
+
+- (void)syncInspections
 {
     if ([[DPReachability sharedClient] online]) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@ && sync = NO", @"jobId", self.job.jobId];
-        NSFetchRequest *fetchRequest = [Inspection MR_requestAllWithPredicate:predicate];
-        NSArray *array = [Inspection MR_executeFetchRequest:fetchRequest];
-        if (array.count > 0) {
+        if ([self hasUnsyncedInspections]) {
             [SVProgressHUD showWithStatus:@"Updating inspections" maskType:SVProgressHUDMaskTypeGradient];
-            for (Inspection *inspection in array) {
+            NSArray *inspections = [self getUnsyncInspections];
+            for (Inspection *inspection in inspections) {
                 NSLog(@"%@", inspection);
                 [self syncInspection:inspection];
             }
+        }else{
+            [SVProgressHUD showSuccessWithStatus:@"Nothing to sync"];
         }
     }else {
         [self.dampersTableView reloadData];
@@ -92,20 +103,31 @@
     }
 }
 
-- (void)fetchInspections
+- (void)getInspections
 {
-    if ([[DPReachability sharedClient] online]) {
+    if (![self hasUnsyncedInspections]) {
         [SVProgressHUD showWithStatus:@"Downloading inspections" maskType:SVProgressHUDMaskTypeGradient];
         [DPInspection getInspectionsForJobId:self.job.jobId withBlock:^(NSObject *response) {
             if ([response isKindOfClass:[NSError class]]) {
                 [SVProgressHUD showErrorWithStatus:[(NSError *)response localizedDescription]];
             }else{
                 [SVProgressHUD dismiss];
-                [MagicalRecord saveWithBlock:nil];
-            }       
+            }
         }];
+    }
+}
+
+- (void)refreshInspections
+{
+    [self.dampersTableView reloadData];
+    if ([[DPReachability sharedClient] online]) {
+        NSArray *array = [self getUnsyncInspections];
+        if (array.count > 0) {
+            [SVProgressHUD showErrorWithStatus:@"You have unsynced inspections. Please sync before refreshing"];
+        }else{
+            [self getInspections];
+        }
     }else {
-        [self.dampersTableView reloadData];
         [SVProgressHUD showSuccessWithStatus:@"You're working offline"];
     }
 }
@@ -122,21 +144,22 @@
     path = [[NSBundle mainBundle] pathForResource:@"DamperAirstream" ofType:@"plist"];
     self.damperAirstreams = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
     self.title = self.job.jobName;
-    [self fetchInspections];
-
+    if (self.fetchedResultsController.fetchedObjects.count == 0) {
+        [self getInspections];
+    }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.dampersTableView reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    self.fetchedResultsController = nil;
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    [self.dampersTableView reloadData];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    self.fetchedResultsController = nil;
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {	
@@ -148,7 +171,7 @@
 - (void)didSelectUpdateAll:(id)sender
 {
     if ([[DPReachability sharedClient] online]) {             
-        [self updateInspections];
+        [self syncInspections];
     }else{
         [SVProgressHUD showSuccessWithStatus:@"You're working offline, try syncing once you're back online"];
     }
@@ -157,8 +180,7 @@
 - (void)didSelectFetchAll:(id)sender
 {
     if ([[DPReachability sharedClient] online]) {
-        [self updateInspections];
-        [self fetchInspections];
+        [self refreshInspections];
     }else{
         [SVProgressHUD showSuccessWithStatus:@"You're working offline, try syncing once you're back online"];
     }
@@ -215,7 +237,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Inspection *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.managedObjectContext deleteObject:object];
-        [MagicalRecord saveWithBlock:nil];
+        [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
 
     }
 }
@@ -268,7 +290,7 @@
         inspectionCell.comments.text = [NSString stringWithFormat:@"Inspected on: %@", dateString];
         
         NSDictionary *damperState = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", object.damperStatus]];
-        inspectionCell.status.text = [NSString stringWithFormat:@"Inspection Result: %@", [damperState valueForKey:@"Abbrev"]];
+        inspectionCell.status.text = [NSString stringWithFormat:@"Result: %@", [damperState valueForKey:@"Description"]];
         
         if ([object.sync boolValue]) {
             inspectionCell.syncState.textColor = [UIColor greenColor];
@@ -370,7 +392,7 @@
 
 - (void)didAddInspection
 {
-    [self updateInspections];
+    [self syncInspections];
 }
 
  -(void)didCancelInspection
@@ -383,7 +405,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
-        [self updateInspections];
+        [self syncInspections];
     }
 }
 
