@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSMutableDictionary *damperStatus;
 @property (strong, nonatomic) NSMutableDictionary *damperAirstreams;
 
+@property (strong, nonatomic) IBOutlet UITextField *tagTextField;
 @property (strong, nonatomic) IBOutlet UITextField *building;
 @property (strong, nonatomic) IBOutlet UILabel *floor;
 @property (strong, nonatomic) IBOutlet UITextField *location;

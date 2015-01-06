@@ -21,7 +21,7 @@
 
 @end
 
-@interface DPNewInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPPhotoCaptureViewControllerDelegate, DPDamperAirstreamViewControllerDelegate>
+@interface DPNewInspectionTableViewController : UITableViewController<DPDamperTypesViewControllerDelegate, DPPhotoCaptureViewControllerDelegate, DPDamperAirstreamViewControllerDelegate, UITextFieldDelegate>
 {
     BOOL _takingOpenPhoto;
     BOOL _takingClosedPhoto;
@@ -39,6 +39,7 @@
 @property (strong, nonatomic) NSMutableDictionary *damperCodes;
 @property (strong, nonatomic) NSMutableDictionary *damperStatus;
 @property (strong, nonatomic) NSMutableDictionary *damperAirstreams;
+@property (weak, nonatomic) IBOutlet UITextField *tagTextField;
 
 @property (strong, nonatomic) IBOutlet UITextField *building;
 @property (strong, nonatomic) IBOutlet UITextField *floor;

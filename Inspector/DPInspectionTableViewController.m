@@ -46,6 +46,7 @@
 @synthesize height;
 @synthesize photo2Label;
 @synthesize damperAirstreams;
+@synthesize tagTextField;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -126,7 +127,7 @@
     NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", self.inspection.damperTypeId]];
     self.damperTypeIdTextField.text = [type valueForKey:@"Abbrev"];
     self.damperTypeId = inspection.damperTypeId;
-
+    self.tagTextField.text = self.inspection.tag;
     self.damperStatusId = self.inspection.damperStatus;
     self.notes.text = self.inspection.notes;
     self.inspectorNotes.text = self.inspection.inspectorNotes;
@@ -170,6 +171,7 @@
     inspection.inspectorNotes = inspectorNotes.text;
     inspection.length = length.text;
     inspection.height = height.text;
+    inspection.tag = tagTextField.text;
     
     [MagicalRecord saveUsingCurrentThreadContextWithBlock:nil completion:nil];
 }
@@ -271,6 +273,7 @@
         self.inspection.length = self.length.text;
         self.inspection.height = self.height.text;
         self.inspection.inspectorNotes = self.inspectorNotes.text;
+        self.inspection.tag = self.tagTextField.text;
         
         [self updateInspection];
         
@@ -291,8 +294,6 @@
                             if ([response isKindOfClass:[NSError class]]) {
                                 [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
                             }else{
-                                self.inspection.inspectionId = [response valueForKey:@"id"];
-                                inspection.sync = [NSNumber numberWithBool:YES];
                                 [SVProgressHUD showSuccessWithStatus:@"Inspection added"];
                                 [self.navigationController popViewControllerAnimated:YES];
                             }        

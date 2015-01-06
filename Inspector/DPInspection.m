@@ -129,6 +129,19 @@
     return managedInspection;
 }
 
++ (void)setInspectionSync:(Inspection*)inspection withJson:(NSDictionary*)json
+{
+    NSDictionary *jsonInspection = json[@"inspection"];
+    inspection.tag = [jsonInspection valueForKey:@"tag"];
+    inspection.sync = [NSNumber numberWithBool:YES];
+    
+    if (inspection.inspectionId == nil) {
+        inspection.inspectionId = [NSNumber numberWithInt:[[jsonInspection valueForKey:@"id"] intValue]];
+    }
+    
+    [MagicalRecord saveUsingCurrentThreadContextWithBlockAndWait:nil];
+}
+
 + (void)cacheImageFor:(Inspection *)inspection image:(UIImage *)picture andName:(NSString *)name {
     if (picture) {        
         dispatch_queue_t backgroundQueue = dispatch_queue_create("com.inspector.bgqueue", NULL);    
@@ -213,6 +226,7 @@
     [parameters setValue:inspection.damperTypeId forKey:@"inspection[damper_type_id]"];
     [parameters setValue:inspection.notes forKey:@"inspection[description]"];
     [parameters setValue:inspection.floor forKey:@"inspection[floor]"];
+    [parameters setValue:inspection.tag forKey:@"inspection[tag]"];
     
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -291,9 +305,8 @@
                     }
                 } else {
                     if(block) {
-                        inspection.sync = [NSNumber numberWithBool:YES];
-                        //                inspection.localPhoto = @"";
-                        block(nil);
+                        [[self class] setInspectionSync:inspection withJson:responseObject];
+                        block(inspection);
                     }
                 }
             }];
@@ -304,8 +317,8 @@
     }else{
         
         [[DPApiClient sharedClient] PUT:[NSString stringWithFormat:@"inspections/%@.json", inspection.inspectionId] parameters:parameters success:^(NSURLSessionTask *operation, id responseObject) {
-            inspection.sync = [NSNumber numberWithBool:YES];
-            block(nil);
+            [[self class] setInspectionSync:inspection withJson:responseObject];
+            block(inspection);
         } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"%@", error);
             block([NSError errorWithDomain:[error localizedDescription] code:error.code userInfo:nil]);
@@ -329,6 +342,7 @@
     [parameters setValue:inspection.length forKey:@"inspection[length]"];
     [parameters setValue:inspection.height forKey:@"inspection[height]"];
     [parameters setValue:inspection.userId forKey:@"inspection[user_id]"];
+    [parameters setValue:inspection.tag forKey:@"inspection[tag]"];
     
     
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
@@ -394,7 +408,8 @@
             
         } success:^(NSURLSessionDataTask *task, id responseObject) {
             if(block) {
-                block([responseObject valueForKey:@"inspection"]);
+                [[self class] setInspectionSync:inspection withJson:responseObject];
+                block(inspection);
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(@"Error: %@", error);
@@ -409,9 +424,9 @@
             }
         }];
     }else{
-            
         [[DPApiClient sharedClient] POST:@"inspections.json" parameters:parameters success:^(NSURLSessionTask *operation, id responseObject) {
-            block([responseObject valueForKey:@"inspection"]);
+            [[self class] setInspectionSync:inspection withJson:responseObject];
+            block(inspection);
         } failure:^(NSURLSessionTask *operation, NSError *error) {
             NSLog(@"%@", error);
             NSHTTPURLResponse *response = (NSHTTPURLResponse *)operation.response;            

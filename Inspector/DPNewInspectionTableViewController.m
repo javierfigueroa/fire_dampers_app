@@ -62,7 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.inspection = [[DPInspection alloc]init];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"DamperCodes" ofType:@"plist"];
     self.damperCodes = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
     path = [[NSBundle mainBundle] pathForResource:@"DamperAirstream" ofType:@"plist"];
@@ -179,7 +179,6 @@
     
     [self.view endEditing:YES];
     
-    self.inspection = [[DPInspection alloc]init];
     self.inspection.damperTypeId = [NSNumber numberWithInt:[self.damperTypeId intValue]];
     self.inspection.damperStatus = [NSNumber numberWithInt:[self.damperStatusId intValue]];
     self.inspection.damperAirstream = [NSNumber numberWithInt:[self.damperAirstreamId intValue]];
@@ -199,6 +198,7 @@
     self.inspection.length = self.length.text;
     self.inspection.height = self.height.text;
     self.inspection.inspectorNotes = self.inspectorNotes.text;
+    self.inspection.tag = self.tagTextField.text;
     
     [SVProgressHUD showWithStatus:@"Saving" maskType:SVProgressHUDMaskTypeGradient];
     Inspection *managedInspection = [self.inspection copyToManagedInspectionWithPhoto:photo andPhoto:photo2];

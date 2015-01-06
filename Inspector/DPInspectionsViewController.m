@@ -63,8 +63,6 @@
                     if ([response isKindOfClass:[NSError class]]) {
                         [SVProgressHUD showErrorWithStatus:[(NSError*)response localizedDescription]];
                     }else{
-                        inspection.inspectionId = [response valueForKey:@"id"];
-                        inspection.sync = [NSNumber numberWithBool:YES];
                         [SVProgressHUD showSuccessWithStatus:@"Inspection added"];
                     }        
                 }];
@@ -392,7 +390,7 @@
 
 - (void)didAddInspection
 {
-    [self syncInspections];
+    //[self syncInspections];
 }
 
  -(void)didCancelInspection

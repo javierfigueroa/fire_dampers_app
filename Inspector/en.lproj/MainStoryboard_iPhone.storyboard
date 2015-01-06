@@ -533,6 +533,44 @@
                                             <segue destination="zLt-i6-QPk" kind="show" id="Gb0-K5-wmb"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="60" id="L0z-lh-Iby">
+                                        <rect key="frame" x="0.0" y="693" width="768" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="L0z-lh-Iby" id="Izg-hU-5gT">
+                                            <rect key="frame" x="45" y="0.0" width="676" height="58"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Damper tag" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F7l-fm-XQ3">
+                                                    <rect key="frame" x="167" y="10" width="200" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="200" id="RZ8-CT-io5"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="VqI-9f-5WB" id="r5d-TK-3t7"/>
+                                                    </connections>
+                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tag" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="bip-XL-ScB">
+                                                    <rect key="frame" x="8" y="19" width="177" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="177" id="cBC-xy-VqX"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="bip-XL-ScB" firstAttribute="leading" secondItem="Izg-hU-5gT" secondAttribute="leadingMargin" id="4aN-YJ-pMv"/>
+                                                <constraint firstItem="F7l-fm-XQ3" firstAttribute="top" secondItem="Izg-hU-5gT" secondAttribute="topMargin" constant="2" id="FLy-yX-4d9"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="F7l-fm-XQ3" secondAttribute="bottom" constant="6" id="TJ7-sD-IgN"/>
+                                                <constraint firstItem="bip-XL-ScB" firstAttribute="centerY" secondItem="Izg-hU-5gT" secondAttribute="centerY" id="evJ-pt-TRd"/>
+                                                <constraint firstItem="F7l-fm-XQ3" firstAttribute="trailing" secondItem="Izg-hU-5gT" secondAttribute="trailingMargin" id="xPr-sC-rxS"/>
+                                                <constraint firstItem="bip-XL-ScB" firstAttribute="top" secondItem="Izg-hU-5gT" secondAttribute="topMargin" constant="11" id="zed-sL-MC3"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Location" id="LaN-O4-EGA" userLabel="Location">
@@ -859,6 +897,7 @@
                         <outlet property="passFailControl" destination="Bm3-Ue-xSg" id="EmM-Vn-05V"/>
                         <outlet property="photo2Label" destination="ZUe-9S-SOT" id="Prj-qs-u7t"/>
                         <outlet property="photoLabel" destination="D7P-3L-Y44" id="zcW-ds-0BS"/>
+                        <outlet property="tagTextField" destination="F7l-fm-XQ3" id="tig-zf-bti"/>
                         <outlet property="unit" destination="KcE-JG-mdm" id="AUJ-MR-oQA"/>
                     </connections>
                 </tableViewController>
@@ -1184,6 +1223,44 @@
                                         <connections>
                                             <segue destination="zLt-i6-QPk" kind="show" id="031-W9-5RG"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="60" id="BR8-BO-nwM">
+                                        <rect key="frame" x="0.0" y="693" width="768" height="61"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BR8-BO-nwM" id="XfC-N1-0xA">
+                                            <rect key="frame" x="45" y="0.0" width="676" height="58"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Tag" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="LRY-bR-Y9i">
+                                                    <rect key="frame" x="8" y="19" width="177" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="177" id="IuR-46-ijA"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(optional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="elN-N2-8Vz">
+                                                    <rect key="frame" x="167" y="10" width="200" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="200" id="5bR-aq-Ub9"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="STO-aC-Pwn" id="7gg-rN-bXI"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="LRY-bR-Y9i" firstAttribute="leading" secondItem="XfC-N1-0xA" secondAttribute="leadingMargin" id="0uC-G0-Pca"/>
+                                                <constraint firstItem="LRY-bR-Y9i" firstAttribute="centerY" secondItem="XfC-N1-0xA" secondAttribute="centerY" id="CCe-kW-GIK"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="elN-N2-8Vz" secondAttribute="bottom" constant="6" id="IzI-88-Q1Z"/>
+                                                <constraint firstItem="LRY-bR-Y9i" firstAttribute="top" secondItem="XfC-N1-0xA" secondAttribute="topMargin" constant="11" id="Izv-g5-Gow"/>
+                                                <constraint firstItem="elN-N2-8Vz" firstAttribute="trailing" secondItem="XfC-N1-0xA" secondAttribute="trailingMargin" id="LMv-Dm-voS"/>
+                                                <constraint firstItem="elN-N2-8Vz" firstAttribute="top" secondItem="XfC-N1-0xA" secondAttribute="topMargin" constant="2" id="ky3-AA-mLz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1527,6 +1604,7 @@
                         <outlet property="passFailControl" destination="B7Z-RE-RU5" id="ywl-ds-U9h"/>
                         <outlet property="photo2Label" destination="WNf-vm-pOI" id="pLe-bo-1a6"/>
                         <outlet property="photoLabel" destination="1ny-1l-4Os" id="TC4-Sx-aLI"/>
+                        <outlet property="tagTextField" destination="elN-N2-8Vz" id="lBy-Na-KmV"/>
                         <outlet property="unit" destination="s4K-9l-ifV" id="vnn-Cq-CXQ"/>
                     </connections>
                 </tableViewController>
@@ -2149,8 +2227,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="031-W9-5RG"/>
-        <segue reference="dRg-pU-YWJ"/>
-        <segue reference="rpW-o4-zcX"/>
+        <segue reference="EOj-BK-s9m"/>
+        <segue reference="Gb0-K5-wmb"/>
+        <segue reference="FO9-LV-qda"/>
     </inferredMetricsTieBreakers>
 </document>
