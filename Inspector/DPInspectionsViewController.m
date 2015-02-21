@@ -281,11 +281,7 @@
         NSDictionary *type = [self.damperCodes objectForKey:[NSString stringWithFormat:@"%@", object.damperTypeId]];
         inspectionCell.damperType.text = [NSString stringWithFormat:@"Type: %@", [type valueForKey:@"Abbrev"]];
         
-        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *dateString = [dateFormatter stringFromDate:object.inspected];
-        
-        inspectionCell.comments.text = [NSString stringWithFormat:@"Inspected on: %@", dateString];
+        inspectionCell.comments.text = [NSString stringWithFormat:@"Tag: %@", object.tag];
         
         NSDictionary *damperState = [self.damperStatus objectForKey:[NSString stringWithFormat:@"%@", object.damperStatus]];
         inspectionCell.status.text = [NSString stringWithFormat:@"Result: %@", [damperState valueForKey:@"Description"]];
@@ -315,7 +311,7 @@
     }
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"jobId == %@", self.job.jobId];
-    __fetchedResultsController = [Inspection MR_fetchAllSortedBy:@"floor,damper" ascending:YES withPredicate:predicate groupBy:@"floor" delegate:self];
+    __fetchedResultsController = [Inspection MR_fetchAllSortedBy:@"floor,tag,damper" ascending:YES withPredicate:predicate groupBy:@"floor" delegate:self];
     
     return __fetchedResultsController;
 }

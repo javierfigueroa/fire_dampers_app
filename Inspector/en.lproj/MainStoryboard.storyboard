@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="05q-lH-fcY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="05q-lH-fcY">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -116,12 +116,12 @@
         <scene sceneID="yli-BA-JiD">
             <objects>
                 <tableViewController id="gRN-pj-qUx" customClass="DPJobsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Qx1-6u-zLB">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="146" sectionHeaderHeight="10" sectionFooterHeight="10" id="Qx1-6u-zLB">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JobsCell" textLabel="S1y-P4-DFy" rowHeight="80" style="IBUITableViewCellStyleDefault" id="xUJ-yF-a46">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JobsCell" textLabel="S1y-P4-DFy" rowHeight="146" style="IBUITableViewCellStyleDefault" id="xUJ-yF-a46">
                                 <rect key="frame" x="0.0" y="54" width="768" height="82"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xUJ-yF-a46" id="3gU-Xr-pxP">
@@ -164,7 +164,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ud-IC-3XO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-768.75" y="-145.8984375"/>
+            <point key="canvasLocation" x="-769" y="-146"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WMV-lX-sUT">
@@ -387,6 +387,30 @@
                                         <connections>
                                             <segue destination="zLt-i6-QPk" kind="show" id="Gb0-K5-wmb"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="60" id="8S9-FH-YTY">
+                                        <rect key="frame" x="0.0" y="227" width="768" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8S9-FH-YTY" id="l5f-eO-6Ic">
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(optional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JbA-23-ypy">
+                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="STO-aC-Pwn" id="LJt-kB-418"/>
+                                                    </connections>
+                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Tag" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="zfD-cM-pPh">
+                                                    <rect key="frame" x="65" y="19" width="125" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -619,6 +643,7 @@
                         <outlet property="passFailControl" destination="Bm3-Ue-xSg" id="EmM-Vn-05V"/>
                         <outlet property="photo2Label" destination="ZUe-9S-SOT" id="Prj-qs-u7t"/>
                         <outlet property="photoLabel" destination="D7P-3L-Y44" id="zcW-ds-0BS"/>
+                        <outlet property="tagTextField" destination="JbA-23-ypy" id="Qck-t3-M1P"/>
                         <outlet property="unit" destination="KcE-JG-mdm" id="AUJ-MR-oQA"/>
                     </connections>
                 </tableViewController>
@@ -832,6 +857,30 @@
                                         <connections>
                                             <segue destination="zLt-i6-QPk" kind="show" id="031-W9-5RG"/>
                                         </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="formCell" rowHeight="60" id="0Mj-d9-IV5">
+                                        <rect key="frame" x="0.0" y="287" width="768" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0Mj-d9-IV5" id="3Y6-hy-7gy">
+                                            <rect key="frame" x="45" y="0.0" width="676" height="59"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(optional)" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AhQ-kK-bWO">
+                                                    <rect key="frame" x="203" y="19" width="476" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="STO-aC-Pwn" id="ovt-m8-g7s"/>
+                                                    </connections>
+                                                </textField>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Tag" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gsf-Hr-Xra">
+                                                    <rect key="frame" x="65" y="19" width="125" height="21"/>
+                                                    <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -1062,6 +1111,7 @@
                         <outlet property="passFailControl" destination="B7Z-RE-RU5" id="ywl-ds-U9h"/>
                         <outlet property="photo2Label" destination="WNf-vm-pOI" id="pLe-bo-1a6"/>
                         <outlet property="photoLabel" destination="1ny-1l-4Os" id="TC4-Sx-aLI"/>
+                        <outlet property="tagTextField" destination="AhQ-kK-bWO" id="UtA-j9-Squ"/>
                         <outlet property="unit" destination="s4K-9l-ifV" id="vnn-Cq-CXQ"/>
                     </connections>
                 </tableViewController>
@@ -1222,7 +1272,7 @@
             <objects>
                 <tableViewController id="zLt-i6-QPk" customClass="DPDamperAirstreamViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="bh0-14-wDR">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
@@ -1629,8 +1679,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FO9-LV-qda"/>
         <segue reference="EOj-BK-s9m"/>
-        <segue reference="Gb0-K5-wmb"/>
+        <segue reference="MbN-3B-XkP"/>
+        <segue reference="CcV-2z-dQW"/>
     </inferredMetricsTieBreakers>
 </document>

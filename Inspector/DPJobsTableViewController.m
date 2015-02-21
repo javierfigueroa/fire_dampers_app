@@ -41,7 +41,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([[NSUserDefaults standardUserDefaults] valueForKey:@"username"] &&
+        [[NSUserDefaults standardUserDefaults] valueForKey:@"password"] ) {
     [self didSelectGetNewJobsButton:nil];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserverForName:kUserDidLoginNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         [self didSelectGetNewJobsButton:nil];
@@ -175,7 +179,45 @@
 
 - (void)didSelectLogoutButton:(id)sender
 {
-    [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Sign out" otherButtonTitles:nil] showInView:self.view];
+    //if ipad
+    
+    // Override point for customization after application launch
+    if (IPAD) {
+        UIAlertAction *actionDelete = nil;
+        UIAlertAction *actionCancel = nil;
+        
+        // create action sheet
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:nil message:nil
+                                              preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        // Delete Button
+        actionDelete = [UIAlertAction
+                        actionWithTitle:@"Sign out"
+                        style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                            [self logout];
+                        }];
+        
+        // Cancel Button
+        actionCancel = [UIAlertAction
+                        actionWithTitle:@"Cancel"
+                        style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                            // cancel
+                        }];
+        
+        // Add Cancel action
+        [alertController addAction:actionCancel];
+        [alertController addAction:actionDelete];
+        
+        // show action sheet
+        alertController.popoverPresentationController.barButtonItem = self.navigationItem.leftBarButtonItem;
+        alertController.popoverPresentationController.sourceView = self.view;
+        
+        [self presentViewController:alertController animated:YES
+                         completion:nil];
+    }else{
+         [[[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Sign out" otherButtonTitles:nil] showInView:self.view];
+    }
 }
 
 - (void)logout

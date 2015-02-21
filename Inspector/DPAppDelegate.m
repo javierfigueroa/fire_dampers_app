@@ -17,20 +17,27 @@
 @synthesize window = _window;
 @synthesize loginViewController = _loginViewController;
 
+- (DPLoginViewController *)loginViewController
+{
+    if (_loginViewController == nil) {
+        
+        // Override point for customization after application launch
+        if (IPAD) {
+            // iPad
+            _loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController" bundle:nil];
+        } else {
+            // iPhone / iPod Touch
+            _loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController_iPhone" bundle:nil];
+        }
+
+    }
+    
+    return _loginViewController;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [DPReachability sharedClient];
-    
-    // Override point for customization after application launch
-    if (IPAD) {
-        // iPad
-        DPLoginViewController *loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController" bundle:nil];
-        [self setLoginViewController:loginViewController];
-    } else {
-        // iPhone / iPod Touch
-        DPLoginViewController *loginViewController = [[DPLoginViewController alloc] initWithNibName:@"DPLoginViewController_iPhone" bundle:nil];
-        [self setLoginViewController:loginViewController];
-    }
     
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"Inspector"];
     
