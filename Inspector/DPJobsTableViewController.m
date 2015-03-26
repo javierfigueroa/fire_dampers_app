@@ -167,6 +167,8 @@
     if ([[DPReachability sharedClient] online]) {
         [SVProgressHUD showWithStatus:@"Downloading jobs" maskType:SVProgressHUDMaskTypeGradient];
         [DPJob getJobsWithBlock:^(NSObject *response) {
+            __fetchedResultsController = nil;
+            [self.fetchedResultsController performFetch:nil];
             NSLog(@"%@", response);
             [SVProgressHUD dismiss];
             [self.tableView reloadData];
